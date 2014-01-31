@@ -1,0 +1,5 @@
+[db]
+dbname=phylota
+host=localhost
+user=guest
+password=12345
