@@ -37,3 +37,4 @@ nosetests.xml
 
 tree_file.txt
 /private/config
+*.FASTA
