@@ -36,3 +36,4 @@ nosetests.xml
 .pydevproject
 
 tree_file.txt
+/private/config
