@@ -47,7 +47,7 @@ for cluster in ci_ti:
     record = cluster_db.fetchall() #fetch all records that meet the query criteria and place them in the list record
     ti_list.append(record) #append the list 'record' to the tuple ti_list
     filename = "".join(["fasta/ti",ci_ti[count][0],"_ci",ci_ti[count][1],".FASTA"]) # create a string that contains the appropriate filename for each FASTA file
-  
+    f = open(filename,'w+')
 
     counter = 0
     for r in ti_list:
@@ -57,12 +57,13 @@ for cluster in ci_ti:
         gi = gi[1:].replace("L","") #strip a leading '(' from the gi value
         seq = cur_record.pop(0).replace('\'',"")[1:]  #pull out the actual sequence, only leaving behind the elements of the description
         description = "".join(cur_record).replace('\'', "").strip(")")[1:] #join all the pieces of the description into a single string and remove problem characters and a leading space
-        fasta_entry = "".join([">gi|",gi,"|",description,"\n",seq]) #parse and format strings into a single string fasta entry
+        fasta_entry = "".join([">gi|",gi,"|",description,"\n",seq,"\n"]) #parse and format strings into a single string fasta entry
         counter = counter + 1
+        f.write(fasta_entry)
+        
     
-    print str(count) + ": " + gi + " successful"
+    print "Sequences for tree " + str(count) + " successfully written to " + filename + "."
     count = count + 1
-    
     
 
     
