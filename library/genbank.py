@@ -302,7 +302,6 @@ def fetch_genelist(gilist, batchsize=1000):
                 pass
         h.close()
     return results
-    
 
     
 
