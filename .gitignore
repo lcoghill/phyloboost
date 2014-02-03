@@ -39,3 +39,4 @@ tree_file.txt
 /private/config
 *.FASTA
 *.xml
+*.swp
