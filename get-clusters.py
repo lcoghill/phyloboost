@@ -7,7 +7,7 @@ import pickle
 
 ### Read in a parse the tree file output from 'phylota-graph'
 
-treeFile = open('tree_file.txt', 'r')
+treeFile = open('trees.txt', 'r')
 
 ci = [];
 ci_ti = [];
@@ -41,7 +41,6 @@ ti_list = []
 count = 0
 for cluster in ci_ti:
     #sql query to find the sequences that belong to the cluster / taxon that are present in the given tree
-    #sql = "".join(["SELECT seqs.gi,seqs.seq,seqs.def FROM seqs LEFT JOIN ci_gi_184 ON seqs.gi=ci_gi_184.gi WHERE ci_gi_184.ti=2763"," AND ci_gi_184.clustid=505 AND ci_gi_184.cl_type='subtree';"])
     sql = "".join(["SELECT seqs.gi,seqs.seq,seqs.def FROM seqs LEFT JOIN ci_gi_184 ON seqs.gi=ci_gi_184.gi WHERE ci_gi_184.ti=", ci_ti[count][0]," AND ci_gi_184.clustid=",ci_ti[count][1], " AND ci_gi_184.cl_type='subtree';"])
     cluster_db.execute(sql) #execute the above sql query
     record = cluster_db.fetchall() #fetch all records that meet the query criteria and place them in the list record
