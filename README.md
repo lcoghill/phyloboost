@@ -16,7 +16,7 @@ Python pipeline to pull out sequence sets for cluster-based mid-point rooted tre
 <li>Biopython (http://biopython.org/wiki/Main_Page)</li>
 <li>Graph-tool (http://graph-tool.skewed.de/)</li>
 <li>IVY (http://www.reelab.net/home/software/ivy/)</li>
-<li>Local copy of Phylota mySQL database</li>
+<li>Local copy of Phylota mySQL database (http://phylota.net/pb/Download/)</li>
 </ol>
 
 ###<strong>Detailed Setup:</strong>
