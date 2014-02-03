@@ -16,7 +16,7 @@ print "%s files successful found.\n" %file_count
 for f in fasta_files: 
 	print "Aligning FASTA file %s" % f
 	file_name = f[21:-6]
-	alignment = MuscleCommandline(input=f, out="".join([file_name,"align.FASTA"]))
+	alignment = MuscleCommandline(input=f, out="".join(["alignments/",file_name,".align"]), clwstrict=True)
 	stdout, stderr = alignment()
 	print "Success."
 
