@@ -32,7 +32,7 @@ for f in fasta_files:
 		print "Starting BLASTN Search against %s" %f[6:]
 		print "This may take awhile, and requires a presistant Internet connection..."
 		## Blast using the FASTA set, and assing the XML string result to result_handle
-		result_handle = NCBIWWW.qblast("blastn", "nt", sequences)
+		result_handle = NCBIWWW.qblast("blastn", "nt", sequences, expect=8.0)
 		print "Done."
 		print "Writing results to a BLAST.XML file..."
 		## write the XML string to a file for later parsing
@@ -44,7 +44,7 @@ for f in fasta_files:
 		print "Done."
 
 
-	print "BLAST search successfully completed."
+	print "BLAST search successfully completed.\n"
 
 print "Process Complete."
 
