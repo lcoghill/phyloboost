@@ -35,9 +35,10 @@ nosetests.xml
 .project
 .pydevproject
 
-tree_file.txt
+trees.txt
 /private/config
 *.FASTA
 *.xml
 *.swp
 /alignments
+
