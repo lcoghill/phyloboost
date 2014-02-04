@@ -17,6 +17,7 @@ Python pipeline to pull out sequence sets for cluster-based mid-point rooted tre
 <li>Graph-tool (http://graph-tool.skewed.de/)</li>
 <li>IVY (http://www.reelab.net/home/software/ivy/)</li>
 <li>Muscle for Alignments <pre>sudo apt-get install muscle</pre>
+<li>RAxML for Tree Building (https://launchpad.net/ubuntu/quantal/+source/raxml/7.2.8-2)
 <li>Local copy of Phylota mySQL database (http://phylota.net/pb/Download/)</li>
 </ol>
 
