@@ -40,3 +40,4 @@ tree_file.txt
 *.FASTA
 *.xml
 *.swp
+/alignments
