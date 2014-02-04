@@ -3,8 +3,19 @@ from Bio.Phylo.Applications import RaxmlCommandline
 from StringIO import StringIO
 from Bio import AlignIO
 
-align = AlignIO.read("alignments/testfile.align", "clustal")
-print align
 
-#raxml_cline = RaxmlCommandline(sequences="testfile.nex", model="PROTCATWAG", name="interlaced2")
-#stdout, stderr = raxml_cline()
+input_handle = open("alignments/testfile.align", "rU")
+ 
+alignments = AlignIO.read(input_handle, "clustal")
+#AlignIO.write(alignments, output_handle, "phylip-relaxed")
+
+
+## due to the -n limitation of no "/" characters, must and pass it as an argument?
+
+in_file = "alignments/testfile.phylip"
+
+raxml_cline = RaxmlCommandline(sequences=in_file, model="GTRCAT", name="test-tree")
+stdout, stderr = raxml_cline()
+
+input_handle.close()
+
