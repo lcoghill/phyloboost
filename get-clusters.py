@@ -9,7 +9,6 @@ import itertools
 ### Read in a parse the tree file output from trees file
 
 treefile = open('test-trees.txt', 'r')
-print treefile
 raw_id = []
 id = []
 for t in treefile:
