@@ -3,7 +3,7 @@ PhyloBlend
 
 ###<strong>Description:</strong>
 
-Python pipeline to pull out sequence sets for cluster-based mid-point rooted trees from the Phylota database. Then use those sequences to do all kinds of things not documented here yet.
+Python pipeline to pull out sequence sets for the cluster-based mid-point rooted tree set released from the Phylota database. It will also allow expansion of the sequence set with BLAST searches, followed up with a new sets of alignments and tree construction. Other features are in there, but not described here yet.
 
 
 ###<strong>Requirements:</strong>
