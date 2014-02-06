@@ -45,7 +45,7 @@ def fasta_process(file_name, blast_file):
 	            for hsp in align.hsps :
 	                if hsp.expect < 0.04 and align.length <= 7500: #if the result has an expected value less than 0.04 (strong match) and is less than 7500bp in length (max length from Phylota) keep it.
 	                	gi_list.append(align.hit_id.split("gi|"))
-	print "Done."
+	print "Complete."
 	new_list = []
 	gi_final = []
 	for g in gi_list:
@@ -63,7 +63,7 @@ def fasta_process(file_name, blast_file):
 		sequences = fasta_file.readlines()
 		orig_seqs = orig_seqs + len(sequences)
 		fasta_file.close()
-		print "Done."
+		print "Complete."
 	print "Grabbing genbank data for new GIs..."
 	new_fasta_file_name = "".join(["fasta/expanded-fasta/",file_id,".FASTA"])
 	new_fasta_file = open(new_fasta_file_name, "w+")
@@ -94,8 +94,7 @@ def fasta_process(file_name, blast_file):
 	seq_stats.append(smallest_seq_length)
 	seq_stats.append(smallest_seqs)
 	seq_stats.append(total_seq_count)	
-	print seq_stats 
-	print "Done."
+	print "Complete."
 	new_seqs = len(gi_final);
 	gi_stats = gi_final;
 	return (new_seqs, orig_seqs, gi_stats, seq_stats);
