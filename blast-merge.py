@@ -19,10 +19,14 @@ new_seqs = 0;
 total_new_seqs = 0;
 total_orig_seqs = 0;
 orig_seqs = 0;
+gi_stats = [];
+seq_stats = [];
 
 def fasta_process(file_name, blast_file):
 	global new_seqs
 	global orig_seqs
+	global gi_stats
+	global seq_stats
 
 	with open (file_name, "r") as fasta_file:
 		## parse input to get a clean file_id
@@ -64,18 +68,43 @@ def fasta_process(file_name, blast_file):
 	new_fasta_file_name = "".join(["fasta/expanded-fasta/",file_id,".FASTA"])
 	new_fasta_file = open(new_fasta_file_name, "w+")
 	
-	for line in sequences:
- 		 new_fasta_file.write("%s" % line)		
-		
 	for gi in gi_final:
 		genbank_raw = library.genbank.fetchseq(gi)
-		fasta_entry = str("".join([">gi|", gi, "\n", str(genbank_raw.seq), "\n"]))		
-		new_fasta_file.write(fasta_entry)
+		sequences.append("".join([">gi|", gi, "\n"]))
+		sequences.append("".join([str(genbank_raw.seq), "\n"]))		
+	
+	
+	largest_seqs = []
+	smallest_seqs = []
+	largest_seq_length = len(max(sequences)) - 1
+	smallest_seq_length = largest_seq_length
+	total_seq_count = len(sequences)/2
+	for line in sequences:
+		if len(line) == len(max(sequences)):
+			current_largest_id = sequences[int(sequences.index(line))-1]
+			largest_seqs.append(current_largest_id[4:-2])
+		if line[0] != ">" and (len(line)-1) < largest_seq_length and (len(line)-1) < smallest_seq_length:
+			smallest_seq_length = len(line) - 1
+			current_small_id = sequences[int(sequences.index(line))-1] #If a match is found, append to the smallest_seqs list after reducing the current index by one. Getting the GI instead of the sequence.
+			smallest_seqs.append(current_small_id[4:-2])
+		new_fasta_file.write("%s" % line)
 
-	new_fasta_file.close()
+	seq_stats.append(largest_seq_length)
+	seq_stats.append(largest_seqs)
+	seq_stats.append(smallest_seq_length)
+	seq_stats.append(smallest_seqs)
+	seq_stats.append(total_seq_count)	
+	print seq_stats 
 	print "Done."
-	new_seqs = new_seqs + len(gi_final);
-	return (new_seqs, orig_seqs);
+	new_seqs = len(gi_final);
+	gi_stats = gi_final;
+	return (new_seqs, orig_seqs, gi_stats, seq_stats);
+
+
+
+
+
+
 
 ### Program Code ###
 
@@ -84,6 +113,7 @@ blast_files = glob.glob("blast-temp/*.xml") # get a list of all fasta files in /
 
 count = 0;
 
+stats_file = open("output_stats.txt", "a+")
 
 for f in fasta_files:
 	
@@ -92,8 +122,15 @@ for f in fasta_files:
 	print "FASTA file %s successfully merged." % f
 	count = count + 1
 	total_new_seqs = new_seqs + total_new_seqs;
-	total_orig_seqs = orig_seqs;
-
+	total_orig_seqs = orig_seqs + total_orig_seqs;
+	ti_ci = f.split("_")
+	ti_ci[0] = ti_ci[0][8:]
+	ti_ci[1] = ti_ci[1][2:-6]
+	gi_string = ",".join(gi_stats)
+	stats_string = "".join(["Filename: ",f,"\nTi: ",ti_ci[0],"\nCi: ",ti_ci[1],"\nStarting Sequences: ",str((orig_seqs/2)),"\nNew Sequences: ",str(new_seqs),"\nTotal Count: ",str(seq_stats[4]),"\nLongest Sequence(s): ",(",".join(seq_stats[1])),"\nLength: ",str(seq_stats[0]),"\nShortest Sequence(s): ",(",".join(seq_stats[3])),"\nLength: ",str(seq_stats[2]),"\nList of new GIs: ","\n",gi_string,"\n","#" * 30,"\n"])
+	stats_file.write(stats_string);
+	orig_seqs = 0
+	seq_stats = []
 print "Complete."
 print "Adding additional records to FASTA complete."
 print "New FASTA files can be found in /fasta/expanded-fasta directory.\n\n\n"
@@ -102,3 +139,4 @@ print "Total Files Processed: %s" %len(fasta_files)
 print "Total Original Sequences: %s" % (total_orig_seqs/2)
 print "Total Additional Sequences Included: %s" % total_new_seqs
 print "\n############### SNAPSHOT STATS ###############"
+stats_file.close();
