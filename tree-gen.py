@@ -2,6 +2,14 @@ from Bio import SeqIO
 from Bio.Phylo.Applications import RaxmlCommandline
 from StringIO import StringIO
 from Bio import AlignIO
+import glob
+
+##get list of all new fasta files
+
+print "\n\nGetting a list of alignment files..."
+alignment_files = glob.glob("alignments/*.align") # get a list of all fasta files in /alignment
+file_count = len(alignment_files)
+print "%s files successful found.\n" %file_count
 
 
 input_handle = open("alignments/testfile.align", "rU")
