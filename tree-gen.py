@@ -11,11 +11,12 @@ alignment_files = glob.glob("alignments/*.align") # get a list of all fasta file
 file_count = len(alignment_files)
 print "%s files successful found.\n" %file_count
 
-
+## Need to add feature to iterate through all files in the alignment directory.
+## Also need to investigate the ability to control where the RAxML output is saved.
 input_handle = open("alignments/testfile.align", "rU")
- 
+output_handle = open("alignments/testfile.align", "w+) 
 alignments = AlignIO.read(input_handle, "clustal")
-#AlignIO.write(alignments, output_handle, "phylip-relaxed")
+AlignIO.write(alignments, output_handle, "phylip-relaxed")
 
 
 ## due to the -n limitation of no "/" characters, must and pass it as an argument?
