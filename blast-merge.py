@@ -120,7 +120,7 @@ def fasta_process(file_name, blast_file):
 ### Program Code ###
 
 fasta_files = glob.glob("fasta/*.FASTA") # get a list of all fasta files in /fasta
-blast_files = glob.glob("blast-temp/*.xml") # get a list of all fasta files in /fasta
+blast_files = glob.glob("blast-results/*.xml") # get a list of all fasta files in /fasta
 
 count = 0;
 
