@@ -27,7 +27,8 @@ def fasta_process(file_name, blast_file):
 	global orig_seqs
 	global gi_stats
 	global seq_stats
-
+	sequences = []
+	orig_sequence_gis = []
 	with open (file_name, "r") as fasta_file:
 		## parse input to get a clean file_id
 		file_id = file_name.split("/")
@@ -48,6 +49,7 @@ def fasta_process(file_name, blast_file):
 	print "Complete."
 	new_list = []
 	gi_final = []
+
 	for g in gi_list:
 		
 		string = "".join(g)
@@ -56,23 +58,33 @@ def fasta_process(file_name, blast_file):
 		gi_final.append(new_list.pop(0))
 
 
-	### Use the list of gi values to retreive the appropriate genbank FASTA data for those records
+	## Use the list of gi values to retreive the appropriate genbank FASTA data for those records
 	print "Getting original sequences from FASTA file %s" %file_id[2:]
 	with open (f, "r") as fasta_file:
 		## parse input to get a clean file_id		
-		sequences = fasta_file.readlines()
-		orig_seqs = orig_seqs + len(sequences)
+		orig_sequences = fasta_file.readlines()
+		orig_seqs = orig_seqs + len(orig_sequences)
 		fasta_file.close()
+		orig_sequence_gis = [s for s in orig_sequences if ">gi" in s]
 		print "Complete."
-	print "Grabbing genbank data for new GIs..."
+
+	orig_gi_count = 0
+	for o in orig_sequence_gis:
+		orig_sequence_gis[count] = o[4:].strip("\n")
+		gi_final.append(orig_sequence_gis[count])
+		orig_gi_count = orig_gi_count + 1
+		
+	print "Grabbing genbank data for all GIs..."
 	new_fasta_file_name = "".join(["fasta/expanded-fasta/",file_id,".FASTA"])
 	new_fasta_file = open(new_fasta_file_name, "w+")
 	
+	gi_final = list(set(gi_final)) ## remove any duplicate GI values in the list.
+
 	for gi in gi_final:
 		genbank_raw = library.genbank.fetchseq(gi)
 		sequences.append("".join([">gi|", gi, "\n"]))
-		sequences.append("".join([str(genbank_raw.seq), "\n"]))		
-	
+		sequences.append("".join([str(genbank_raw.seq), "\n"]))	
+
 	
 	largest_seqs = []
 	smallest_seqs = []
