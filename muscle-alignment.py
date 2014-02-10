@@ -12,11 +12,10 @@ print "%s files successful found.\n" %file_count
 
 
 ### iterate through each file doing the following:
-
 for f in fasta_files: 
 	print "Aligning FASTA file %s" % f
-	file_name = f[21:-6]
-	alignment = MuscleCommandline(input=f, out="".join(["alignments/",file_name,".align"]), clwstrict=True)
-	stdout, stderr = alignment()
-	print "Success."
+	muscle_cline = MuscleCommandline(input=f, maxiters=2, maxtrees=1)
+	stdout, stderr = muscle_cline()
+	align = AlignIO.read(StringIO(stdout), "fasta")
+	print (align)
 
