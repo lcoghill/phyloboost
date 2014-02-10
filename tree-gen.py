@@ -11,20 +11,24 @@ alignment_files = glob.glob("alignments/*.align") # get a list of all fasta file
 file_count = len(alignment_files)
 print "%s files successful found.\n" %file_count
 
-## Need to add feature to iterate through all files in the alignment directory.
-## Also need to investigate the ability to control where the RAxML output is saved.
-input_handle = open("alignments/testfile.align", "rU")
-output_handle = open("alignments/testfile.align", "w+) 
-alignments = AlignIO.read(input_handle, "clustal")
-AlignIO.write(alignments, output_handle, "phylip-relaxed")
+
+## need to convert the files to phylip format so that RAxML can read them cleanly
+
+for f in alignment_files:
+
+	input_handle = open(f, "rU")
+	print f[11:-6]
+	alignments = AlignIO.read(input_handle, "clustal")
+	AlignIO.write(alignments, f[11:-6], "phylip-relaxed")
+	input_handle.close()
 
 
 ## due to the -n limitation of no "/" characters, must and pass it as an argument?
 
-in_file = "alignments/testfile.phylip"
+#in_file = "alignments/testfile.phylip"
 
-raxml_cline = RaxmlCommandline(sequences=in_file, model="GTRCAT", name="test-tree")
-stdout, stderr = raxml_cline()
+#raxml_cline = RaxmlCommandline(sequences=in_file, model="GTRCAT", name="test-tree")
+#stdout, stderr = raxml_cline()
 
-input_handle.close()
+#input_handle.close()
 
