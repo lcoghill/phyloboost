@@ -28,10 +28,10 @@ Python pipeline to pull out sequence sets for the cluster-based mid-point rooted
 1. Install [Numpy](www.numpy.org) <pre>sudo apt-get install python-numpy</pre>
 2. Install [Sci-py](www.scipy.org) <pre>sudo apt-get install python-scipy</pre>
 3. Install [Biopython](www.biopython.org/wiki/Main_Page) <pre>sudo apt-get install python-biopython</pre>
-4. Install [IVY](www.reelab.net/home/software/ivy/)
+4. Install [IVY](www.reelab.net/home/software/ivy/)<pre> code here</pre>
 5. Install [Muscle](www.drive5.com/muscle/) for Alignments <pre>sudo apt-get install muscle</pre>
 6. Install [RAxML](sco.h-its.org/exelixis/web/software/raxml/index.html) for Tree Building <pre>sudo apt-get install raxml</pre>
-7. Download local copy of the [Phylota](www.phylota.net/pb/Download/) mySQL database dump
+7. Download local copy of the [Phylota](www.phylota.net/pb/Download/) mySQL database dump <pre> code here</pre>
 8. Prime MySQL with the Phylota data <pre>commands here</pre>
 9. Download a local copy of [NCBI BLAST](www.blast.ncbi.nlm.nih.gov/Blast.cgi?PAGE_TYPE=BlastDocs&DOC_TYPE=Download)<pre>sudo apt-get install ncbi-blast+</pre>  
 10. Download a local copy of the NCBI [*nt*](ftp.ncbi.nlm.nih.gov/blast/db) database <pre> code here </pre>
