@@ -7,7 +7,7 @@ Python pipeline to pull out sequence sets for the cluster-based mid-point rooted
 
 <i>**Note:** Instructions below are for a [Debian](www.debian.org) based OS like [Ubuntu](www.ubuntu.com)</i>
 
-###**Requirements (Quick List):**
+####**Requirements (Quick List):**
 
 
 1. [Python 2.7](www.python.org)
