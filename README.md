@@ -5,7 +5,7 @@ PhyloBlend
 
 Python pipeline to pull out sequence sets for the cluster-based mid-point rooted tree set released from the Phylota database. It will also allow expansion of the sequence set with BLAST searches, followed up with a new sets of alignments and tree construction. Other features are in there, but not described here yet.
 
-<i>Instructions below are for a [Debian](www.debian.org) based OS like [Ubuntu](www.ubuntu.com)</i>
+<i>**Note:** Instructions below are for a [Debian](www.debian.org) based OS like [Ubuntu](www.ubuntu.com)</i>
 
 ###**Requirements (Quick List):**
 
