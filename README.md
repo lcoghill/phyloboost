@@ -23,7 +23,7 @@ Python pipeline to pull out sequence sets for the cluster-based mid-point rooted
 
 ###**Detailed Setup:**
 
-###Install the necessary requirements:
+##Install the necessary requirements:
 
 1. Install [Numpy](www.numpy.org) <pre>sudo apt-get install python-numpy</pre>
 2. Install [Sci-py](www.scipy.org) <pre>sudo apt-get install python-scipy</pre>
