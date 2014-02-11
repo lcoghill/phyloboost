@@ -18,7 +18,7 @@ print "-"*50+"\n"
 working_dir = os.path.dirname(os.path.realpath(__file__)) + "/trees/"
 
 for f in alignment_files:
-	print "Building Trees for %s" % f
-	raxml_cline = RaxmlCommandline(sequences=f, model="GTRCAT", name=f[12:-7], working_dir=working_dir)
+	print "Building trees for %s" % f
+	raxml_cline = RaxmlCommandline(sequences=f, model="GTRCAT", name=f[11:-7], working_dir=working_dir)
 	stdout, stderr = raxml_cline()
 	print "Done.\n"
