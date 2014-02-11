@@ -1,5 +1,6 @@
 from Bio.Align.Applications import MuscleCommandline
 from StringIO import StringIO
+from Bio import SeqIO
 from Bio import AlignIO
 import glob
 
@@ -17,5 +18,8 @@ for f in fasta_files:
 	muscle_cline = MuscleCommandline(input=f, maxiters=2, maxtrees=1)
 	stdout, stderr = muscle_cline()
 	align = AlignIO.read(StringIO(stdout), "fasta")
-	print (align)
+	output_name = "".join(["alignments/",f[21:-6],".phylip"])
+	SeqIO.write(align, output_name, "phylip-relaxed")
+	print "Complete.\n"
+	## Include funtionality to write alignment to file
 
