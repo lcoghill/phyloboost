@@ -34,6 +34,7 @@ def fasta_process(file_name, blast_file):
 		file_id = file_name.split("/")
 		file_id = file_id[1].split(".")
 		file_id = file_id[0]
+		print file_id
 		
 
 	### Parses the XML Blast return document, and returns a clean list of only gi (genebank ids) for the sequences of interest
@@ -82,7 +83,7 @@ def fasta_process(file_name, blast_file):
 
 	for gi in gi_final:
 		genbank_raw = library.genbank.fetchseq(gi)
-		sequences.append("".join([">gi|", gi, "\n"]))
+		sequences.append("".join([">gi_", gi,"_ti_",file_id[2:-4],"\n"]))
 		sequences.append("".join([str(genbank_raw.seq), "\n"]))	
 
 	
