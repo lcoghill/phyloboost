@@ -43,3 +43,4 @@ test-trees.txt
 *.swp
 /alignments
 output_stats.txt
+/trees
