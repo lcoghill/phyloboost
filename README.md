@@ -19,8 +19,8 @@ Python pipeline to pull out sequence sets for the cluster-based mid-point rooted
 7. [Muscle]() for Alignments <pre>sudo apt-get install muscle</pre>
 8. [RAxML]() for Tree Building <pre> sudo apt-get install raxml</pre>
 9. Local copy of [Phylota]( (www.phylota.net/pb/Download/) mySQL database</li>
-10.Local copy of [NCBI BLAST](www.blast.ncbi.nlm.nih.gov/Blast.cgi?PAGE_TYPE=BlastDocs&DOC_TYPE=Download)<pre>sudo apt-get install ncbi-blast+</pre>  
-11.[*nt*](ftp.ncbi.nlm.nih.gov/blast/db) database
+10. Local copy of [NCBI BLAST](www.blast.ncbi.nlm.nih.gov/Blast.cgi?PAGE_TYPE=BlastDocs&DOC_TYPE=Download)<pre>sudo apt-get install ncbi-blast+</pre>  
+11. Local copy of the NCBI [*nt*](ftp.ncbi.nlm.nih.gov/blast/db) database
 
 ###**Detailed Setup:**
 
