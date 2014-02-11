@@ -14,27 +14,24 @@ Python pipeline to pull out sequence sets for the cluster-based mid-point rooted
 2. [Numpy](www.numpy.org)
 3. [Sci-py](www.scipy.org)
 4. [Biopython](www.biopython.org/wiki/Main_Page)
-5. [Graph-tool](www.graph-tool.skewed.de/)
-6. [IVY](www.reelab.net/home/software/ivy/)
-7. [Muscle](www.drive5.com/muscle/) for Alignments
-8. [RAxML](sco.h-its.org/exelixis/web/software/raxml/index.html) for Tree Building
-9. Local copy of [Phylota](www.phylota.net/pb/Download/) mySQL database
-10. Local copy of [NCBI BLAST](www.blast.ncbi.nlm.nih.gov/Blast.cgi?PAGE_TYPE=BlastDocs&DOC_TYPE=Download) 
-11. Local copy of the NCBI [*nt*](ftp.ncbi.nlm.nih.gov/blast/db) database
+5. [IVY](www.reelab.net/home/software/ivy/)
+6. [Muscle](www.drive5.com/muscle/) for Alignments
+7. [RAxML](sco.h-its.org/exelixis/web/software/raxml/index.html) for Tree Building
+8. Local copy of [Phylota](www.phylota.net/pb/Download/) mySQL database
+9. Local copy of [NCBI BLAST](www.blast.ncbi.nlm.nih.gov/Blast.cgi?PAGE_TYPE=BlastDocs&DOC_TYPE=Download) 
+10. Local copy of the NCBI [*nt*](ftp.ncbi.nlm.nih.gov/blast/db) database
 
 ###**Detailed Setup:**
 
 ###Install the necessary requirements:
 
-1. [Python 2.7](www.python.org)
-2. [Numpy](www.numpy.org) <pre>sudo apt-get install python-numpy</pre>
-3. [Sci-py](www.scipy.org) <pre>sudo apt-get install python-scipy</pre>
-4. [Biopython](www.biopython.org/wiki/Main_Page) <pre>sudo apt-get install python-biopython</pre>
-5. [Graph-tool](www.graph-tool.skewed.de/)
-6. [IVY](www.reelab.net/home/software/ivy/)
-7. [Muscle](www.drive5.com/muscle/) for Alignments <pre>sudo apt-get install muscle</pre>
-8. [RAxML](sco.h-its.org/exelixis/web/software/raxml/index.html) for Tree Building <pre>sudo apt-get install raxml</pre>
-9. Download local copy of the [Phylota](www.phylota.net/pb/Download/) mySQL database dump
-10. Prime MySQL with the Phylota data <pre>commands here</pre>
-10. Download a local copy of [NCBI BLAST](www.blast.ncbi.nlm.nih.gov/Blast.cgi?PAGE_TYPE=BlastDocs&DOC_TYPE=Download)<pre>sudo apt-get install ncbi-blast+</pre>  
-11. Download a local copy of the NCBI [*nt*](ftp.ncbi.nlm.nih.gov/blast/db) database <pre> code here </pre>
+1. Install [Numpy](www.numpy.org) <pre>sudo apt-get install python-numpy</pre>
+2. Install [Sci-py](www.scipy.org) <pre>sudo apt-get install python-scipy</pre>
+3. Install [Biopython](www.biopython.org/wiki/Main_Page) <pre>sudo apt-get install python-biopython</pre>
+4. Install [IVY](www.reelab.net/home/software/ivy/)
+5. Install [Muscle](www.drive5.com/muscle/) for Alignments <pre>sudo apt-get install muscle</pre>
+6. Install [RAxML](sco.h-its.org/exelixis/web/software/raxml/index.html) for Tree Building <pre>sudo apt-get install raxml</pre>
+7. Download local copy of the [Phylota](www.phylota.net/pb/Download/) mySQL database dump
+8. Prime MySQL with the Phylota data <pre>commands here</pre>
+9. Download a local copy of [NCBI BLAST](www.blast.ncbi.nlm.nih.gov/Blast.cgi?PAGE_TYPE=BlastDocs&DOC_TYPE=Download)<pre>sudo apt-get install ncbi-blast+</pre>  
+10. Download a local copy of the NCBI [*nt*](ftp.ncbi.nlm.nih.gov/blast/db) database <pre> code here </pre>
