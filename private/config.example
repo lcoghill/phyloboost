@@ -1,4 +1,6 @@
-dbname=phylota
+phylota_dbname=phylota
 host=localhost
 user=guest
 password=12345
+blast_nt_db_location=/full/path/here
+
