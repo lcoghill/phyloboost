@@ -19,7 +19,7 @@ Python pipeline to pull out sequence sets for the cluster-based mid-point rooted
 <li>[Muscle]() for Alignments <pre>sudo apt-get install muscle</pre>
 <li>[RAxML]() for Tree Building <pre> sudo apt-get install raxml</pre>
 <li>Local copy of [Phylota]( (www.phylota.net/pb/Download/) mySQL database</li>
-<li>Local copy of [NCBI BLAST](www.blast.ncbi.nlm.nih.gov/Blast.cgi?PAGE_TYPE=BlastDocs&DOC_TYPE=Download) with the <i>[nt](ftp.ncbi.nlm.nih.gov/blast/db/)</i> database
+<li>Local copy of [NCBI BLAST](www.blast.ncbi.nlm.nih.gov/Blast.cgi?PAGE_TYPE=BlastDocs&DOC_TYPE=Download) with the *[nt]*(ftp.ncbi.nlm.nih.gov/blast/db) database
 </ol>
 
 ###<strong>Detailed Setup:</strong>
