@@ -21,7 +21,7 @@ Python pipeline to pull out sequence sets for the cluster-based mid-point rooted
 9. Local copy of [NCBI BLAST](www.blast.ncbi.nlm.nih.gov/Blast.cgi?PAGE_TYPE=BlastDocs&DOC_TYPE=Download) 
 10. Local copy of the NCBI [*nt*](ftp.ncbi.nlm.nih.gov/blast/db) database
 
-###**Detailed Setup:**
+####**Detailed Setup:**
 
 ####Install the necessary requirements:
 
@@ -35,3 +35,9 @@ Python pipeline to pull out sequence sets for the cluster-based mid-point rooted
 8. Prime MySQL with the Phylota data <pre>commands here</pre>
 9. Download a local copy of [NCBI BLAST](www.blast.ncbi.nlm.nih.gov/Blast.cgi?PAGE_TYPE=BlastDocs&DOC_TYPE=Download)<pre>sudo apt-get install ncbi-blast+</pre>  
 10. Download a local copy of the NCBI [*nt*](ftp.ncbi.nlm.nih.gov/blast/db) database <pre> code here </pre>
+
+####**Example Use:**
+
+Work in Progress
+
+
