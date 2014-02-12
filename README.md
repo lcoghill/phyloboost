@@ -36,7 +36,10 @@ $ sudo python setup.py install
 </pre>
 5. Install [Muscle](www.drive5.com/muscle/) for Alignments <pre>sudo apt-get install muscle</pre>
 6. Install [RAxML](sco.h-its.org/exelixis/web/software/raxml/index.html) for Tree Building <pre>sudo apt-get install raxml</pre>
-7. Download local copy of the [Phylota](www.phylota.net/pb/Download/) mySQL database dump <pre> code here</pre>
+7. Download local copy of the [Phylota](www.phylota.net/pb/Download/) mySQL database dump <pre>$ wget pb.bu.rel184.4.10.2012.partaa
+$ wget pb.bu.rel184.4.10.2012.partab
+$ wget ...partae
+</pre>
 8. Prime MySQL with the Phylota data <pre>commands here</pre>
 9. Download a local copy of [NCBI BLAST](www.blast.ncbi.nlm.nih.gov/Blast.cgi?PAGE_TYPE=BlastDocs&DOC_TYPE=Download)<pre>sudo apt-get install ncbi-blast+</pre>  
 10. Download a local copy of the NCBI [*nt*](ftp.ncbi.nlm.nih.gov/blast/db) database <pre> code here </pre>
