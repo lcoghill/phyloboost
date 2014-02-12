@@ -10,7 +10,7 @@ Python pipeline to pull out sequence sets for the cluster-based mid-point rooted
 #####**Requirements (Quick List):**
 
 
-1. [Python 2.7](www.python.org)
+1. [Python 2.7](http://www.python.org)
 2. [Numpy](www.numpy.org)
 3. [Sci-py](www.scipy.org)
 4. [Biopython](www.biopython.org/wiki/Main_Page)
