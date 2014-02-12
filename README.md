@@ -30,10 +30,9 @@ Python pipeline to pull out sequence sets for the cluster-based mid-point rooted
 1. Install [Numpy](www.numpy.org) <pre>sudo apt-get install python-numpy</pre>
 2. Install [Sci-py](www.scipy.org) <pre>sudo apt-get install python-scipy</pre>
 3. Install [Biopython](www.biopython.org/wiki/Main_Page) <pre>sudo apt-get install python-biopython</pre>
-4. Install [IVY](www.reelab.net/home/software/ivy/)
-````
-1. git clone https://github.com/rhr/ivy
-2. sudo python setup.py install
+4. Install [IVY](www.reelab.net/home/software/ivy/)````
+$ git clone https://github.com/rhr/ivy
+$ sudo python setup.py install
 ````
 5. Install [Muscle](www.drive5.com/muscle/) for Alignments <pre>sudo apt-get install muscle</pre>
 6. Install [RAxML](sco.h-its.org/exelixis/web/software/raxml/index.html) for Tree Building <pre>sudo apt-get install raxml</pre>
