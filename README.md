@@ -58,6 +58,7 @@ $ perl blast_updatedb.pl --passive --decompress nt
 </pre>
 *Note:* This will take awhile due to the size and number of files.
 12. 
+
 ***
 
 ####**Example Use:**
