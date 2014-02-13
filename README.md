@@ -41,7 +41,13 @@ $ wget http://www.phylota.net/pb/Download/184/pb.bu.rel184.4.10.2012.partab
 $ wget ...partae
 </pre>
 8. Combine the pieces into a single .sql file<pre>$ cat pb.bu.rel184.4.10.2012.part* > pb.bu.rel184.4.10.2012.gz</pre>
-9. Prime MySQL with the Phylota data <pre>commands here</pre>
+9. Install and Prime MySQL with the Phylota data <pre>
+$ sudo apt-get install mysql-server
+$ mysql -uroot -p  --max_allowed_packet=300M --connect_timeout=6000
+mysql> CREATE DATABASE phylota;
+mysql> source pb.bu.rel184.4.10.2012.gz
+mysql> quit
+</pre>
 10. Download a local copy of [NCBI BLAST](http://www.blast.ncbi.nlm.nih.gov/Blast.cgi?PAGE_TYPE=BlastDocs&DOC_TYPE=Download)<pre>sudo apt-get install ncbi-blast+</pre>  
 11. Download a local copy of the NCBI [*nt*](ftp://ftp.ncbi.nlm.nih.gov/blast/db) database <pre>
 $ wget ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/ncbi-blast-2.2.29+-x64-linux.tar.gz
