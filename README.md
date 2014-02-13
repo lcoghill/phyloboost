@@ -48,6 +48,7 @@ mysql> CREATE DATABASE phylota;
 mysql> source pb.bu.rel184.4.10.2012.gz
 mysql> quit
 </pre>
+*Note:* This will take quite awhile.
 10. Download a local copy of [NCBI BLAST](http://www.blast.ncbi.nlm.nih.gov/Blast.cgi?PAGE_TYPE=BlastDocs&DOC_TYPE=Download)<pre>sudo apt-get install ncbi-blast+</pre>  
 11. Download a local copy of the NCBI [*nt*](ftp://ftp.ncbi.nlm.nih.gov/blast/db) database <pre>
 $ wget ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/ncbi-blast-2.2.29+-x64-linux.tar.gz
