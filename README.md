@@ -43,8 +43,15 @@ $ wget ...partae
 8. Combine the pieces into a single .sql file<pre>$ cat pb.bu.rel184.4.10.2012.part* > pb.bu.rel184.4.10.2012.gz</pre>
 9. Prime MySQL with the Phylota data <pre>commands here</pre>
 10. Download a local copy of [NCBI BLAST](http://www.blast.ncbi.nlm.nih.gov/Blast.cgi?PAGE_TYPE=BlastDocs&DOC_TYPE=Download)<pre>sudo apt-get install ncbi-blast+</pre>  
-11. Download a local copy of the NCBI [*nt*](ftp.ncbi.nlm.nih.gov/blast/db) database <pre> code here </pre>
-
+11. Download a local copy of the NCBI [*nt*](ftp://ftp.ncbi.nlm.nih.gov/blast/db) database <pre>
+$ wget ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/ncbi-blast-2.2.29+-x64-linux.tar.gz
+$ tar -zxvf ncbi-blast-2.2.29+-x64-linux.tar.gz
+$ mkdir ~/blastdb
+$ cp ncbi-blast-2.2.29+-x64-linux.tar.gz/bin/update_blastdb.pl ~/blastdb
+$ perl blast_updatedb.pl --passive --decompress nt
+</pre>
+*Note:* This will take awhile due to the size and number of files.
+12. 
 ***
 
 ####**Example Use:**
