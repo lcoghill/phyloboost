@@ -60,7 +60,7 @@ $ perl blast_updatedb.pl --passive --decompress nt
 </pre>
 *Note:* This will take awhile due to the size and number of files.
 12. Install Git <pre>sudo apt-get install git</pre>
-13. Clone this repository <pre> </pre>
+13. Clone this repository into desired location <pre>git clone https://github.com/lcoghill/PhyloBlend</pre>
 
 ***
 
