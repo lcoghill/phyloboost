@@ -20,6 +20,7 @@ Python pipeline to pull out sequence sets for the cluster-based mid-point rooted
 8. Local copy of [Phylota](http://www.phylota.net/pb/Download/) mySQL database
 9. Local copy of [NCBI BLAST](http://www.blast.ncbi.nlm.nih.gov/Blast.cgi?PAGE_TYPE=BlastDocs&DOC_TYPE=Download) 
 10. Local copy of the NCBI [*nt*](ftp.ncbi.nlm.nih.gov/blast/db) database
+11. [Git]()
 
 ***
 
@@ -58,7 +59,8 @@ $ cp ncbi-blast-2.2.29+-x64-linux.tar.gz/bin/update_blastdb.pl ~/blastdb
 $ perl blast_updatedb.pl --passive --decompress nt
 </pre>
 *Note:* This will take awhile due to the size and number of files.
-12. 
+12. Install Git <pre>sudo apt-get install git</pre>
+13. Clone this repository <pre> </pre>
 
 ***
 
