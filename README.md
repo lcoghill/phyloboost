@@ -56,7 +56,7 @@ $ wget ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/ncbi-blast-2.2
 $ tar -zxvf ncbi-blast-2.2.29+-x64-linux.tar.gz
 $ mkdir ~/blastdb
 $ cp ncbi-blast-2.2.29+-x64-linux.tar.gz/bin/update_blastdb.pl ~/blastdb
-$ perl blast_updatedb.pl --passive --decompress nt
+$ perl update_blastdb.pl --passive --decompress nt
 </pre>
 *Note:* This will take awhile due to the size and number of files.
 12. Install Git <pre>sudo apt-get install git</pre>
