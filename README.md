@@ -1,4 +1,4 @@
-PhyloBlend
+Phyloboost
 ==========
 
 ###**Description:**
