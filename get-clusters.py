@@ -5,6 +5,15 @@ import logging
 import pickle
 import itertools
 
+def parse_config():
+    config_params = [];
+    config = open('private/config', 'r') 
+    for line in (line for line in config if not line.startswith('###')):
+        line = line.rstrip('\n')
+        line = line.split("=")
+        config_params.append (line[1])
+
+    return config_params
 
 ### Read in a parse the tree file output from trees file
 
@@ -19,18 +28,14 @@ for t in treefile:
     id.append(tree_id)
 
 ### To pull sequences from phylota mySQL db based on the ti and ci information retreived from the tree file    
-config = [];
-db_params = open('private/config', 'r') ## define a config file so that private db information isn't shared across code repositories. to create, renamed /private/config.example to /private/config
+## Gather import configuration information from the config file
+params = parse_config() # retreive the params from the config file
 
-for line in db_params:
-    line = line.rstrip('\n')
-    line = line.split("=", 1)
-    config.append (line[1])
 
-database = mdb.connect(host=config[1], # your host, usually localhost
-                     user=config[2], # your username
-                     passwd=config[3], # your password
-                     db=config[0]) # name of the data base
+database = mdb.connect(host=params[1], # your host, usually localhost
+                     user=params[2], # your username
+                     passwd=params[3], # your password
+                     db=params[0]) # name of the data base
 cluster_db = database.cursor() # define the db cursor
 
 count = 0
@@ -40,7 +45,7 @@ for i in id:
     cluster_db.execute(sql) #execute the above sql query
     record = cluster_db.fetchall() #fetch all records that meet the query criteria and place them in the list record
     record = list(record) #convert tuple to list
-    filename = "".join(["fasta/ti",id[count][0],"_ci",id[count][1],".FASTA"]) # create a string that contains the appropriate filename for each FASTA file
+    filename = "".join(["output/fasta/ti",id[count][0],"_ci",id[count][1],".fasta"]) # create a string that contains the appropriate filename for each FASTA file
     f = open(filename,'w+')
     
     for r in record:

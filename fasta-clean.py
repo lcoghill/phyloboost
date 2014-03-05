@@ -1,8 +1,3 @@
-### Simple script to clean FASTA files of any entries that contain non-approved bases or characters
-###
-###
-
-
 from StringIO import StringIO
 from Bio import SeqIO
 from Bio import AlignIO
@@ -11,7 +6,7 @@ import glob
 ##get list of all new fasta files
 
 print "\n\nGetting a list of FASTA files..."
-fasta_files = glob.glob("fasta/expanded-fasta/*.FASTA") # get a list of all fasta files in /fasta
+fasta_files = glob.glob("output/expanded-fasta/*.fasta") # get a list of all fasta files in /fasta
 file_count = len(fasta_files)
 print "%s files successful found.\n" %file_count
 
@@ -28,7 +23,7 @@ for f in fasta_files: #iterate through all the files in the directory
 		dna = seq_record.seq #assign it to a string
 		
 		for char in dna: #for each character in the sequence
-			if char not in ('A','T','C','G','N','U','R','Y','K','M','S','W','B','V','H','D','X'): #if its not an accepted base or ambiguity code
+			if char not in ('A','T','C','G','N','U','R','Y','K','M','S','W','B','V','H','D','X','a','t','c','g','n','u','r','y','k','m','s','w','b','v','h','d','x'): #if its not an accepted base or ambiguity code
 				bad_char_list.append(char) #add it to the bad list for bug tracking
 				tracker = 1 # set the bad / good tracker to bad
 	
@@ -46,5 +41,3 @@ for f in fasta_files: #iterate through all the files in the directory
 	SeqIO.write(clean_seq_list, f, "fasta") #after done with all iterations, write the good seq record list to the same file we started with
 
 print "\nFASTA clean complete."
-
-#print bad_char_list # used for bug tracking which characters are found / causing issues
