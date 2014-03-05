@@ -58,7 +58,7 @@ def parse_config():
 ## Gather import configuration information from the config file
 params = parse_config() # retreive the params from the config file
 
-density = 0.50
+density = 0.3
 all_lengths = []
 plot_stats = []
 all_lengths = []
@@ -166,11 +166,15 @@ for f in fasta_files:
         count = count + 1
     
     all_trim_lengths.append(len(record_list[0].seq))
-
+    ## write the original alignment to file
+    clean_file_id = re.search('fasta/(.+?).fasta', f).group(1)
+    alignment_file = "".join([params[6],"alignments/",clean_file_id,".alignment.fasta"])
+    SeqIO.write(align, alignment_file, "fasta") #after done with all iterations, write the good seq record list to the same file we started with
+    
     ## write list of seq_records to fasta file
     clean_file_id = re.search('fasta/(.+?).fasta', f).group(1)
-    alignment_file = "".join([params[6],"alignments/den_",str(density),"_",clean_file_id,".alignment.fasta"])
-    SeqIO.write(record_list, alignment_file, "fasta") #after done with all iterations, write the good seq record list to the same file we started with
+    reduced_alignment_file = "".join([params[6],"alignments/",clean_file_id,".den_",str(density),".reduced_alignment.fasta"])
+    SeqIO.write(record_list, reduced_alignment_file, "fasta") #after done with all iterations, write the good seq record list to the same file we started with
     
     ## gather information for basic summary stats
     per_align_stats = per_align_stats_calc(f, pos_list, raw_lengths, lengths)
