@@ -34,13 +34,11 @@ nosetests.xml
 .mr.developer.cfg
 .project
 .pydevproject
-/fasta
 trees.txt
-test-trees.txt
+*test
 /private/config
 *.FASTA
 *.xml
 *.swp
-/alignments
-output_stats.txt
-/trees
+/input
+/output
