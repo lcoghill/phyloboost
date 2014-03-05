@@ -14,9 +14,9 @@ missing_data = []
 full_align_lengths = []
 per_bases_trim = []
 avg_den_trim_bases = []
-density = "0.75"
+density = "0.50"
 
-ifile  = open('sum-stats-0.75.csv', "rb")
+ifile  = open('sum-stats-0.50.csv', "rb")
 reader = csv.reader(ifile)
 
 for r in reader:
@@ -65,7 +65,7 @@ histo_fig1 = plt.figure(figsize=(19.2, 10.8))
 # best fit of data
 (mu, sigma) = norm.fit(full_align_lengths)
 weights = np.ones_like(full_align_lengths)/len(full_align_lengths)
-n, bins, patches = plt.hist(full_align_lengths, weights=weights, normed=True, bins=100)
+n, bins, patches = plt.hist(full_align_lengths, weights=weights, normed=True, bins=len(avg_den_trim_bases))
 # add a 'best fit' line
 y = mlab.normpdf( bins, mu, sigma)
 l = plt.plot(bins, y, 'r--', linewidth=3)
@@ -83,7 +83,7 @@ histo_fig2 = plt.figure(figsize=(19.2, 10.8))
 (mu, sigma) = norm.fit(per_bases_trim)
 # the histogram of the data
 weights = np.ones_like(per_bases_trim)/len(per_bases_trim)
-n, bins, patches = plt.hist(per_bases_trim, normed=True, bins=100)
+n, bins, patches = plt.hist(per_bases_trim, normed=True, bins=len(avg_den_trim_bases))
 # add a 'best fit' line
 y = mlab.normpdf( bins, mu, sigma)
 l = plt.plot(bins, y, 'r--', linewidth=3)
@@ -92,6 +92,7 @@ plt.grid(True)
 plt.title('Bases Trimmed from Each Alignment')
 plt.xlabel('Bases Trimmed (Percent)')
 plt.ylabel('Frequency')
+plt.ylim(0, 0.5)
 histo_fig2.savefig("".join(["histogram-percent-bases-trimmed-",density,".png"]))
 
 # create a histogram of avg. density of trimmed bases
@@ -100,7 +101,7 @@ histo_fig3 = plt.figure(figsize=(19.2, 10.8))
 (mu, sigma) = norm.fit(avg_den_trim_bases)
 # the histogram of the data
 weights = np.ones_like(avg_den_trim_bases)/len(avg_den_trim_bases)
-n, bins, patches = plt.hist(avg_den_trim_bases, weights=weights, normed=True, bins=100)
+n, bins, patches = plt.hist(avg_den_trim_bases, weights=weights, normed=True, bins=len(avg_den_trim_bases))
 # add a 'best fit' line
 y = mlab.normpdf( bins, mu, sigma)
 l = plt.plot(bins, y, 'r--', linewidth=3)
