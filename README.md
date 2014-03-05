@@ -42,16 +42,28 @@ $ wget http://www.phylota.net/pb/Download/184/pb.bu.rel184.4.10.2012.partab
 $ wget ...partae
 </pre>
 8. Combine the pieces into a single .sql file<pre>$ cat pb.bu.rel184.4.10.2012.part* > pb.bu.rel184.4.10.2012.gz</pre>
-9. Install and Prime MySQL with the Phylota data <pre>
+9. Install and Prime MySQL with the Phylota data<pre>
 $ sudo apt-get install mysql-server
-$ mysql -uroot -p  --max_allowed_packet=300M --connect_timeout=6000
+$ mysql -uUSERHERE -p  --max_allowed_packet=300M --connect_timeout=6000
 mysql> CREATE DATABASE phylota;
 mysql> source pb.bu.rel184.4.10.2012.gz
 mysql> quit
 </pre>
 *Note:* This will take quite awhile.
-10. Download a local copy of [NCBI BLAST](http://www.blast.ncbi.nlm.nih.gov/Blast.cgi?PAGE_TYPE=BlastDocs&DOC_TYPE=Download)<pre>sudo apt-get install ncbi-blast+</pre>  
-11. Download a local copy of the NCBI [*nt*](ftp://ftp.ncbi.nlm.nih.gov/blast/db) database <pre>
+10. Download the Genbank nt nucleotide set<pre>
+$ wget ftp://ftp.ncbi.nlm.nih.gov/blast/db/FASTA/nt.gz</pre>
+11. Convert the nt fasta file to csv<pre>
+$ python fasta-csv.py</pre>
+12. Import the nt csv file into mysql<pre>
+$ mysql -uUSERHERE -p  --max_allowed_packet=500M --connect_timeout=6000
+mysql> DROP TABLE IF EXISTS genbank_nucleotide;
+mysql> CREATE TABLE genbank_nucleotide(id INT PRIMARY KEY AUTO_INCREMENT, gi INT(20), accession VARCHAR(25), length int(10), title VARCHAR(25), sequence LONGTEXT) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
+mysql> LOAD DATA LOCAL INFILE '/full/path/here/nt.fasta.csv' INTO TABLE genbank_nucleotide FIELDS TERMINATED BY ',' lines terminated by '\n' (gi, accession, length, title, sequence);
+mysql> quit
+</pre>
+*Note:* This will take quite awhile.
+13. Download a local copy of [NCBI BLAST](http://www.blast.ncbi.nlm.nih.gov/Blast.cgi?PAGE_TYPE=BlastDocs&DOC_TYPE=Download)<pre>sudo apt-get install ncbi-blast+</pre>  
+14. Download a local copy of the NCBI [*nt*](ftp://ftp.ncbi.nlm.nih.gov/blast/db) database <pre>
 $ wget ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/ncbi-blast-2.2.29+-x64-linux.tar.gz
 $ tar -zxvf ncbi-blast-2.2.29+-x64-linux.tar.gz
 $ mkdir ~/blastdb
@@ -59,8 +71,8 @@ $ cp ncbi-blast-2.2.29+-x64-linux.tar.gz/bin/update_blastdb.pl ~/blastdb
 $ perl update_blastdb.pl --passive --decompress nt
 </pre>
 *Note:* This will take awhile due to the size and number of files.
-12. Install Git <pre>sudo apt-get install git</pre>
-13. Clone this repository into desired location <pre>git clone https://github.com/lcoghill/phyloboost</pre>
+15. Install Git <pre>sudo apt-get install git</pre>
+16. Clone this repository into desired location <pre>git clone https://github.com/lcoghill/phyloboost</pre>
 
 ***
 
