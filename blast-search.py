@@ -3,6 +3,7 @@ import re
 import glob
 import itertools
 import multiprocessing
+from StringIO import StringIO
 from multiprocessing import Process
 from Bio import Entrez, SeqIO, SearchIO
 from Bio.Blast import NCBIWWW, NCBIXML
@@ -10,16 +11,16 @@ from Bio.Blast.Applications import NcbiblastnCommandline
 
 ###### FUNCTIONS ######
 
-def parse_blastxml(file_name, results_path):
-    # open blast output file	
-    print "Parsing blast file %s" % file_name
+def parse_blastxml(file_name, results_path, xmlfile):
+    # open blast output file    
+    print "Parsing blast results..."
     blast_list = []
     gi_list = []
     seq_list = []
     # iterate through the file
-    for record in NCBIXML.parse(open(file_name)) :
-        if record.alignments :
-            for align in record.alignments :
+    for x in xmlfile:
+        if x.alignments :
+            for align in x.alignments :
                 for hsp in align.hsps :
                     if align.length <= 7500: 
                         id_string = align.hit_id.split("gi|")
@@ -32,36 +33,35 @@ def parse_blastxml(file_name, results_path):
 
 ## Perform the local blast searches
 def blast_search(file_names, results_path, input_path):
-	count = 0
-	for f in file_names:
-		print "Starting Blastn Search against %s....." %f
-		fasta_file = "".join([input_path,"fasta/",f,".fasta"])
-		gi_list = []
-		## Blast using the FASTA set, and assing the XML string result to result_handle
-		blast_file_id = "".join([results_path,"blast-results/", f, ".xml"])
-		blastn_cline = NcbiblastnCommandline(query=fasta_file, db=blast_db, evalue=10, outfmt=5, out=blast_file_id)
-		print "Writing results to a Genbank XML file....."
-		## write the XML string to a file for later parsing
-		stdout, stderr = blastn_cline()
-		print "Blast search complete."
-		## call function to parse xml files for list of gi values of interest
-		print ("Getting list of gi values from blast results..."),
-		gi_list = parse_blastxml(blast_file_id, results_path)
-		## Write gi list file for each search
-		gi_file = "".join([results_path,"blast-results/",f,".txt"])
-    		with open(gi_file, 'w+') as gi_file:
-        		for g in gi_list:
-            			gi_file.write("%s\n" % g) # call to write the filtered fasta list to the correct fasta file
-		gi_file.close()
-		print "Complete"
-		## Delete the blast xml file
-		os.remove(blast_file_id)
-		count = count + 1
+    count = 0
+    for f in file_names:
+        print "Starting Blastn Search against %s....." %f
+        fasta_file = "".join([input_path,"fasta/",f,".fasta"])
+        gi_list = []
+        ## Blast using the FASTA set, and parsing the XML string result to result_handle
+        blast_file_id = "".join([results_path,"blast-results/", f, ".xml"])
+        blastn_cline = NcbiblastnCommandline(query=fasta_file, db=blast_db, evalue=10, outfmt=5,)
+        stdout, stderr = blastn_cline()
+        xmlfile = NCBIXML.parse(StringIO(stdout))
+        print "Blast search complete."
+        ## call function to parse xml files for list of gi values of interest
+        print ("Getting list of gi values from blast results..."),
+        gi_list = parse_blastxml(blast_file_id, results_path, xmlfile)
+        ## Write gi list file for each search
+        gi_file = "".join([results_path,"blast-results/",f,".txt"])
+        with open(gi_file, 'w+') as gi_file:
+            for g in gi_list:
+                gi_file.write("%s\n" % g) # call to write the filtered fasta list to the correct fasta file
+        gi_file.close()
+        print "Complete"
+        ## Delete the blast xml file
+        #os.remove(blast_file_id)
+        count = count + 1
 
 
 def mygrouper(n, iterable):
-	args = [iter(iterable)] * n
-	return ([e for e in t if e != None] for t in itertools.izip_longest(*args))
+    args = [iter(iterable)] * n
+    return ([e for e in t if e != None] for t in itertools.izip_longest(*args))
 
 def parse_config():
     config_params = [];
@@ -105,7 +105,7 @@ print "There are %s cores on this system." %core_count
 core_number = raw_input("Number of cores to use(1): ") # Ask the user how many cores to use
 
 if not core_number:
-	core_number = "1"
+    core_number = "1"
 
 core_number = float(core_number)
 print "Using %s cores." %core_number
@@ -119,19 +119,19 @@ fasta_list = list(mygrouper(files_per_core, range(int(file_count)))) #create a m
 track_fasta = 0
 core_count = 0
 for l in fasta_list:
-	count = 0
-	while count < len(fasta_list[core_count]):
-		fasta_list[core_count][count] = clean_filenames[track_fasta]
-		track_fasta = track_fasta + 1
-		count = count + 1
-	
-	core_count = core_count + 1
+    count = 0
+    while count < len(fasta_list[core_count]):
+        fasta_list[core_count][count] = clean_filenames[track_fasta]
+        track_fasta = track_fasta + 1
+        count = count + 1
+    
+    core_count = core_count + 1
 ## Split job into appropriate number of cores
 processes = []
 for c in xrange(len(fasta_list)):
-	p = Process(target=blast_search, args=(fasta_list[c],params[6],params[7]))
-	p.start()
-	processes.append(p)
+    p = Process(target=blast_search, args=(fasta_list[c],params[6],params[7]))
+    p.start()
+    processes.append(p)
 
 for p in processes:
-	p.join()
+    p.join()
