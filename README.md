@@ -55,7 +55,7 @@ $ wget ftp://ftp.ncbi.nlm.nih.gov/blast/db/FASTA/nt.gz</pre>
 11. Convert the nt fasta file to csv<pre>
 $ python fasta-csv.py</pre>
 12. Import the nt csv file into mysql<pre>
-$ mysql -uUSERHERE -p  --max_allowed_packet=500M --connect_timeout=6000
+$ mysql -uUSERHERE -p  --max_allowed_packet=500M --connect_timeout=6000 --local-infile=1
 mysql> DROP TABLE IF EXISTS genbank_nucleotide;
 mysql> CREATE TABLE genbank_nucleotide(id INT PRIMARY KEY AUTO_INCREMENT, gi INT(20), accession VARCHAR(25), length int(10), title VARCHAR(25), sequence LONGTEXT) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
 mysql> LOAD DATA LOCAL INFILE '/full/path/here/nt.fasta.csv' INTO TABLE genbank_nucleotide FIELDS TERMINATED BY ',' lines terminated by '\n' (gi, accession, length, title, sequence);
