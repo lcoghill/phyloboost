@@ -5,19 +5,22 @@ import logging
 import pickle
 import itertools
 
-def parse_config():
-    config_params = [];
-    config = open('private/config', 'r') 
-    for line in (line for line in config if not line.startswith('###')):
-        line = line.rstrip('\n')
-        line = line.split("=")
-        config_params.append (line[1])
 
-    return config_params
+### A few important variables ###
+
+input.file = "/full/path/to/phylota/tree/file"
+db.host = "localhost"
+db.user = ""
+db.password = ""
+db.database = ""
+
+###
+
+
 
 ### Read in a parse the tree file output from trees file
 
-treefile = open('trees.txt', 'r')
+treefile = open(input.file, 'r')
 raw_id = []
 id = []
 for t in treefile:
@@ -27,18 +30,15 @@ for t in treefile:
     tree_id[1] = tree_id[1][2:]
     id.append(tree_id)
 
-### To pull sequences from phylota mySQL db based on the ti and ci information retreived from the tree file    
-## Gather import configuration information from the config file
-params = parse_config() # retreive the params from the config file
-
-
-database = mdb.connect(host=params[1], # your host, usually localhost
-                     user=params[2], # your username
-                     passwd=params[3], # your password
-                     db=params[0]) # name of the data base
+## connect to the database and set a cursor
+database = mdb.connect(host=db.host, # your host, usually localhost
+                     user=db.user, # your username
+                     passwd=db.password, # your password
+                     db=db.database) # name of the data base
 cluster_db = database.cursor() # define the db cursor
 
-count = 0
+
+count = 0 #status count
 for i in id:
     #sql query to find the sequences that belong to the cluster / taxon that are present in the given tree
     sql = "".join(["SELECT seqs.gi,seqs.seq FROM seqs LEFT JOIN ci_gi_184 ON seqs.gi=ci_gi_184.gi WHERE ci_gi_184.ti=", id[count][0]," AND ci_gi_184.clustid=",id[count][1], " AND ci_gi_184.cl_type='subtree';"])
