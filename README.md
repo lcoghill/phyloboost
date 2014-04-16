@@ -40,8 +40,12 @@ Python pipeline to pull out sequence sets for the cluster-based mid-point rooted
 ***
 <a name="pipeline"></a>
 ###**Pipeline**
+
 <a name="get-clusters"></a>
 ####**Section 3.i: get-clusters**
+
+This script reads in and parses the [phylota tree file](). It will then query the MySQL database, and return all sequences associated with the tree in a FASTA file format. 
+
 <a name="filter-models"></a>
 ####**Section 3.iii: filter-models**
 
