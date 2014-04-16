@@ -1,24 +1,25 @@
 Phyloboost
 ==========
 
-###**Description:**
-
-Python pipeline to pull out sequence sets for the cluster-based mid-point rooted tree set released from the Phylota database. It can handle the entire tree set, or any subset of trees. It will also allow expansion of the sequence set with BLAST searches, followed up with a new sets of alignments and tree construction. Other features are coming soon.
-
-***
-
 ###**Contents:**
-1. <a href="#requirements">Requirements</a>
-2. <a href="#pipeline">Pipeline</a>
+1. <a href="#description">Description</a>
+2. <a href="#requirements">Requirements</a>
+3. <a href="#pipeline">Pipeline</a>
   1. <a href="#get-clusters">get-clusters</a>
   2. <a href="#blast-search">blast-search</a>
   3. <a href="#filter-models">filter-models</a>
   4. <a href="#alignment">build-alignments</a>
   5. <a href="#build-fasta">build-fasta-files</a>
   6. <a href="#build-trees">build-trees</a>
-3. <a href="#detailed-setup">Detailed Setup</a>
+4. <a href="#detailed-setup">Detailed Setup</a>
 
 ***
+<a name="description"></a>
+###**Description:**
+
+Python pipeline to pull out sequence sets for the cluster-based mid-point rooted tree set released from the Phylota database. It can handle the entire tree set, or any subset of trees. It will also allow expansion of the sequence set with BLAST searches, followed up with a new sets of alignments and tree construction. Other features are coming soon.
+
+
 
 <a name="requirements"></a>
 ####**Requirements:**
@@ -37,6 +38,8 @@ Python pipeline to pull out sequence sets for the cluster-based mid-point rooted
 11. [Git]()
 
 ***
+<a name="pipeline"></a>
+
 ###**filter-models**
 
 Accepts a list of model organisms to be filtered out from a directory of input files that are a simple list of GI values returned from the phyloboost blast.py script. The list should be a simple list of NCBI taxon id values such as:
