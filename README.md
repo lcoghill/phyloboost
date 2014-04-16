@@ -15,7 +15,7 @@ Python pipeline to pull out sequence sets for the cluster-based mid-point rooted
 7. <a href="#build-trees">build-trees</a>
 8. <a href="#detailed-setup">Detailed Setup</a>
 
-
+***
 <a name="requirements"></a>
 ####**Requirements:**
 
