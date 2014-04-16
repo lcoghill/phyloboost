@@ -64,7 +64,7 @@ A prebuilt list of model organisms can be found [here](http://figshare.com/artic
 <a name="build-trees"></a>
 ####**Section 3.vi: build-trees**
 
-Accepts a directory of alignment files in [Phylip](http://evolution.genetics.washington.edu/phylip/doc/main.html) format. It will then parse those files, and build a tree using RAxML (more methods coming later) for each file. The 'best' tree from each alignment will be written to a single file in [newick](http://evolution.genetics.washington.edu/phylip/newicktree.html) format for use in other tools. 
+Accepts a directory of alignment files in [Phylip](http://evolution.genetics.washington.edu/phylip/doc/main.html) format (.phy extension). It will then parse those files, and build a tree using RAxML (more methods coming later) for each file. The 'best' tree from each alignment will be written to a single file in [newick](http://evolution.genetics.washington.edu/phylip/newicktree.html) format for use in other tools. 
 
 ***
 <a name="detailed-setup"></a>
