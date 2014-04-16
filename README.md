@@ -42,12 +42,12 @@ Python pipeline to pull out sequence sets for the cluster-based mid-point rooted
 ###**Pipeline**
 
 <a name="get-clusters"></a>
-####**Section 3.i: get-clusters**
+####**i: get-clusters**
 
 This script reads in and parses the [phylota tree file](http://www.phylota.net/pb/Download.htm). It will then query the MySQL database, and return all sequences associated with the tree in a FASTA file format. 
 
 <a name="filter-models"></a>
-####**Section 3.iii: filter-models**
+####**iii: filter-models**
 
 Accepts a list of model organisms to be filtered out from a directory of input files that are a simple list of GI values returned from the phyloboost blast.py script. The list should be a simple list of NCBI taxon id values such as:
 
@@ -62,7 +62,7 @@ Accepts a list of model organisms to be filtered out from a directory of input f
 A prebuilt list of model organisms can be found [here](http://figshare.com/articles/model_organisms_txt/1000716). In this case, model organisms are described as any node (not subtree) having >100 clusters or more than 10,000 sequences. In order for this script to function it uses an SQL database for speed concerns. This can be an import of the [Phylota SQL database](http://www.phylota.net/pb/Download/) with the addition of 1 extra table. The additional table is called "taxid" and is an import of the [NCBI tab-deliminted dump](ftp://ftp.ncbi.nih.gov/pub/taxonomy/gi_taxid_nucl.dmp.gz) of all NCBI GI values and their corresponding TI values. The easiest way to import this data is to convert the file to a .csv file, you can use [this script]() to do so, and then import the csv file into MySQL.   
 
 <a name="build-trees"></a>
-####**Section 3.vi: build-trees**
+####**vi: build-trees**
 
 Accepts a directory of alignment files in [Phylip](http://evolution.genetics.washington.edu/phylip/doc/main.html) format (.phy extension). It will then parse those files, and build a tree using RAxML (more methods coming later) for each file. The 'best' tree from each alignment will be written to a single file in [newick](http://evolution.genetics.washington.edu/phylip/newicktree.html) format for use in other tools. 
 
