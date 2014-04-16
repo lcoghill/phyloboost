@@ -86,8 +86,4 @@ $ perl update_blastdb.pl --passive --decompress nt
 
 ***
 
-####**Example Use:**
-
-Work in Progress
-
 
