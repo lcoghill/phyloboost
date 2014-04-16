@@ -10,12 +10,12 @@ Python pipeline to pull out sequence sets for the cluster-based mid-point rooted
 ###**Contents:**
 1. <a href="#requirements">Requirements</a>
 2. <a href="#pipeline">Pipeline</a>
-..2.1 <a href="#get-clusters">get-clusters</a>
-..2.2 <a href="#blast-search">blast-search</a>
-..2.3 <a href="#filter-models">filter-models</a>
-..2.4 <a href="#alignment">build-alignments</a>
-..2.5 <a href="#build-fasta">build-fasta-files</a>
-..2.6 <a href="#build-trees">build-trees</a>
+  1. <a href="#get-clusters">get-clusters</a>
+  2. <a href="#blast-search">blast-search</a>
+  3. <a href="#filter-models">filter-models</a>
+  4. <a href="#alignment">build-alignments</a>
+  5. <a href="#build-fasta">build-fasta-files</a>
+  6. <a href="#build-trees">build-trees</a>
 3. <a href="#detailed-setup">Detailed Setup</a>
 
 ***
