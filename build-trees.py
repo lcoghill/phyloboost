@@ -54,7 +54,7 @@ def delete_trees(keep_all_trees, trees.directory):
 tree.outfile = "trees.out"                          # final, combined output file name
 trees.directory = "/trees"                          # directory where tree files should be saved
 keep_all_trees = 1                                  # flag whether to keep all tree output files when the process is done. (0 = Delete Everything, 1 = Keep Everything)
-alignment.files = "/alignments"                     # location where all alignment files are stored. (Must be in Phylip format)
+alignment.files = "/alignments"                     # location where all alignment files are stored. (Must be in Phylip format with .phy extension)
 num.threads = 1                                     # number of threads to use in RAxML. Don't use more than physical cores in on the computer.
 num.replicates = 1                                  # number of replicates for RAxML
 evo.model = "GTRCAT"                                # model of evolution used for RAxML
@@ -66,11 +66,11 @@ evo.model = "GTRCAT"                                # model of evolution used fo
 
 
 complete_trees = done_trees(trees.directory) # get a list of the trees already built, by comparing files in working dir vs those in alignment.files
-alignments = glob.glob("".join([alignment.files,".phylip"])) # get a list of all phylip files in /alignment
+alignments = glob.glob("".join([alignment.files,".phy"])) # get a list of all phylip files in /alignment
 alignment_names = [] #names of alignment files without directory or suffix
 print "\n\nGetting a list of alignment files..."
 for a in alignments:
-    match = re.match(r"^.*\/(.*).phylip.*$",a)
+    match = re.match(r"^.*\/(.*).phy.*$",a)
     name = match.group(1)
     alignment_names.append(name)
 
@@ -83,7 +83,7 @@ print "-"*50+"\n"
 ## build the trees using RAxML
 count = 0 ## status counter
 for f in files_to_use:
-    infile = "".join([alignments,f,'.phylip'])
+    infile = "".join([alignments,f,'.phy'])
     print "Builing tree for %s..." %f
     raxml_cline = RaxmlCommandline(sequences=infile, model=evo.model, name=f, working_dir=trees.directory, threads=num.threads, num_replicates=num.replicates) ## raxml wrapper call. Assumes the use of the pthreads version of raxml 8.0 or above
     stdout, stderr = raxml_cline()
