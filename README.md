@@ -44,7 +44,7 @@ Python pipeline to pull out sequence sets for the cluster-based mid-point rooted
 <a name="get-clusters"></a>
 ####**Section 3.i: get-clusters**
 
-This script reads in and parses the [phylota tree file](). It will then query the MySQL database, and return all sequences associated with the tree in a FASTA file format. 
+This script reads in and parses the [phylota tree file](http://www.phylota.net/pb/Download.htm). It will then query the MySQL database, and return all sequences associated with the tree in a FASTA file format. 
 
 <a name="filter-models"></a>
 ####**Section 3.iii: filter-models**
@@ -59,7 +59,7 @@ Accepts a list of model organisms to be filtered out from a directory of input f
 4234
 </pre>
 
-A prebuilt list of model organisms can be found [here](http://figshare.com/articles/model_organisms_txt/1000716). In this case, model organisms are described as any node (not subtree) having >100 clusters or more than 10,000 sequences. In order for this script to function it uses an SQL database for speed concerns. This can be an import of the [Phylota SQL database]() with the addition of 1 extra table. The additional table is called "taxid" and is an import of the [NCBI tab-deliminted dump]() of all NCBI GI values and their corresponding TI values. The easiest way to import this data is to convert the file to a .csv file, you can use [this script]() to do so, and then import the csv file into MySQL.   
+A prebuilt list of model organisms can be found [here](http://figshare.com/articles/model_organisms_txt/1000716). In this case, model organisms are described as any node (not subtree) having >100 clusters or more than 10,000 sequences. In order for this script to function it uses an SQL database for speed concerns. This can be an import of the [Phylota SQL database](http://www.phylota.net/pb/Download/) with the addition of 1 extra table. The additional table is called "taxid" and is an import of the [NCBI tab-deliminted dump](ftp://ftp.ncbi.nih.gov/pub/taxonomy/gi_taxid_nucl.dmp.gz) of all NCBI GI values and their corresponding TI values. The easiest way to import this data is to convert the file to a .csv file, you can use [this script]() to do so, and then import the csv file into MySQL.   
 
 ***
 <a name="detailed-setup"></a>
