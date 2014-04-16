@@ -36,7 +36,21 @@ Python pipeline to pull out sequence sets for the cluster-based mid-point rooted
 11. [Git]()
 
 ***
+###**filter-models**
 
+Accepts a list of model organisms to be filtered out from a directory of input files that are a simple list of GI values returned from the phyloboost blast.py script. The list should be a simple list of NCBI taxon id values such as:
+
+<pre>
+27923
+10224
+35608
+4232
+4234
+</pre>
+
+A prebuilt list of model organisms can be found [here](http://figshare.com/articles/model_organisms_txt/1000716). In this case, model organisms are described as any node (not subtree) having >100 clusters or more than 10,000 sequences. In order for this script to function it uses an SQL database for speed concerns. This can be an import of the [Phylota SQL database]() with the addition of 1 extra table. The additional table is called "taxid" and is an import of the [NCBI tab-deliminted dump]() of all NCBI GI values and their corresponding TI values. The easiest way to import this data is to convert the file to a .csv file, you can use [this script]() to do so, and then import the csv file into MySQL.   
+
+***
 <a name="detailed-setup"></a>
 ####**Detailed Setup:**
 
