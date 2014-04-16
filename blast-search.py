@@ -10,7 +10,7 @@ from Bio.Blast import NCBIWWW, NCBIXML
 from Bio.Blast.Applications import NcbiblastnCommandline
 
 
-def parse_blastxml(file_name, results_path, xmlfile):
+def parse_blastxml(file_name, results_path, xmlfile, length.filter):
     # open blast output file    
     print "Parsing blast results..."
     blast_list = []
@@ -21,7 +21,7 @@ def parse_blastxml(file_name, results_path, xmlfile):
         if x.alignments :
             for align in x.alignments :
                 for hsp in align.hsps :
-                    if align.length <= 7500: # only return results that are less than 7500 bp in length 
+                    if align.length <= length.filter: # only return results that are less or equal length.filter bp in length 
                         id_string = align.hit_id.split("gi|")
                         id_string = "".join(id_string)
                         id_string = id_string.encode("ascii")
@@ -33,7 +33,7 @@ def parse_blastxml(file_name, results_path, xmlfile):
 
 
 ## Perform the local blast searches
-def blast_search(file_names, results_path, input_path):
+def blast_search(file_names, results_path, input_path, e.value, length.filter):
     count = 0
     for f in file_names:
         print "Starting Blastn Search against %s....." %f
@@ -41,13 +41,13 @@ def blast_search(file_names, results_path, input_path):
         gi_list = []
         ## Blast using the FASTA set, and parsing the XML string result to result_handle
         blast_file_id = "".join([results_path, f, ".xml"]) # not currently in use. For future flexibility in keeping data in all formats
-        blastn_cline = NcbiblastnCommandline(query=fasta_file, db=blast_db, evalue=10, outfmt=5,)
+        blastn_cline = NcbiblastnCommandline(query=fasta_file, db=blast_db, evalue=e.value, outfmt=5,)
         stdout, stderr = blastn_cline()
         xmlfile = NCBIXML.parse(StringIO(stdout)) # grab output before writing it to file
         print "Blast search complete."
         print ("Getting list of gi values from blast results..."),
         ## parse the blast result xml data to retreive the GI values
-        gi_list = parse_blastxml(blast_file_id, results_path, xmlfile)
+        gi_list = parse_blastxml(blast_file_id, results_path, xmlfile, length.filter)
         ## Write gi list file for each search
         gi_file = "".join([results_path,f,".txt"])
         with open(gi_file, 'w+') as gi_file:
@@ -89,7 +89,8 @@ def get_filenames(file_name):
 blast.db = "path/to/blast/db/nt"              # local copy of blast nt database
 fasta.files = "path/to/fasta/cluster/files"   # location where fasta files generated from get-clusters.py are stored. Must have .fasta suffix on each file.
 blast.files = "path/to/save/blast/results"    # location where blast result files will be saved.
-
+e.value = 10                                  # e-value threshold for blast search
+length.filter = 7500                          # length in bp to filter blast results at. (hits longer than this value will be discarded)
 ###
 
 
@@ -135,7 +136,7 @@ for l in fasta_list:
 ## Split job into appropriate number of cores
 processes = []
 for c in xrange(len(fasta_list)):
-    p = Process(target=blast_search, args=(fasta_list[c],blast.files,fasta.files))
+    p = Process(target=blast_search, args=(fasta_list[c],blast.files,fasta.files, e.value, length.filter))
     p.start()
     processes.append(p)
 
