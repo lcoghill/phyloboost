@@ -41,9 +41,9 @@ Python pipeline to pull out sequence sets for the cluster-based mid-point rooted
 <a name="pipeline"></a>
 ###**Pipeline**
 <a name="get-clusters"></a>
-##**Section 3.i: get-clusters**
+####**Section 3.i: get-clusters**
 <a name="filter-models"></a>
-##**Section 3.iii: filter-models**
+####**Section 3.iii: filter-models**
 
 Accepts a list of model organisms to be filtered out from a directory of input files that are a simple list of GI values returned from the phyloboost blast.py script. The list should be a simple list of NCBI taxon id values such as:
 
