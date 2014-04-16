@@ -1,7 +1,7 @@
 Phyloboost
 ==========
 
-###**Contents:**
+###**Contents**
 1. <a href="#description">Description</a>
 2. <a href="#requirements">Requirements</a>
 3. <a href="#pipeline">Pipeline</a>
