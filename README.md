@@ -7,8 +7,14 @@ Python pipeline to pull out sequence sets for the cluster-based mid-point rooted
 
 ###**Contents:**
 1. <a href="#requirements">Requirements</a>
-2. <a href="#detailed-setup">Detailed Setup</a>
-3. <a href="#filter-models">filter-models</a>
+2. <a href="#get-clusters">get-clusters</a>
+3. <a href="#blast-search">blast-search</a>
+4. <a href="#filter-models">filter-models</a>
+5. <a href="#alignment">build-alignments</a>
+6. <a href="#build-fasta">build-fasta-files</a>
+7. <a href="#build-trees">build-trees</a>
+8. <a href="#detailed-setup">Detailed Setup</a>
+
 
 
 <i>**Note:** Instructions below are for a [Debian](http://www.debian.org) based OS like [Ubuntu](http://www.ubuntu.com)</i>
