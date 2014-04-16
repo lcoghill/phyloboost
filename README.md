@@ -19,10 +19,10 @@ Phyloboost
 
 Python pipeline to pull out sequence sets for the cluster-based mid-point rooted tree set released from the Phylota database. It can handle the entire tree set, or any subset of trees. It will also allow expansion of the sequence set with BLAST searches, followed up with a new sets of alignments and tree construction. Other features are coming soon.
 
-
+***
 
 <a name="requirements"></a>
-####**Requirements**
+###**Requirements**
 
 
 1. [Python 2.7](http://www.python.org)
@@ -63,7 +63,7 @@ A prebuilt list of model organisms can be found [here](http://figshare.com/artic
 
 ***
 <a name="detailed-setup"></a>
-####**Detailed Setup:**
+###**Detailed Setup**
 
 <i>**Note:** Instructions below are for a [Debian](http://www.debian.org) based OS like [Ubuntu](http://www.ubuntu.com)</i>
 
