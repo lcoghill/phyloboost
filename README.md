@@ -10,7 +10,8 @@ Phyloboost
   3. <a href="#filter-models">filter-models</a>
   4. <a href="#build-fasta">build-fasta</a>
   5. <a href="#build-alignments">build-alignments</a>
-  6. <a href="#build-trees">build-trees</a>
+  6. <a href="#plot-sumstats">plot-sumstats</a>
+  7. <a href="#build-trees">build-trees</a>
 4. <a href="#detailed-setup">Detailed Setup</a>
 
 ***
@@ -75,6 +76,7 @@ A prebuilt list of model organisms can be found [here](http://figshare.com/artic
 
 Description Here
 
+
 <a name="build-alignments"></a>
 ####**v: <i>build-alignments</i>**
 
@@ -82,8 +84,15 @@ Accepts a set of FASTA files as input built by <i>get-clusters.py</i>. It then t
 
 Secondarily this script will output some very basic statistics for each FASTA file aligned to a CSV file sum-stats.csv.
 
+
+<a name="plot-sumstats"></a>
+####**vi: <i>plot-sumstats</i>**
+
+Description Coming Soon
+
+
 <a name="build-trees"></a>
-####**vi: <i>build-trees</i>**
+####**vii: <i>build-trees</i>**
 
 Accepts a directory of alignment files in [Phylip](http://evolution.genetics.washington.edu/phylip/doc/main.html) format (.phy extension). It will then parse those files, and build a tree using RAxML (more methods coming later) for each file. The 'best' tree from each alignment will be written to a single file in [newick](http://evolution.genetics.washington.edu/phylip/newicktree.html) format for use in other tools. 
 
