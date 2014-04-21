@@ -8,9 +8,10 @@ Phyloboost
   1. <a href="#get-clusters">get-clusters</a>
   2. <a href="#blast-search">blast-search</a>
   3. <a href="#filter-models">filter-models</a>
-  4. <a href="#build-alignments">build-alignments</a>
-  5. <a href="#build-fasta">build-fasta</a>
-  6. <a href="#build-trees">build-trees</a>
+  4. <a href="#build-fasta">build-fasta</a>
+  5. <a href="#build-alignments">build-alignments</a>
+  6. <a href="#plot-sumstats">plot-sumstats</a>
+  7. <a href="#build-trees">build-trees</a>
 4. <a href="#detailed-setup">Detailed Setup</a>
 
 ***
@@ -69,15 +70,29 @@ Accepts a list of model organisms to be filtered out from a directory of input f
 
 A prebuilt list of model organisms can be found [here](http://figshare.com/articles/model_organisms_txt/1000716). In this case, model organisms are described as any node (not subtree) having >100 clusters or more than 10,000 sequences. In order for this script to function it uses an SQL database for speed concerns. This can be an import of the [Phylota SQL database](http://www.phylota.net/pb/Download/) with the addition of 1 extra table. The additional table is called "taxid" and is an import of the [NCBI tab-deliminted dump](ftp://ftp.ncbi.nih.gov/pub/taxonomy/gi_taxid_nucl.dmp.gz) of all NCBI GI values and their corresponding TI values. The easiest way to import this data is to convert the file to a .csv file, you can use [this script]() to do so, and then import the csv file into MySQL.   
 
+
+<a name="build-fasta"></a>
+####**iv: <i>build-fasta</i>**
+
+Description Here
+
+
 <a name="build-alignments"></a>
-####**iv: <i>build-alignments</i>**
+####**v: <i>build-alignments</i>**
 
 Accepts a set of FASTA files as input built by <i>get-clusters.py</i>. It then takes those files and builds a [MUSCLE]() alignment (more options coming later) for each file. Alignments can be filtered based on the density of each column. For example, if <i>density = 0.25</i>, any column in the alignment that has a density less than 25%, that is to say any column that has "-" characters in more than 25% of it's values will be removed from the alignment. This feature can be turned off by setting <i>density = 0</i>.
 
 Secondarily this script will output some very basic statistics for each FASTA file aligned to a CSV file sum-stats.csv.
 
+
+<a name="plot-sumstats"></a>
+####**vi: <i>plot-sumstats</i>**
+
+Description Coming Soon
+
+
 <a name="build-trees"></a>
-####**vi: <i>build-trees</i>**
+####**vii: <i>build-trees</i>**
 
 Accepts a directory of alignment files in [Phylip](http://evolution.genetics.washington.edu/phylip/doc/main.html) format (.phy extension). It will then parse those files, and build a tree using RAxML (more methods coming later) for each file. The 'best' tree from each alignment will be written to a single file in [newick](http://evolution.genetics.washington.edu/phylip/newicktree.html) format for use in other tools. 
 
