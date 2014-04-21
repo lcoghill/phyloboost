@@ -38,7 +38,8 @@ for f in fasta_files:  # iterate through all the files in the directory
         print "There were no non-nucleotide characters in FASTA file %s." % f
     else:
         print
-        'There were %s non-nucleotide containing entries found in the FASTA file. Those entries have been removed.' % bad_seq_count
+        'There were %s non-nucleotide containing entries found in the FASTA file. Those entries have been removed.' \
+        % bad_seq_count
 
     SeqIO.write(clean_seq_list, f,
                 "fasta")  # after all iterations, write the good seq record list to the same file we started with
