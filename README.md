@@ -95,7 +95,7 @@ Secondarily this script will output some very basic statistics for each FASTA fi
 <a name="find-outliers"></a>
 ####**vii: <i>find-outliers</i>**
 
-Accepts a directory of alignment files. For each sequence in each alignment, calculate the taxonomic distance (number of steps between two sequences along the given taxonomy). It will then compare each value to the alignment mean distance for the whole alignment, and flag any sequences that are more than a given threshold away. Useful for filtering out sequences of high genetic similarity, but low taxonomic similarity such as mislabeled sequences or sequences involivng highly conserved DNA.
+Requires a directory of alignment files and NCBI taxonomy as a newick tree [see this script](https://github.com/lcoghill/sandbox/blob/master/ncbi_tree.py). For each sequence in each alignment, calculate the taxonomic distance (number of steps between two sequences along the given taxonomy). It will then compare each value to the alignment mean distance for the whole alignment, and flag any sequences that are more than a given threshold away. Useful for filtering out sequences of high genetic similarity, but low taxonomic similarity such as mislabeled sequences or sequences involivng highly conserved DNA.
 
 <a name="plot-stats"></a>
 ####**viii: <i>plot-stats</i>**
