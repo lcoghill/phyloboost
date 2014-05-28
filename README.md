@@ -76,9 +76,7 @@ A prebuilt list of model organisms can be found [here](http://figshare.com/artic
 <a name="build-fasta"></a>
 ####**iv: <i>build-fasta</i>**
 
-Description Here
-
-
+Accepts a directory of FASTA files, and a directory of text files with GI values generated from <i>blast-search</i>. It will retreive the sequences for each GI value, and merge them with the sequences in the original FASTA file to create a new FASTA file.
 
 <a name="fasta-clean"></a>
 ####**v: <i>fasta-clean</i>**
