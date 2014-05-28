@@ -81,30 +81,30 @@ Description Here
 
 
 <a name="fasta-clean"></a>
-####**iv: <i>fasta-clean</i>**
+####**v: <i>fasta-clean</i>**
 
 Parses a directory of FASTA files, and removes any squences that contain characters that are not valid IUPAC codes.
 
 <a name="build-alignments"></a>
-####**v: <i>build-alignments</i>**
+####**vi: <i>build-alignments</i>**
 
 Accepts a set of FASTA files as input built by <i>get-clusters.py</i>. It then takes those files and builds a [MUSCLE]() alignment (more options coming later) for each file. Alignments can be filtered based on the density of each column. For example, if <i>density = 0.25</i>, any column in the alignment that has a density less than 25%, that is to say any column that has "-" characters in more than 25% of it's values will be removed from the alignment. This feature can be turned off by setting <i>density = 0</i>.
 
 Secondarily this script will output some very basic statistics for each FASTA file aligned to a CSV file sum-stats.csv.
 
 <a name="find-outliers"></a>
-####**vi: <i>find-outliers</i>**
+####**vii: <i>find-outliers</i>**
 
 Accepts a directory of alignment files. For each sequence in each alignment, calculate the taxonomic distance (number of steps between two sequences along the given taxonomy). It will then compare each value to the alignment mean distance for the whole alignment, and flag any sequences that are more than a given threshold away. Useful for filtering out sequences of high genetic similarity, but low taxonomic similarity such as mislabeled sequences or sequences involivng highly conserved DNA.
 
 <a name="plot-sumstats"></a>
-####**vii: <i>plot-sumstats</i>**
+####**viii: <i>plot-sumstats</i>**
 
 Description Coming Soon
 
 
 <a name="build-trees"></a>
-####**viii: <i>build-trees</i>**
+####**ix: <i>build-trees</i>**
 
 Accepts a directory of alignment files in [Phylip](http://evolution.genetics.washington.edu/phylip/doc/main.html) format (.phy extension). It will then parse those files, and build a tree using RAxML (more methods coming later) for each file. The 'best' tree from each alignment will be written to a single file in [newick](http://evolution.genetics.washington.edu/phylip/newicktree.html) format for use in other tools. 
 
