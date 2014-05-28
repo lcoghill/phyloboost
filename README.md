@@ -9,10 +9,11 @@ Phyloboost
   2. <a href="#blast-search">blast-search</a>
   3. <a href="#filter-models">filter-models</a>
   4. <a href="#build-fasta">build-fasta</a>
-  5. <a href="#build-alignments">build-alignments</a>
-  6. <a href="#find-outliers">find-outliers</a>
-  7. <a href="#plot-sumstats">plot-sumstats</a>
-  8. <a href="#build-trees">build-trees</a>
+  5. <a href="#fasta-clean">fasta-clean</a>
+  6. <a href="#build-alignments">build-alignments</a>
+  7. <a href="#find-outliers">find-outliers</a>
+  9. <a href="#plot-sumstats">plot-sumstats</a>
+  9. <a href="#build-trees">build-trees</a>
 4. <a href="#detailed-setup">Detailed Setup</a>
 
 ***
@@ -77,6 +78,12 @@ A prebuilt list of model organisms can be found [here](http://figshare.com/artic
 
 Description Here
 
+
+
+<a name="fasta-clean"></a>
+####**iv: <i>fasta-clean</i>**
+
+Parses a directory of FASTA files, and removes any squences that contain characters that are not valid IUPAC codes.
 
 <a name="build-alignments"></a>
 ####**v: <i>build-alignments</i>**
