@@ -12,7 +12,7 @@ Phyloboost
   5. <a href="#fasta-clean">fasta-clean</a>
   6. <a href="#build-alignments">build-alignments</a>
   7. <a href="#find-outliers">find-outliers</a>
-  9. <a href="#plot-sumstats">plot-sumstats</a>
+  9. <a href="#plot-stats">plot-sumstats</a>
   9. <a href="#build-trees">build-trees</a>
 4. <a href="#detailed-setup">Detailed Setup</a>
 
@@ -97,10 +97,10 @@ Secondarily this script will output some very basic statistics for each FASTA fi
 
 Accepts a directory of alignment files. For each sequence in each alignment, calculate the taxonomic distance (number of steps between two sequences along the given taxonomy). It will then compare each value to the alignment mean distance for the whole alignment, and flag any sequences that are more than a given threshold away. Useful for filtering out sequences of high genetic similarity, but low taxonomic similarity such as mislabeled sequences or sequences involivng highly conserved DNA.
 
-<a name="plot-sumstats"></a>
-####**viii: <i>plot-sumstats</i>**
+<a name="plot-stats"></a>
+####**viii: <i>plot-stats</i>**
 
-Description Coming Soon
+Accepts a sum-stats.csv file generated from build-alignments. Will build some basic visualizations to help with interpretation of this the alignment statistics.
 
 
 <a name="build-trees"></a>
