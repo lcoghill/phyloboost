@@ -12,7 +12,7 @@ Phyloboost
   5. <a href="#fasta-clean">fasta-clean</a>
   6. <a href="#build-alignments">build-alignments</a>
   7. <a href="#find-outliers">find-outliers</a>
-  9. <a href="#plot-stats">plot-sumstats</a>
+  9. <a href="#plot-stats">plot-stats</a>
   9. <a href="#build-trees">build-trees</a>
 4. <a href="#detailed-setup">Detailed Setup</a>
 
