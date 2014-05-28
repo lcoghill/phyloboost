@@ -88,7 +88,8 @@ Secondarily this script will output some very basic statistics for each FASTA fi
 <a name="find-outliers"></a>
 ####**vi: <i>find-outliers</i>**
 
-Accepts a directory of alignment files. For each sequence in each alignment, calculate the taxonomic distance (number of steps between along the given taxonomy between all members of the alignment. It will then compare each value to the alignment mean, and flag any sequences that are more than a given threshold away. Useful for filtering out sequences of high genetic similarity, but low taxonomic similarity. 
+Accepts a directory of alignment files. For each sequence in each alignment, calculate the taxonomic distance (number of steps between two sequences along the given taxonomy). It will then compare each value to the alignment mean distance for the whole alignment, and flag any sequences that are more than a given threshold away. Useful for filtering out sequences of high genetic similarity, but low taxonomic similarity such as mislabeled sequences or sequences involivng highly conserved DNA.
+
 <a name="plot-sumstats"></a>
 ####**vii: <i>plot-sumstats</i>**
 
