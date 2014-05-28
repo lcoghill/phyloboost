@@ -10,8 +10,9 @@ Phyloboost
   3. <a href="#filter-models">filter-models</a>
   4. <a href="#build-fasta">build-fasta</a>
   5. <a href="#build-alignments">build-alignments</a>
-  6. <a href="#plot-sumstats">plot-sumstats</a>
-  7. <a href="#build-trees">build-trees</a>
+  6. <a href="#find-outliers">find-outliers</a>
+  7. <a href="#plot-sumstats">plot-sumstats</a>
+  8. <a href="#build-trees">build-trees</a>
 4. <a href="#detailed-setup">Detailed Setup</a>
 
 ***
@@ -84,15 +85,18 @@ Accepts a set of FASTA files as input built by <i>get-clusters.py</i>. It then t
 
 Secondarily this script will output some very basic statistics for each FASTA file aligned to a CSV file sum-stats.csv.
 
+<a name="find-outliers"></a>
+####**vi: <i>find-outliers</i>**
 
+Accepts a directory of alignment files. For each sequence in each alignment, calculate the taxonomic distance (number of steps between along the given taxonomy between all members of the alignment. It will then compare each value to the alignment mean, and flag any sequences that are more than a given threshold away. Useful for filtering out sequences of high genetic similarity, but low taxonomic similarity. 
 <a name="plot-sumstats"></a>
-####**vi: <i>plot-sumstats</i>**
+####**vii: <i>plot-sumstats</i>**
 
 Description Coming Soon
 
 
 <a name="build-trees"></a>
-####**vii: <i>build-trees</i>**
+####**viii: <i>build-trees</i>**
 
 Accepts a directory of alignment files in [Phylip](http://evolution.genetics.washington.edu/phylip/doc/main.html) format (.phy extension). It will then parse those files, and build a tree using RAxML (more methods coming later) for each file. The 'best' tree from each alignment will be written to a single file in [newick](http://evolution.genetics.washington.edu/phylip/newicktree.html) format for use in other tools. 
 
