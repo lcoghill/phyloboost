@@ -140,7 +140,7 @@ mysql> quit
 10. Download the Genbank nt nucleotide set<pre>
 $ wget ftp://ftp.ncbi.nlm.nih.gov/blast/db/FASTA/nt.gz</pre>
 11. Convert the nt fasta file to csv<pre>
-$ python fasta-csv.py</pre>
+$ python [fasta-csv.py](https://github.com/lcoghill/sandbox/blob/master/fasta-csv.py)</pre>
 12. Import the nt csv file into mysql<pre>
 $ mysql -uUSERHERE -p  --max_allowed_packet=500M --connect_timeout=6000 --local-infile=1
 mysql> SELECT DBNAMEHERE;
