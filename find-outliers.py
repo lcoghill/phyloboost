@@ -77,17 +77,12 @@ def find_missing_nodes(ti_list, sequence_names, f, G):
                 missing_reason.append("TI found in deleted nodes file")
     return missing_sequences, missing_reason
 
-def get_accurate_group_mean(group_dist):
+def get_accurate_group_mean(group_dist, m = 2):
 	clean_dist_list = []
-	within_group_cutoff = 1
-	if len(clean_dist_list) == 0:	
-		for d in group_dist:
-			if d < within_group_cutoff + sum(int(i) for i in group_dist)/len(group_dist): # used to filter large distances before obtaining group mean.
-				clean_dist_list.append(d)
-		if len(clean_dist_list) == 0:	
-			within_group_cutoff += 1
-		else:
-			return clean_dist_list
+	for d in group_dist:
+		if d < (m * np.median(group_dist)):
+			clean_dist_list.append(d)
+	return clean_dist_list
 
 def calc_distances(ti_list, f, G):
 
@@ -112,7 +107,7 @@ def filter_by_distance(file_names, cutoff_threshold, merged_nodes, G):
         ti_list, sequence_names = parse_seq_names(alignment)  # get clean ti values and individual sequence names
         ti_list = correct_merged_nodes(ti_list, merged_nodes, f)  # correct any incorrectly labeled nodes using the merged nodes file
         bad_sequences, reason = find_missing_nodes(ti_list, sequence_names, f, G)  # are tis in taxonomy
-	
+
 	if bad_sequences:
 		for seq in bad_sequences:
 			bad_ti = seq.split("ti_")[1] 
@@ -148,13 +143,12 @@ def filter_by_distance(file_names, cutoff_threshold, merged_nodes, G):
         csv_dump(removed_sequences, f)
 
 
-
 '''
 The cutoff_threshold is the value that will be multiplied by the total median distance for an entire alignment.
 Higher values will lead to a more conservative filtering algorithm. (ie: an outlier will have be further away
 taxonomically in order to be flagged.)
 '''
-cutoff_threshold = 3  # multiplier for mean group distance that will exclude a sequence.
+cutoff_threshold = 2  # multiplier for mean group distance that will exclude a sequence.
 
 
 graphml_file = 'ncbi.gml' # graphml file name / location
