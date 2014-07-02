@@ -5,6 +5,7 @@ import numpy as np
 import glob
 import itertools
 import csv
+import re
 
 
 def mygrouper(n, iterable):
@@ -12,9 +13,9 @@ def mygrouper(n, iterable):
     return ([e for e in t if e != None] for t in itertools.izip_longest(*args))
 
 def csv_dump(input, f):
-
-    split_name = f.split(".alignment")
-    file_name = "".join(["csv/", split_name[0][4:], ".csv"])
+    
+    file_name = re.search('alignments/(.+?).alignment', f).group(1)
+    file_name = "".join(["csv/", file_name, ".csv"])
     result_file = open(file_name, 'w+')
     csv_write = csv.writer(result_file, delimiter="\t")
 
@@ -77,12 +78,14 @@ def find_missing_nodes(ti_list, sequence_names, f, G):
                 missing_reason.append("TI found in deleted nodes file")
     return missing_sequences, missing_reason
 
-def get_accurate_group_mean(group_dist, m = 2):
-	clean_dist_list = []
-	for d in group_dist:
-		if d < (m * np.median(group_dist)):
-			clean_dist_list.append(d)
-	return clean_dist_list
+def filter_by_median(group_dist): # if a given distance is more than 50% greater than the group median, it is removed before calculating the mean
+    med = np.median(group_dist)
+    filtered_distances = []
+    for d in group_dist:
+        if d < (med * 0.50) + med:
+            filtered_distances.append(d)
+
+    return filtered_distances
 
 def calc_distances(ti_list, f, G):
 
@@ -94,8 +97,8 @@ def calc_distances(ti_list, f, G):
             if ti != ti2:
                 distance = nx.shortest_path_length(G, str(ti), str(ti2))
                 group_dist.append(distance)
-	clean_dist_list = get_accurate_group_mean(group_dist)
-	mean_group_dist = sum(int(i) for i in clean_dist_list)/len(clean_dist_list)
+        filtered_group_dist = filter_by_median(group_dist)
+        mean_group_dist = sum(int(i) for i in filtered_group_dist)/len(filtered_group_dist)
         mean_distances.append(mean_group_dist)
     return mean_distances
 
@@ -108,32 +111,32 @@ def filter_by_distance(file_names, cutoff_threshold, merged_nodes, G):
         ti_list = correct_merged_nodes(ti_list, merged_nodes, f)  # correct any incorrectly labeled nodes using the merged nodes file
         bad_sequences, reason = find_missing_nodes(ti_list, sequence_names, f, G)  # are tis in taxonomy
 
-	if bad_sequences:
-		for seq in bad_sequences:
-			bad_ti = seq.split("ti_")[1] 
-			if bad_ti in ti_list:
-				ti_list.remove(bad_ti)  
-        
-	if len(ti_list) > 1:
-		mean_distances = calc_distances(ti_list, f, G)  # calc topological distances between all nodes from alignment and return
-		for dist in mean_distances:
-			if np.median(mean_distances)*cutoff_threshold == 0:
-				cutoff = 1
-           		else:
-				cutoff = np.median(mean_distances)*cutoff_threshold
-           	 	if dist > cutoff:
-               	 		bad_index = mean_distances.index(dist)
-               	 		seq_name = sequence_names[bad_index]
-               	 		if seq_name not in bad_sequences:
-               	     			bad_sequences.append(sequence_names[bad_index])
-                	    		reason_string = "".join(["Exceeds Cutoff: ", str(cutoff), " with Distance: ", str(dist)])
-        	            		reason.append(reason_string)
+    if bad_sequences:
+        for seq in bad_sequences:
+            bad_ti = seq.split("ti_")[1] 
+            if bad_ti in ti_list:
+                ti_list.remove(bad_ti)  
+    
+    if len(ti_list) > 1:
+        mean_distances = calc_distances(ti_list, f, G)  # calc topological distances between all nodes from alignment and return
+        for dist in mean_distances:
+            if np.median(mean_distances)*cutoff_threshold == 0:
+                cutoff = cutoff_threshold
+            else:
+                cutoff = np.median(mean_distances)*cutoff_threshold
+                if dist > cutoff:
+                        bad_index = mean_distances.index(dist)
+                        seq_name = sequence_names[bad_index]
+                        if seq_name not in bad_sequences:
+                                bad_sequences.append(sequence_names[bad_index])
+                                reason_string = "".join(["Exceeds Cutoff: ", str(cutoff), " with Distance: ", str(dist)])
+                                reason.append(reason_string)
 
 
     for seq in bad_sequences:
         temp_list = []
         index = bad_sequences.index(seq)
-        temp_list.append(f[5:])
+        temp_list.append(re.search('alignments/(.+?).alignment', f).group(1))
         temp_list.append(seq)
         temp_list.append(reason[index])
         removed_sequences.append(temp_list)
@@ -148,16 +151,17 @@ The cutoff_threshold is the value that will be multiplied by the total median di
 Higher values will lead to a more conservative filtering algorithm. (ie: an outlier will have be further away
 taxonomically in order to be flagged.)
 '''
-cutoff_threshold = 2  # multiplier for mean group distance that will exclude a sequence.
+cutoff_threshold = int(raw_input("Cutoff Threshold: "))  # multiplier for mean group distance that will exclude a sequence.
 
 
 graphml_file = 'ncbi.gml' # graphml file name / location
-input_dir = "new-alignments/" # directory of alignment files in FASTA
+input_dir = "/PATH/TO/ALIGNMENTS/HERE" # directory of alignment files in FASTA
 numProcs = int(raw_input("Number of Cores: "))
 
 if __name__ == '__main__':
     print "Using %s cores." %numProcs
     alignment_files = glob.glob("".join([input_dir, "*.fasta"]))  # get a list of alignment files
+    print "Found %s alignment files." % len(alignment_files)
     print "Loading NCBI taxonomy graph..."
     G = nx.read_graphml(graphml_file) # load the graphml file into a networkx graph object
     merged_nodes = load_merged_nodes()  # get a dictionary of all nodes from merged.dmp file from ncbi
