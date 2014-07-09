@@ -56,7 +56,6 @@ stdout, stderr = blastn_cline()
 with open(results_file, 'rb') as csvfile:
     csv_file = csv.reader(csvfile, delimiter='\t')
     for row in csv_file:
-        print row
         closest_cluster = row[1].split("_cluster_")[1]
         source_id = row[0]
         percent_match = row[2]
