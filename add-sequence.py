@@ -40,11 +40,11 @@ def add_to_fasta(query_file, results_file, closest_cluster, original_fasta):
     save_blast(results_file)
 
 
-blast_db = 'phylota_blastdb_v1.0'
-query_file = 'test.fasta'
-e = 0.001
-results_file = 'results.csv'
-original_fasta_dir = 'fasta/'
+blast_db = 'phylota_blastdb_v1.0' # location and name of custom blastdb
+query_file = '' # fasta file with single query sequence
+e = 0.001 # evalue parameter to help filter results
+results_file = 'results.csv' # name of the results file
+original_fasta_dir = 'fasta/' # directory of original FASTA files
 
 print "\n"
 
