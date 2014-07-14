@@ -55,8 +55,8 @@ tree_outfile = "trees.out"                          # final, combined output fil
 trees_directory = ""                          # directory where tree files should be saved
 keep_all_trees = 1                                  # flag whether to keep all tree output files when the process is done. (0 = Delete Everything, 1 = Keep Everything)
 alignment_dir = ""                     # location where all alignment files are stored. (Must be in Phylip format with .phy extension)
-num_threads = 4                                     # number of threads to use in RAxML. Don't use more than physical cores in on the computer.
-num_replicates = 100                                  # number of replicates for RAxML
+num_threads = 12                                     # number of threads to use in RAxML. Don't use more than physical cores in on the computer.
+num_replicates = 25                                  # number of replicates for RAxML
 evo_model = "GTRCAT"                                # model of evolution used for RAxML
 p_seed = 12345 # parsimony seed for RAxML
 bs_seed = 12345 # bootstrap seed for RAxML
@@ -83,14 +83,19 @@ print "-"*50+"\n"
 ## build the trees using RAxML
 count = 0 ## status counter
 for f in files_to_use:
-    infile = "".join([alignment_dir, "/", f,'.phy'])
-    print infile
-    print "Builing tree for %s..." %f
-    raxml_cline = RaxmlCommandline(sequences=infile, model=evo_model, name=f, working_dir=trees_directory, threads=num_threads, num_replicates=num_replicates, algorithm=algorithm, rapid_bootstrap_seed=bs_seed, parsimony_seed=p_seed) ## raxml wrapper call. Assumes the use of the pthreads version of raxml 8.0 or above
-    stdout, stderr = raxml_cline()
-    print "Tree %s / %s Complete." %(count, len(files_to_use))
-    count += 1 
-
+    try:
+        infile = "".join([alignment_dir, "/", f,'.phy'])
+        print infile
+        print "Builing tree for %s..." %f
+        raxml_cline = RaxmlCommandline(sequences=infile, model=evo_model, name=f, working_dir=trees_directory, threads=num_threads, num_replicates=num_replicates, algorithm=algorithm, rapid_bootstrap_seed=bs_seed, parsimony_seed=p_seed) ## raxml wrapper call. Assumes the use of the pthreads version of raxml 8.0 or above
+        stdout, stderr = raxml_cline()
+        print "Tree %s / %s Complete." %(count, len(files_to_use))
+        count += 1
+    except:
+        print "Exception for file %s, logging file for later check." %infile
+        f = open('raxml-error.log','a')
+        f.write(infile+,"\n") # python will convert \n to os.linesep
+        f.close() 
 write_trees(tree_outfile, trees_directory) # write all "best" trees to a single file in newick format
 delete_trees(keep_all_trees, trees_directory) # delete or keep all tree files
 print "-"*50
