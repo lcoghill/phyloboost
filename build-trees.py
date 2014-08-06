@@ -22,14 +22,16 @@ def done_trees(trees_directory):
 def write_trees(tree_outfile, trees_directory):
 
     tree_files = glob.glob("".join([trees_directory,"RAxML_bestTree.*"]))
-    tree_file = open(tree_outfile, 'w+')
+    outfile = open(tree_outfile, 'w+')
     for f in tree_files:
         print "-"*50
         print "Writing trees to file $s" %tree_outfile
-        newick_string = open(f)
+        name = f.replace(trees_directory+"/RAxML_bestTree.", "")
+        tree_file = open(f, 'r')
+        newick_string = tree_file.readline()
         record = "".join([name,"\t",newick_string,"\n"])
-        tree_file.write(record) 
-        print "Tree %s, successfully written." %f
+        outfile.write(record) 
+        print "Tree %s, successfully written." %name
 
 
 
