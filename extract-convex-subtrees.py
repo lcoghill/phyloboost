@@ -214,8 +214,6 @@ def proc(g, line, merged, probfile, outfile):
         treegraph.set_vertex_filter(None)
         names = ','.join([ g.taxid_name(int(x)) for x in k.split('.') ])
         tis = taxid_count(s)
-        print set(tis)
-        print len(set(tis))
         if len(set(tis)) > 2:
             outfile.write('%s\t%s\t%s\t%s;\n' % (pbtree, k, names, s))
             print 'wrote subtree:', names
@@ -234,8 +232,15 @@ if __name__ == "__main__":
 
     probfile = open('readable.problem_subtrees','w')
     outfile = open('readable.convex_subtrees','w')
-    with open('trees.out') as f:
+    problem_trees = open('problem_trees.out', 'a')
+
+    with open('filtered-trees.out') as f:
         for line in f:
-            proc(g, line, merged, probfile, outfile)
+            try:
+                proc(g, line, merged, probfile, outfile)
+            except:
+                id = line.split()[0]
+                problem_trees.write(id)
     outfile.close()
     probfile.close()
+    problem_trees.close()
