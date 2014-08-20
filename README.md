@@ -9,7 +9,7 @@ Phyloboost
   2. <a href="#blast-search">blast-search</a>
   3. <a href="#filter-models">filter-models</a>
   4. <a href="#build-fasta">build-fasta</a>
-  5. <a href="#fasta-clean">fasta-clean</a>
+  5. <a href="#clean-fasta">clean-fasta</a>
   6. <a href="#build-alignments">build-alignments</a>
   7. <a href="#find-outliers">find-outliers</a>
   9. <a href="#plot-stats">plot-stats</a>
@@ -78,10 +78,10 @@ A prebuilt list of model organisms can be found [here](http://figshare.com/artic
 
 Accepts a directory of FASTA files, and a directory of text files with GI values generated from <i>blast-search</i>. It will retreive the sequences for each GI value, and merge them with the sequences in the original FASTA file to create a new FASTA file.
 
-<a name="fasta-clean"></a>
-####**v: <i>fasta-clean</i>**
+<a name="clean-fasta"></a>
+####**v: <i>clean-fasta</i>**
 
-Parses a directory of FASTA files, and removes any squences that contain characters that are not valid IUPAC codes.
+Parses a directory of FASTA files, and removes any squences that contain characters that are not valid IUPAC codes. Also removes any sequence that is longer or shorter than the a given threshold of the median length of all sequences in the file.
 
 <a name="build-alignments"></a>
 ####**vi: <i>build-alignments</i>**
