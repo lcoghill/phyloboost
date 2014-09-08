@@ -71,112 +71,117 @@ print "%s files successful found.\n" %file_count
 
 
 for f in fasta_files:
-    raw_lengths = []
-    handle = open(f, "rU")
-    for record in SeqIO.parse(handle, "fasta") :
-        raw_lengths.append(len(record.seq))
-    handle.close()
-    
-    print "Aligning FASTA file %s" % f
-    muscle_cline = MuscleCommandline(input=f, maxiters=max_iters, maxtrees=max_trees) # call muscle to align the fasta file
-    stdout, stderr = muscle_cline()
-    align = AlignIO.read(StringIO(stdout), "fasta")
-    lengths = []
-    for a in align:
-        lengths.append(len(a.seq))
-
-    character_score = []
-
-    max_len = max(lengths)
-    all_lengths.append(max_len) # assign for later use in scatter plot
-
-    ## calculate the amount of missing data for entire alignment
-    missing_len = 0
-    total_len = 0
-    missing_data = 0
-    for a in align:
-        missing_len = missing_len + a.seq.count('-')
-        total_len = total_len + len(a.seq)
-
-    missing_data = float(missing_len)/float(total_len)
-
-    print "Removing bases with less than %s density." % density
-    ## Calculate density score for each column of the alignment
-    num_records = len(align)
-    per_base_density = []
-
-    count = 0
-    while count < max_len:
-        den_count = 0
-        for a in align:
-            if a.seq[count] == "-":
-                den_count = den_count + 1
-        if den_count >= (density*num_records):
-            per_base_density.append(1)
-        else:
-            per_base_density.append(0)
-        count = count + 1
-
+    try:
         
-    ## convert the entire record into a list of records, each containing a list of id and sequence
-    file_list = []
-    for a in align:
-        record_list = []
-        # build record list
-        record_list.append(str(a.id))
-        record_list.append(str(a.seq))
-        # append to large list
-        file_list.append(record_list)
+        raw_lengths = []
+        handle = open(f, "rU")
+        for record in SeqIO.parse(handle, "fasta") :
+            raw_lengths.append(len(record.seq))
+        handle.close()
+        
+        print "Aligning FASTA file %s" % f
+        muscle_cline = MuscleCommandline(input=f, maxiters=max_iters, maxtrees=max_trees) # call muscle to align the fasta file
+        stdout, stderr = muscle_cline()
+        align = AlignIO.read(StringIO(stdout), "fasta")
+        lengths = []
+        for a in align:
+            lengths.append(len(a.seq))
 
-    ## convert the record.seq object to a list of characters for mainpulation
-    char_list = []
-    for a in align:
-        char_list.append(list(str(a.seq)))
+        character_score = []
 
-    ## calculate the density of all bases to be removed
-    for p in per_base_density:
-        if p == 1:
+        max_len = max(lengths)
+        all_lengths.append(max_len) # assign for later use in scatter plot
+
+        ## calculate the amount of missing data for entire alignment
+        missing_len = 0
+        total_len = 0
+        missing_data = 0
+        for a in align:
+            missing_len = missing_len + a.seq.count('-')
+            total_len = total_len + len(a.seq)
+
+        missing_data = float(missing_len)/float(total_len)
+
+        print "Removing bases with less than %s density." % density
+        ## Calculate density score for each column of the alignment
+        num_records = len(align)
+        per_base_density = []
+
+        count = 0
+        while count < max_len:
             den_count = 0
-            for c in char_list:
-                if c[p] is "-":
+            for a in align:
+                if a.seq[count] == "-":
                     den_count = den_count + 1
-            den_removed_bases.append(float(den_count)/float(len(char_list)))
-    
-    ## traverse the pos_index_list and remove the indexed character from each char_list starting with the highest index
-    pos_list = pos_index(per_base_density)
-    for p in reversed(pos_list):
-        for c in char_list:
-            del c[p]
+            if den_count >= (density*num_records):
+                per_base_density.append(1)
+            else:
+                per_base_density.append(0)
+            count = count + 1
 
-    ## convert list to a seqrecord object for easier manipulation
-    count = 0
-    record_list = []
-    for c in char_list:
-        seq_string = "".join(c)
-        file_list[count][1] = seq_string
-        record = SeqRecord(Seq(seq_string, IUPAC.unambiguous_dna), id=file_list[count][0], name=file_list[count][0], description=file_list[count][0])
-        record_list.append(record)
-        count = count + 1
-    
-    all_trim_lengths.append(len(record_list[0].seq))
-    ## write the original alignment to file
-    id_search = fasta_dir+"(.+?).fasta"
-    clean_file_id = re.search(id_search, f).group(1)
-    alignment_file = "".join([alignment_dir,clean_file_id,".phy"])
-    SeqIO.write(align, alignment_file, "phylip-relaxed") # write the good seq record list to the same file we started with
-    
-    ## write list of seq_records to fasta file
-    clean_file_id = re.search(id_search, f).group(1)
-    reduced_alignment_file = "".join([red_alignment_dir,clean_file_id,str(density)[1:],"_reduced.phy"])
-    SeqIO.write(record_list, reduced_alignment_file, "phylip-relaxed") # write the good seq record list to the same file we started with
-    
-    ## gather information for basic summary stats
-    per_align_stats = per_align_stats_calc(f, pos_list, raw_lengths, lengths)
-    per_align_stats.append(np.mean(den_removed_bases))
-    per_align_stats.append(missing_data)
-    per_align_stats.append(pos_list)
-    all_stats.append(per_align_stats)
-    per_bases_cut.append(per_align_stats[8])
+            
+        ## convert the entire record into a list of records, each containing a list of id and sequence
+        file_list = []
+        for a in align:
+            record_list = []
+            # build record list
+            record_list.append(str(a.id))
+            record_list.append(str(a.seq))
+            # append to large list
+            file_list.append(record_list)
+
+        ## convert the record.seq object to a list of characters for mainpulation
+        char_list = []
+        for a in align:
+            char_list.append(list(str(a.seq)))
+
+        ## calculate the density of all bases to be removed
+        for p in per_base_density:
+            if p == 1:
+                den_count = 0
+                for c in char_list:
+                    if c[p] is "-":
+                        den_count = den_count + 1
+                den_removed_bases.append(float(den_count)/float(len(char_list)))
+        
+        ## traverse the pos_index_list and remove the indexed character from each char_list starting with the highest index
+        pos_list = pos_index(per_base_density)
+        for p in reversed(pos_list):
+            for c in char_list:
+                del c[p]
+
+        ## convert list to a seqrecord object for easier manipulation
+        count = 0
+        record_list = []
+        for c in char_list:
+            seq_string = "".join(c)
+            file_list[count][1] = seq_string
+            record = SeqRecord(Seq(seq_string, IUPAC.unambiguous_dna), id=file_list[count][0], name=file_list[count][0], description=file_list[count][0])
+            record_list.append(record)
+            count = count + 1
+        
+        all_trim_lengths.append(len(record_list[0].seq))
+        ## write the original alignment to file
+        id_search = fasta_dir+"(.+?).fasta"
+        clean_file_id = re.search(id_search, f).group(1)
+        alignment_file = "".join([alignment_dir,clean_file_id,".phy"])
+        SeqIO.write(align, alignment_file, "phylip-relaxed") # write the good seq record list to the same file we started with
+        
+        ## write list of seq_records to fasta file
+        clean_file_id = re.search(id_search, f).group(1)
+        reduced_alignment_file = "".join([red_alignment_dir,clean_file_id,str(density)[1:],"_reduced.phy"])
+        SeqIO.write(record_list, reduced_alignment_file, "phylip-relaxed") # write the good seq record list to the same file we started with
+        
+        ## gather information for basic summary stats
+        per_align_stats = per_align_stats_calc(f, pos_list, raw_lengths, lengths)
+        per_align_stats.append(np.mean(den_removed_bases))
+        per_align_stats.append(missing_data)
+        per_align_stats.append(pos_list)
+        all_stats.append(per_align_stats)
+        per_bases_cut.append(per_align_stats[8])
+
+    except Exception():
+        pass
 
 
 ## create stats label
