@@ -73,7 +73,7 @@ alignments = glob.glob(alignment_dir + '/*.phy') # get a list of all phylip file
 alignment_names = [] #names of alignment files without directory or suffix
 print "\n\nGetting a list of alignment files..."
 for a in alignments:
-    name = re.search('alignments/(.+?).phy', a).group(1)
+    name = re.search('alignments/(.+?).5_reduced.phy', a).group(1)
     alignment_names.append(name)
 
 s = set(complete_trees)
