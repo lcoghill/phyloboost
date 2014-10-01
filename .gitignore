@@ -34,11 +34,6 @@ nosetests.xml
 .mr.developer.cfg
 .project
 .pydevproject
-trees.txt
 *test
-/private/config
-*.FASTA
 *.xml
 *.swp
-/input
-/output
