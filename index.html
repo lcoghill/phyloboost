@@ -32,31 +32,37 @@
       <section>
         <div id="title">
           <h1>Phyloboost</h1>
-          <p>Python pipeline to pull out and manipulate sequence sets for the cluster-based mid-point rooted tree data set released from the Phylota database</p>
+          <p>Python pipeline to work with and augment the similarity-based clusters of sequences released from the Phylota database</p>
 
         </div>
 
         <h3>
-<a name="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages"><span class="octicon octicon-link"></span></a>Welcome to GitHub Pages.</h3>
+<a name="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages"><span class="octicon octicon-link"></span></a>About</h3>
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
+<p>Phyloboost is a python pipeline that allows the reconstruction, augmentation and visualizaton of the similarity-based cluster sets constructed from the Phylota pipeline.</p>
 
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
-</code></pre>
+<a name="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages"><span class="octicon octicon-link"></span></a>Features</h3>
 
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
-
-<h3>
-<a name="designer-templates" class="anchor" href="#designer-templates"><span class="octicon octicon-link"></span></a>Designer Templates</h3>
-
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
+<ul>
+<li>Reconstruct the original cluster sets in FASTA format for easy use.
+<li>Augment / Expand the clusters with additional sequences through BLAST searches.
+<li>Build alignments for all of the cluster sets.
+<li>Build unrooted trees for all of those alignments.
+<li>Attempt to root those trees via convex subtree graph methods developed by Rick Ree.
+<li>Compare and visualize those trees aligned to the NCBI taxonomy.
+</ul>
 
 <h3>
 <a name="rather-drive-stick" class="anchor" href="#rather-drive-stick"><span class="octicon octicon-link"></span></a>Rather Drive Stick?</h3>
 
 <p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
+
+<h3>
+<a name="designer-templates" class="anchor" href="#designer-templates"><span class="octicon octicon-link"></span></a>Getting Started</h3>
+
+<pre><code>$ git clone https://github.com/lcoghill/phyloboost
+$ cd /phyloboost
+</code></pre>
 
 <h3>
 <a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
