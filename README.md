@@ -8,7 +8,7 @@ Phyloboost is a python pipeline that allows the reconstruction, augmentation and
 <li><b>Tools</b> - Scripts helpful in setting up / configuring some pieces of the pipeline and databases.
 <li><b>Phyloboost</b> - Web2py web application for visualizing the clusters, trees and taxonomy alignments.
 <ul>
-<p>
+<br>
 See the [webpage](https://lcoghill.github.io/phyloboost/) or [wiki](https://github.com/lcoghill/phyloboost/wiki) for more information.
 
 
