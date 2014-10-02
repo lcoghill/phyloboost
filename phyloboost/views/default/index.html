@@ -1,35 +1,16 @@
-{{left_sidebar_enabled,right_sidebar_enabled=False,('message' in globals())}}
 {{extend 'layout.html'}}
 
-{{if 'message' in globals():}}
-<h3>{{=message}}</h3>
+<h3>About</h3>
+Phyloboost is a python pipeline that allows the reconstruction, augmentation and visualizaton of the similarity-based cluster sets constructed from the Phylota pipeline. These clusters contain datasets encompassing all of eukaryota from Genbank with more than 60,000 genera. This site will let you explore, search and visualize that data set already constructed and curated. 
 
-<h4>{{=T('How did you get here?')}}</h4>
-<ol>
-  <li>{{=T('You are successfully running web2py')}}</li>
-  <li>{{=XML(T('You visited the url %s', A(request.env.path_info,_href=request.env.path_info)))}}</li>
-  <li>{{=XML(T('Which called the function %s located in the file %s',
-             (A(request.function+'()',_href='#'),
-              A('web2py/applications/%(application)s/controllers/%(controller)s.py'%request,
-               _href=URL('admin','default','peek', args=(request.application,'controllers',request.controller+'.py'))))))}}</li>
-  <li>{{=XML(T('The output of the file is a dictionary that was rendered by the view %s',
-           A('web2py/applications/%(application)s/views/%(controller)s/index.html'%request,
-           _href=URL('admin','default','peek',args=(request.application,'views',request.controller,'index.html')))))}}</li>
-  <li>{{=T('You can modify this application and adapt it to your needs')}}</li>
-</ol>
-{{elif 'content' in globals():}}
-{{=content}}
-{{else:}}
-{{=BEAUTIFY(response._vars)}}
-{{pass}}
-
-{{block right_sidebar}}
-{{=A(T("Administrative Interface"), _href=URL('admin','default','index'), _class='btn',
-     _style='margin-top: 1em;')}}
-<h6>{{=T("Don't know what to do?")}}</h6>
+<h3>Features</h3>
 <ul>
-  <li>{{=A(T("Online examples"), _href=URL('examples','default','index'))}}</li>
-  <li><a href="http://web2py.com">web2py.com</a></li>
-  <li><a href="http://web2py.com/book">{{=T('Documentation')}}</a></li>
+<li>Reconstruct the original cluster sets in FASTA format for easy use.
+<li>Augment / Expand the clusters with additional sequences through BLAST searches.
+<li>Filter the clusters removing taxonomically mislabled sequences.
+<li>Filter the clusters removing any 'known' tranposable elements.
+<li>Build alignments for all of the cluster sets.
+<li>Build unrooted trees for all of those alignments.
+<li>Attempt to root those trees via convex subtree graph methods developed by Rick Ree.
+<li>Compare and visualize those trees aligned to the NCBI taxonomy.
 </ul>
-{{end}}
