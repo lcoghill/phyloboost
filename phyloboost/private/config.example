@@ -1,0 +1,8 @@
+[db]
+dbname=phyloboost
+host=localhost
+user=
+password=
+
+[hosting]
+hostdomain = localhost:8000
