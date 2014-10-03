@@ -1,45 +1,56 @@
 def index():
-  theme = "smoothness"
-  for x in (
-      # 'DataTables-1.8.1/media/js/jquery.js',  # there's already a newer (Bootstrap-compatible) jQuery loaded!
-      'DataTables-1.8.1/media/js/jquery.dataTables.min.js',
-      'DataTables-1.8.1/media/css/bootstrap_table.css',
-      'DataTables-1.8.1/media/ui/css/%s/jquery-ui-1.8.5.custom.css' % theme):
-      response.files.append(URL('static',x))
 
-  colnames = ["Id", "TI", "Taxon", "Cluster ID",
-              "Sequence", "Genome", "Gene", "Accession",
-              "GI", "Version", "Mol. Type", "GB Div", "Description"]
-  widths = ["2%", "2%", "5%", "2%", "10%", "5%", "5%",
-            "5%", "2%", "2%", "5%", "2%", "53%"]
-  tid = "sequences"
-  table = TABLE(_id=tid, _class="display")
-  table.append(THEAD(TR(*[ TH(f, _width=w)
-                           for f, w in zip(colnames, widths) ])))
-  table.append(TBODY(TR(TD("Loading data from server",
-                           _colspan=len(colnames),
-                           _class="dataTables_empty"))))
-  table.append(TFOOT(TR(
-      TH(INPUT(_name="search_id",
-               _style="width:100%",_class="search_init",
-               _title="search Id" )),
-      TH(INPUT(_name="search_focal_clade",
-               _style="width:100%",_class="search_init",
-               _title="search focal clade" )),
-      TH(INPUT(_name="search_study",
-               _style="width:100%",_class="search_init",
-               _title="search study" )),
-      TH(INPUT(_name="search_type",
-               _style="width:100%",_class="search_init",
-               _title="search tree type" )),
-      TH(),
-      TH(INPUT(_name="search_uploaded",
-               _style="width:100%",_class="search_init",
-               _title="search uploaded" )),
-      TH(INPUT(_name="search_person",
-               _style="width:100%",_class="search_init",
-               _title="search person" )))))
+  form=FORM('Show :', INPUT(_name='count'), INPUT(_type='submit'))
 
+  if form.vars.count :
+    rec_num = form.vars.count
+
+  else:
+    rec_num = 10
+
+  if request.args(0) :
+    if request.vars.d == 'next' :
+      start = int(request.args(0))
+      end = int(start) + rec_num
+
+    if request.vars.d == 'back' :
+      start = (int(request.args(0)) - rec_num) - 1
+      end = int(request.args(0)) - 1
+    
+  else:
+    start = 0
+    end = rec_num
+
+
+  rows = db().select(db.sequences.ALL, limitby=(start, end))#.as_list()
+  return dict(rows=rows, form=form, rec_num=rec_num)
+
+def view():
+
+  rec = str(request.args(0))
+  row = db(db.sequences.id==rec).select()
   
-  rows = db(db.sequences.id > 10).select()
-  return dict(tid=tid, rows=rows)
+  stats = []
+  a = 0.0
+  g = 0.0
+  c = 0.0
+  t = 0.0
+
+  for l in row[0]['sequence']:
+    if l is 'a':
+      a += 1
+    elif l is 'g':
+      g += 1
+    elif l is 'c':
+      c += 1
+    else:
+      t += 1
+
+  seq_len = len(row[0]['sequence'])
+  stats.append(round(float(a/seq_len)*100,2))
+  stats.append(round(float(g/seq_len)*100,2))
+  stats.append(round(float(c/seq_len)*100,2))
+  stats.append(round(float(t/seq_len)*100,2))
+
+
+  return dict(row=row, stats=stats)
