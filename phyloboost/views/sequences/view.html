@@ -1,44 +1,112 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+{{ globals()['right_sidebar_enabled']=True }}
+{{extend 'layout.html'}}
 
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="{{=T.accepted_language or 'en'}}">
 
-    <head>
-        <title>View Source Tree</title>
+<table width="100%">
+<tr>
+<td style="background: #d3d3d3"><b>Record Identity for Sequence {{=row[0]['id']}}</b></td>
+</tr>
+</table>
 
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<table>
+<tr>
+<td width="20%">NCBI TI: </td>
+<td>{{=row[0]['ti']}}</td>
+</tr>
+<tr>
+<td width="20%">NCBI GI: </td>
+<td><a href="http://www.ncbi.nlm.nih.gov/nuccore/{{=row[0]['gi']}}">{{=row[0]['gi']}}</td>
+</tr>
+<tr>
+<td width="20%">NCBI Accession: </td>
+<td><a href="http://www.ncbi.nlm.nih.gov/nuccore/{{=row[0]['accession']}}">{{=row[0]['accession']}}</a></td>
+</tr>
+<tr>
+<td width="20%">Taxon Name: </td>
+<td><a href="http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id={{=row[0]['ti']}}">{{=row[0]['tax_name']}}</td>
+</tr>
+<tr>
+<td width="20%">Phyloboost Version: </td>
+<td>{{=row[0]['pb_version']}}</td>
+</tr>
+</table>
 
-        {{include 'web2py_ajax.html'}}
+<table width="100%">
+<tr>
+<td style="background: #d3d3d3"><b>Meta Data</b></td>
+</tr>
+</table>
 
-        <script type="text/javascript" src="{{=URL(request.application,'static','raphael.js')}}"></script>
-        <script type="text/javascript" src="{{=URL(request.application,'static','jquery.js')}}"></script>
-        <script type="text/javascript" src="{{=URL(request.application,'static','jquery-ui-1.8.5.custom.min.js')}}"></script>
-        <script type="text/javascript" src="{{=URL(request.application,'static','jquery.corners.js')}}"></script>
-        <script type="text/javascript" src="{{=URL(request.application,'static','utility.js')}}"></script>
-        <script type="text/javascript" src="{{=URL(request.application,'static','globals.js')}}"></script>
+<table>
+<tr>
+<td width="20%">Estimated Genome: </td>
+<td>{{=row[0]['genome']}}</td>
+</tr>
+<tr>
+<td width="20%">Gene: </td>
+<td><a href="https://www.wikigenes.org/search.html?search={{=row[0]['gene']}}">{{=row[0]['gene']}}</td>
+</tr>
+<tr>
+<td width="20%">Molecule Type: </td>
+<td>{{=row[0]['mol_type']}}</a></td>
+</tr>
+<tr>
+<td width="20%">Genbank Division: </td>
+<td>{{=row[0]['genbank_div']}}</td>
+</tr>
+</table>
 
-        <script type="text/javascript" src="{{=URL(request.application,'static','widgetUtil.js')}}"></script>
+<table>
+<tr>
+<td style="background: #d3d3d3"><b>Description: </b></td>
+</tr>
+<tr>
+<td>{{=row[0]['description']}}</td>
+</tr>
+</table>
 
-        <link rel="stylesheet" media="screen,projection" type="text/css" href="{{=URL(request.application,'static','jquery-ui-1.8.5.custom.css')}}" />
-        <link rel="stylesheet" media="screen,projection" type="text/css" href="{{=URL(request.application,'static','custom.css')}}" />
-    </head>
+<table width="100%">
+<tr>
+<td style="background: #d3d3d3"><b>Sequence: </b></td>
+</tr>
+</table>
 
-    <body>
 
-        <div id="modalBoxContainer">
-            {{=LOAD(c='widget', f='modalBox', extension='load', ajax=True, target='modalBoxContainer')}}
-        </div>
+<table>
+<tr>
+<td>
+<div style="width: 750px; text-overflow: ellipsis; word-wrap: break-word; white-space: no-wrap;">
+{{=row[0]['sequence'].upper()}}
+</div>
+</td>
+</tr>
+</table>
 
-        <div id="treeContainer" class=" blackBorder width95 height95">        
-            {{=LOAD(c='widget', f='stree_vis_edit_taxon', extension='load', vars=dict(treeId=request.args(0)), ajax=True, target='treeContainer')}}
-        </div>
 
-        <script type="text/javascript" charset="utf-8">
-            globals.applicationName = '{{=request.application}}';
-        </script>
 
-    </body>
-
-</html>
-
-              
+{{block right_sidebar}}
+<table>
+<tr>
+<td width="100%" colspan="2" style="background: #d3d3d3">Record Statistics</td></tr>
+<tr>
+<td>Sequence Length: </td>
+<td>{{=len(row[0]['sequence'])}}</td>
+</tr>
+<tr>
+<td>Percent A: </td>
+<td>{{=stats[0]}}</td>
+</tr>
+<tr>
+<td>Percent G: </td>
+<td>{{=stats[1]}}</td>
+</tr>
+<tr>
+<td>Percent C: </td>
+<td>{{=stats[2]}}</td>
+</tr>
+<tr>
+<td>Percent T: </td>
+<td>{{=stats[3]}}</td>
+</tr>
+</table>
+{{end}}              
