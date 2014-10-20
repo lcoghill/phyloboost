@@ -32,7 +32,7 @@
       <section>
         <div id="title">
           <h1>Phyloboost</h1>
-          <center><h4><i>version 1.0</i></h4></center>
+          <center><h4><i>version 1.3</i></h4></center>
           <p>Python pipeline to work with and augment the similarity-based clusters of sequences released from the Phylota database</p>
 
         </div>
@@ -40,8 +40,7 @@
         <h3>
 <a name="about" class="anchor" href="#about"><span class="octicon octicon-link"></span></a>About</h3>
 
-<p>Phyloboost is a python pipeline that allows the reconstruction, augmentation and visualizaton of the similarity-based cluster sets constructed from the <a href="http://www.phylota.net">Phylota</a> pipeline. These clusters
-  contain datasets encompassing all of eukaryota from Genbank with more than 60,000 genera.
+<p>PPhyloboost is a python pipeline that allows the reconstruction, augmentation and visualizaton of the similarity-cluster-based tree sets constructed from the Phylota pipeline. These trees are unrooted trees built from datasets encompassing all of eukaryota from Genbank with more than 60,000 genera. Phyloboost allows you to augment those trees by adding new sequences to the clusters, rebuilding the alignments and trees, and then attempt to build rooted trees from those trees sets via graph-based methods by aligning them with the NCBI taxonomy.
 </p>
 
 <h3><a name="features" class="anchor" href="#features"><span class="octicon octicon-link"></span></a>Features</h3>
@@ -53,7 +52,7 @@
 <li>Filter the clusters removing any 'known' tranposable elements.</li>
 <li>Build alignments for all of the cluster sets.
 <li>Build unrooted trees for all of those alignments.
-<li>Attempt to root those trees via convex subtree graph methods developed by <a href="https://github.com/rhr/ivy/blob/master/ivy/treegraph.py">Rick Ree</a>.
+<li>Attempt to root those trees via convex subtree graph methods.
 <li>Compare and visualize those trees aligned to the NCBI taxonomy.
 </ul>
 
