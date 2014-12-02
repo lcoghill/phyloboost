@@ -1,10 +1,17 @@
+from Bio.Seq import Seq
+from Bio.SeqRecord import SeqRecord
+from Bio.Alphabet import IUPAC
+
+
+
 def index():
 
-  form=FORM('Show :', INPUT(_name='count'), INPUT(_type='submit'))
+  if request.vars.rec_count :
+    rec_num = int("".join(request.vars.rec_count))
 
-  if form.vars.count :
-    rec_num = form.vars.count
-
+  elif request.vars.c :
+    rec_num = int(request.vars.c)
+  
   else:
     rec_num = 10
 
@@ -13,17 +20,26 @@ def index():
       start = int(request.args(0))
       end = int(start) + rec_num
 
-    if request.vars.d == 'back' :
-      start = (int(request.args(0)) - rec_num) - 1
-      end = int(request.args(0)) - 1
-    
+    elif request.vars.d == 'back' :
+      if rec_num < int(request.args(0)) :
+        start = 0
+        end = int(request.args(0)) - 1
+      else:
+        start = (int(request.args(0)) - rec_num) - 1
+        end = int(request.args(0)) - 1
+
+    else:
+      start = int(request.args(0))
+      end = int(request.args(0)) + rec_num
+
   else:
     start = 0
     end = rec_num
 
 
-  rows = db().select(db.sequences.ALL, limitby=(start, end))#.as_list()
-  return dict(rows=rows, form=form, rec_num=rec_num)
+  rows = db().select(db.sequences.ALL, limitby=(start, end))
+  total_count = db.executesql('SELECT COUNT(*) FROM sequences;')[0][0]
+  return dict(rows=rows, rec_num=rec_num, total_count=total_count)
 
 def view():
 
@@ -54,3 +70,31 @@ def view():
 
 
   return dict(row=row, stats=stats)
+
+def search():
+
+  #if request.vars.search and len(request.vars.search) > 3 :
+  if request.vars.search and len(request.vars.search) >= 3 and request.vars.field:
+    rec = "".join(request.vars.search)
+    q = "".join(["'",rec,"%'"])
+    col_name = "".join(request.vars.field)
+    #rows = db(db.sequences.tax_name.like(q)).select(limitby=(0, 5))
+    query = "".join(["SELECT * FROM sequences WHERE ", col_name, " LIKE ", q," limit 10;"])
+    #SELECT * FROM sequences WHERE tax_name LIKE 'Sus%' limit 10;
+    rows = db.executesql(query)
+    return dict(rows=rows, table_id=col_name)
+  else:
+    return dict(rows=None)
+
+def fasta():
+  rec = request.args(0)
+  row = db(db.sequences.id==rec).select().as_list()
+  rec_id = "".join(["gi",str(row[0]['gi']),"_ti",str(row[0]['ti'])])
+  record = SeqRecord(Seq(row[0]['sequence'].upper(),
+                   IUPAC.protein),
+                   id=rec_id, name=row[0]['tax_name'],
+                   description=row[0]['description'])
+
+  f_name = rec_id+".fas"
+  
+  return dict(fasta=record.format("fasta"), f_name=f_name)
