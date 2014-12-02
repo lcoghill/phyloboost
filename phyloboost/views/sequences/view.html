@@ -85,7 +85,7 @@
 
 
 {{block right_sidebar}}
-<table>
+<table width="100%">
 <tr>
 <td width="100%" colspan="2" style="background: #d3d3d3">Record Statistics</td></tr>
 <tr>
@@ -109,4 +109,16 @@
 <td>{{=stats[3]}}</td>
 </tr>
 </table>
-{{end}}              
+
+<table width="100%">
+<tr>
+<td width="100%" colspan="2" style="background: #d3d3d3">Download</td></tr>
+<tr>
+<td style="padding-top: 15px;" width="100%" colspan="2">
+<form action="{{=URL(c='sequences', f='fasta', args=row[0]['id'])}}">
+<button type="submit">Get FASTA</button>
+</form>
+</td>
+</tr>
+</table>
+{{end}}

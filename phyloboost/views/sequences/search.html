@@ -1,5 +1,56 @@
-{{extend "layout.html"}}
-<h1>Find trees</h1>
-{{=form}}
-<p>
-{{=results}}
+{{extend 'layout.html'}}
+<form>
+   <input type='text' name="search" onsubmit="ajax('{{=URL('sequences', 'search')}}', ['search'], 'results')" />
+   <select name='field'>
+   <option value="tax_name" onsubmit="ajax('{{=URL('sequences', 'search')}}', ['field'], 'results')">Taxa Name</option>
+   <option value="ti" onsubmit="ajax('{{=URL('sequences', 'search')}}', ['field'], 'results')">NCBI TI</option>
+   <option value="gi" onsubmit="ajax('{{=URL('sequences', 'search')}}', ['field'], 'results')">NCBI GI</option>
+   <option value="accession" onsubmit="ajax('{{=URL('sequences', 'search')}}', ['field'], 'results')">NCBI Accession</option>
+   </select>
+</form>
+<div id="results">
+{{if rows:}}
+<table style="border-radius:5px;-moz-border-radius:5px;-webkit-border-radius:5px;" width="100%" border="1">
+<tr>
+<td bgcolor="#d3d3d3"><b>ID</b></td>
+<td bgcolor="#d3d3d3"><b>CI</b></td>
+{{if table_id == 'ti':}}
+<td bgcolor="#FFFC7F"><b>NCBI TI</b></td>
+{{else:}}
+<td bgcolor="#d3d3d3"><b>NCBI TI</b></td>
+{{pass}}
+{{if table_id == 'gi' :}}
+<td bgcolor="#FFFC7F"><b>NCBI GI</b></td>
+{{else:}}
+<td bgcolor="#d3d3d3"><b>NCBI GI</b></td>
+{{pass}}
+{{if table_id == 'accession':}}
+<td bgcolor="#FFFC7F"><b>Accession</b></td>
+{{else:}}
+<td bgcolor="#d3d3d3"><b>Accession</b></td>
+{{pass}}
+{{if table_id == 'tax_name':}}
+<td bgcolor="#FFFC7F"><b>Taxa Name</b></td>
+{{else:}}
+<td bgcolor="#d3d3d3"><b>Taxa Name</b></td>
+{{pass}}
+<td bgcolor="#d3d3d3"><b>Genome</b></td>
+<td bgcolor="#d3d3d3"><b>Version</b></td>
+<td bgcolor="#d3d3d3"></td>
+</tr>
+{{for r in rows:}}
+<tr>
+<td>{{=r[0]}}</td>
+<td>{{=r[3]}}</td>
+<td>{{=r[1]}}</td>
+<td><a href="http://www.ncbi.nlm.nih.gov/nuccore/{{=r[8]}}">{{=r[8]}}</a></td>
+<td><a href="http://www.ncbi.nlm.nih.gov/nuccore/{{=r[7]}}">{{=r[7]}}</a></td>
+<td><a href="http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id={{=r[1]}}">{{=r[2]}}</a></td>
+<td>{{=r[5]}}</td>
+<td>{{=r[9]}}</td>
+<td><a href="{{=URL('sequences', 'view', args=r[0])}}">Full Record</a></td>
+</tr>
+{{pass}}
+</table>
+</div>
+{{pass}}
