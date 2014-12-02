@@ -39,3 +39,4 @@ nosetests.xml
 *.swp
 data/
 phyloboost/private/config
+phyloboost/sessions/
