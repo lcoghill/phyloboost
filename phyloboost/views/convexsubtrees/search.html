@@ -1,0 +1,35 @@
+{{extend 'layout.html'}}
+<form>
+   <input type='text' name="search" onsubmit="ajax('{{=URL('convexsubtrees', 'search')}}', ['search'], 'results')" />
+   <select name='field'>
+   <option value="id" onsubmit="ajax('{{=URL('convexsubtrees', 'search')}}', ['field'], 'results')">Tree ID</option>
+   <option value="root_taxon" onsubmit="ajax('{{=URL('convexsubtrees', 'search')}}', ['field'], 'results')">Taxa Name</option>
+   <option value="root_ti" onsubmit="ajax('{{=URL('convexsubtrees', 'search')}}', ['field'], 'results')">Root TI</option>
+   <option value="gi" onsubmit="ajax('{{=URL('convexsubtrees', 'search')}}', ['field'], 'results')">Clades contain GI</option>
+   <option value="ti" onsubmit="ajax('{{=URL('convexsubtrees', 'search')}}', ['field'], 'results')">Clades contain TI</option>
+   </select>
+</form>
+<div id="results">
+{{if rows:}}
+<table style="border-radius:5px;-moz-border-radius:5px;-webkit-border-radius:5px;" width="100%" border="1">
+<tr>
+<td bgcolor="#d3d3d3"><b>ID</b></td>
+<td bgcolor="#d3d3d3"><b>TI_CI</b></td>
+<td bgcolor="#d3d3d3"><b>Root TI</b></td>
+<td bgcolor="#d3d3d3"><b>Taxon Name</b></td>
+<td bgcolor="#d3d3d3"><b>Newick</b></td>
+<td bgcolor="#d3d3d3"><b>Full Record</b></td>
+</tr>
+{{for r in rows:}}
+<tr>
+<td>{{=r[0]}}</td>
+<td>{{=r[1]}}</td>
+<td>{{=r[2]}}</td>
+<td>{{=r[3]}}</td>
+<td><a href="#">Download</a></td>
+<td><a href="{{=URL('convexsubtrees', 'view', args=r[0])}}">Full Record</a></td>
+</tr>
+{{pass}}
+</table>
+</div>
+{{pass}}
