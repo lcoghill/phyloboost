@@ -1,10 +1,10 @@
 import datetime, socket, os, sys
 import MySQLdb
-from gluon.dal import MySQLAdapter
+from gluon.dal.adapters import MySQLAdapter
 from ConfigParser import SafeConfigParser
 from gluon.tools import *
 
-MySQLAdapter.driver = MySQLdb
+MySQLAdapter.driver = globals().get('MySQLdb',None)
 defaults = dict(host="localhost", user="guest", password="guest", dbname="phyloboost")
 conf = SafeConfigParser(defaults)
 user = password = dbname = host = ''
@@ -24,6 +24,7 @@ else:
     password = conf.get("db", "password")
     dbname = conf.get("db", "dbname")
 
+
 db = DAL("mysql://%s:%s@%s/%s" % (user, password, host, dbname), migrate=False, migrate_enabled=False )
 
 ## mail = Mail()                    # mailer
@@ -41,11 +42,11 @@ except:
     host = "localhost:8000"
 
 db.define_table('convex_subtrees', 
-    Field('id', 'id'),                       
-    Field('ci', 'integer'),                  
-    Field('date', 'date'),                   
-    Field('tree', 'text'),                   
-    Field('method', 'string'),               
+    Field('id', 'integer'),                       
+    Field('ti_ci', 'text'),                  
+    Field('root_ti', 'integer'),                   
+    Field('root_taxon', 'text'),                   
+    Field('tree', 'text'),               
     )
 
 db.define_table('sequences', 
