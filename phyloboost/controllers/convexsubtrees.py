@@ -67,14 +67,13 @@ def view():
 
 def search():
 
-  if request.vars.search and len(request.vars.search) >= 3 and request.vars.field:
+  if request.vars.search and request.vars.field:
     rec = "".join(request.vars.search)
     field_name = "".join(request.vars.field)
     
     if field_name == "id" :
       col_name = "id"
-      q = rec
-      query = "".join(["SELECT * FROM convex_subtrees WHERE ", col_name, " = ", q,";"])
+      query = "".join(["SELECT * FROM convex_subtrees WHERE id=", rec,";"])
     elif field_name == "root_taxon" :
       col_name = "root_taxon"
       q = "".join(["'",rec,"%'"])
