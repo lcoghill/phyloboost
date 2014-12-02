@@ -262,3 +262,9 @@ div.controls .error {
         margin-left: -20px;
     }
 }
+
+.wrapspan { 
+    display:block;
+    width:80px;
+    word-wrap:break-word;
+}
