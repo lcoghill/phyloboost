@@ -40,3 +40,5 @@ nosetests.xml
 data/
 phyloboost/private/config
 phyloboost/sessions/
+phyloboost/progress.log
+phyloboost/errors/
