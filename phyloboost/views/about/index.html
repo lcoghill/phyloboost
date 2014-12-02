@@ -1,0 +1,60 @@
+{{globals()['right_sidebar_enabled']=True }}
+{{extend 'layout.html'}}
+<table width="100%">
+<tr>
+<td style="background: #d3d3d3" colspan="2" width="100%"><b>Pipeline</b></td>
+</tr>
+<tr>
+<td width="40%">Phyloboost Version:</td>
+<td>{{=row[1]}}</td>
+</tr>
+<tr>
+<td width="40%">Creation Date:</td>
+<td>{{=row[2]}}</td>
+</tr>
+<tr>
+<td width="40%">Status:</td>
+<td><font color="green">Active</font></td>
+</tr>
+<tr>
+<td style="background: #d3d3d3" colspan="2" width="100%"><b>Input Data</b></td>
+</tr>
+<tr>
+<td width="40%">NCBI Taxonomy:</td>
+<td>{{=row[4]}}</td>
+</tr>
+<tr>
+<td width="40%">Phylota Version:</td>
+<td>{{=row[5]}}</td>
+</tr>
+<tr>
+<td width="40%">Genbank Version:</td>
+<td>{{=row[6]}}</td>
+</tr>
+<tr>
+<td width="40%">Repbase Version:</td>
+<td>{{=row[7]}}</td>
+</tr>
+</table>
+
+{{block right_sidebar}}
+<table width="100%">
+<tr>
+<td width="100%" colspan="2" style="background: #d3d3d3"><b>Current Version</b></td></tr>
+<tr>
+<td style="padding-top: 15px;" width="100%" colspan="2"><button>Download SQL Dump</button></td>
+<td></td>
+</tr>
+</table>
+
+<table width="100%">
+<tr>
+<td width="100%" colspan="2" style="background: #d3d3d3; top-padding: 15px;"><b>Previous Versions</b></td></tr>
+{{for r in all_rows:}}
+<tr>
+<td>{{=r[2]}}: </td>
+<td><a href="">{{=r[1]}}</a></td>
+</tr>
+{{pass}}
+</table>
+{{end}}
