@@ -25,20 +25,28 @@ app = request.application
 ctr = request.controller
 response.menu = [
     (T('Home'), False, URL('default', 'index'), []),
-    (T('About'), False, URL('about', 'index'), []),
-    (SPAN('Sequences'), 'sequences', False, [   
+        
+        (SPAN('Sequences'), URL('sequences', 'index'), False, [   
         (T('Browse All Sequences'), False, URL('sequences', 'index')),
         (T('Search Sequences'), False, URL('sequences', 'search'))]),
         
-        (SPAN('Clusters'), False, 'clusters', [   
+        (SPAN('Clusters'), False, URL('clusters', 'index'), [   
         (T('Browse All Clusters'), False, URL('admin', 'default', 'site')),
         (T('Search Clusters'), False, URL('admin', 'default', 'design/%s' % app))]),
         
-        (SPAN('Trees'), False, 'trees', [   
-        (T('Browse All Unrooted Trees'), False, URL('trees', 'index')),
+        (SPAN('Convex Subtrees'), False, URL('convexsubtrees', 'index'), [   
         (T('Browse All Convex Subtrees'), False, URL('convexsubtrees', 'index')),
-        (T('Search Unrooted Subtrees'), False, URL('trees', 'search')),
-        (T('Search Convex Subtrees'), False, URL('convexsubtrees', 'search'))])]
+        (T('Search Convex Subtrees'), False, URL('convexsubtrees', 'search'))]),
 
+        (SPAN('Trees'), False, URL('convexsubtrees', 'index'), [   
+        (T('Browse All Unrooted Trees'), False, URL('trees', 'index')),
+        (T('Search Unrooted Subtrees'), False, URL('trees', 'search'))]),
+        
+        (SPAN('About'), URL('about', 'index'), False, [   
+        (T('About Phyloboost'), False, URL('about', 'index')),
+        (T('Methods'), False, URL('about', 'methods')),
+        (T('Bibliography'), False, URL('about', 'bibliography')),
+        (T('Credits'), False, URL('about', 'credits'))])]
+           
 
 #if "auth" in locals(): auth.wikimenu()
