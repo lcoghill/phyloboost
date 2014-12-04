@@ -14,7 +14,11 @@
 </tr>
 <tr>
 <td width="40%">Status:</td>
-<td><font color="green">Active</font></td>
+{{if row[3]==1:}}
+<td><font color="green">Current</font></td>
+{{else:}}
+<td><font color="red">Deprecated</font></td>
+{{pass}}
 </tr>
 <tr>
 <td style="background: #d3d3d3" colspan="2" width="100%"><b>Input Data</b></td>
@@ -53,8 +57,7 @@
 {{for r in all_rows:}}
 <tr>
 <td>{{=r[2]}}: </td>
-<td><a href="">{{=r[1]}}</a></td>
+<td><a href="{{=URL('about', 'index', args=r[1])}}">{{=r[1]}}</a></td>
 </tr>
 {{pass}}
 </table>
-{{end}}
