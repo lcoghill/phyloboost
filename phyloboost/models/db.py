@@ -67,11 +67,8 @@ db.define_table('sequences',
 
 db.define_table('trees', 
     Field('id', 'id'),                       
-    Field('ci', 'integer'),                  
-    Field('ti', 'integer'),                  
+    Field('ti_ci', 'text'),                  
     Field('tree', 'text'),                   
-    Field('method', 'string'),               
-    Field('date', 'date'),                   
     )
 
 db.define_table('versions', 
