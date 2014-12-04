@@ -24,9 +24,9 @@
 <tr>
 <td>{{=r[0]}}</td>
 <td>{{=r[1]}}</td>
-<td>{{=r[2]}}</td>
-<td>{{=r[3]}}</td>
-<td><a href="#">Download</a></td>
+<td><a href="http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id={{=r[2]}}">{{=r[2]}}</td>
+<td><a href="http://www.ncbi.nlm.nih.gov/taxonomy/?term={{=r[3].split(",")[0]}}">{{=r[3]}}</a></td>
+<td><a href="{{=URL('convexsubtrees', 'newick.txt', args=r[0])}}">Download</a></td>
 <td><a href="{{=URL('convexsubtrees', 'view', args=r[0])}}">Full Record</a></td>
 </tr>
 {{pass}}

@@ -11,11 +11,11 @@
 <table>
 <tr>
 <td width="20%">Root TI: </td>
-<td><a href="http://www.ncbi.nlm.nih.gov/taxonomy/{{=row[0]['root_ti']}}">{{=row[0]['root_ti']}}</td>
+<td><a href="http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id={{=row[0]['root_ti']}}">{{=row[0]['root_ti']}}</td>
 </tr>
 <tr>
 <td width="20%">Root Taxon: </td>
-<td><a href="http://www.ncbi.nlm.nih.gov/taxonomy/{{=row[0]['root_taxon'].split(",")[0]}}">{{=row[0]['root_taxon']}}</a></td>
+<td><a href="http://www.ncbi.nlm.nih.gov/taxonomy/?term={{=row[0]['root_taxon'].split(",")[0]}}">{{=row[0]['root_taxon']}}</a></td>
 </tr>
 </table>
 
@@ -49,7 +49,7 @@
 <tr>
 <td width="100%" colspan="2" style="background: #d3d3d3">Visualizations</td></tr>
 <tr>
-<td><a href="#">View Phylogram</a></td>
+<td><a href="{{=URL('convexsubtrees', 'phylogram', args=row[0]['id'])}}">View Phylogram</a></td>
 </tr>
 <tr>
 <td><a href="#">View Tree Aligned to NCBI Taxonomy</a></td>

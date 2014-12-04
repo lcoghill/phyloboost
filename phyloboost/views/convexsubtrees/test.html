@@ -1,0 +1,25 @@
+<html>
+<head>
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+</head>
+<body>
+<div name="blob">
+<script>
+$(document).ready(function() {
+// Handler for .ready() called.
+
+var jqxhr =
+    $.ajax({
+        url: "convexsubtrees/newick.txt/3",
+        data: {
+            name : "The name",
+            desc : "The description"
+        }
+    })
+    .done  (function(data, textStatus, jqXHR)        { alert("Success: " + response) ; })
+
+};
+</script>
+</div>
+</body>
+</html>

@@ -43,7 +43,7 @@
 <td width="10%">{{=r['root_ti']}}</td>
 <td width="10%">
 <a href="http://www.ncbi.nlm.nih.gov/taxonomy/?term={{=r['root_taxon'].split(",")[0]}}">{{=r['root_taxon']}}</a></td>
-<td width="10%"><a href="http://www.ncbi.nlm.nih.gov/nuccore/{{=r['tree']}}">Download</a></td>
+<td width="10%"><a href="{{=URL('convexsubtrees', 'newick.txt', args=r['id'])}}">Download</a></td>
 <td width="10%"><a href="{{=URL('convexsubtrees', 'view', args=r['id'])}}">Full Record</a></td>
 </tr>
 {{pass}}
