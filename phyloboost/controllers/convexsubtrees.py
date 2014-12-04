@@ -108,3 +108,38 @@ def fasta():
   f_name = rec_id+".fas"
   
   return dict(fasta=record.format("fasta"), f_name=f_name)
+
+def phylogram():
+   
+   rec = str(request.args(0))
+   row = db(db.convex_subtrees.id==rec).select()
+   tree = Phylo.read(StringIO(row[0]['tree']), "newick")
+   labels = []
+ 
+  
+   for clade in tree.find_clades() :
+    if clade.name != None :
+      labels.append(clade.name)
+
+   gis = []
+   tis = []
+
+   for l in labels :
+    gis.append(l.split("_")[0][2:])
+    tis.append(l.split("_")[1][2:])
+
+   gis = set(gis)
+   tis = set(tis)
+
+   return dict(rec=rec, row=row, gis=gis, tis=tis)
+
+def newick():
+    rec = request.args(0)
+    query = "".join(["SELECT * FROM convex_subtrees WHERE id=", rec,";"])
+    rows = db.executesql(query)
+    tree = rows[0][4]
+    tree = rows[0][4]
+    tree = tree.replace(",", ":1.0,")
+    tree = tree.replace(")", ":1.0)")
+
+    return dict(tree=tree)
