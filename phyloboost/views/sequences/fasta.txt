@@ -1,4 +1,4 @@
 {{=fasta}}
-{{response.headers['Content-Type']='application/text'}}
+{{response.headers['Content-Type']='text/HTML'}}
 {{response.headers['Accept-charset']='ISO 8859-1'}}
 {{response.headers['Content-Disposition']='attachment; filename=%s' %f_name}}

@@ -97,4 +97,4 @@ def fasta():
 
   f_name = rec_id+".fas"
   
-  return dict(fasta=record.format("fasta"), f_name=f_name)
+  return dict(fasta=unicode(record.format("fasta"), "utf-8"), f_name=f_name)
