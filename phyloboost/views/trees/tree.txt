@@ -1,0 +1,11 @@
+{{=tree}}
+{{response.headers['Content-Type']='text/HTML'}}
+{{response.headers['Accept-charset']='ISO 8859-1'}}
+{{response.headers['Content-Disposition']='attachment; filename=%s' %f_name}}
+{{
+###
+# response._vars contains the dictionary returned by the controller action
+###
+response.write(response._vars['newick'])
+response.headers['Content-Type']='text/plain'
+}}

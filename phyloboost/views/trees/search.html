@@ -1,0 +1,29 @@
+{{extend 'layout.html'}}
+<form>
+   <input type='text' name="search" onsubmit="ajax('{{=URL('trees', 'search')}}', ['search'], 'results')" />
+   <select name='field'>
+   <option value="id" onsubmit="ajax('{{=URL('trees', 'search')}}', ['field'], 'results')">Tree ID</option>
+   <option value="gi" onsubmit="ajax('{{=URL('trees', 'search')}}', ['field'], 'results')">Clades contain GI</option>
+   <option value="ti_ci" onsubmit="ajax('{{=URL('trees', 'search')}}', ['field'], 'results')">Ti_Ci</option>
+   </select>
+</form>
+<div id="results">
+{{if rows:}}
+<table style="border-radius:5px;-moz-border-radius:5px;-webkit-border-radius:5px;" width="100%" border="1">
+<tr>
+<td bgcolor="#d3d3d3"><b>ID</b></td>
+<td bgcolor="#d3d3d3"><b>TI_CI</b></td>
+<td bgcolor="#d3d3d3"><b>Unique Leaves (GIs)</b></td>
+<td bgcolor="#d3d3d3"><b>Newick</b></td>
+</tr>
+{{for r in rows:}}
+<tr>
+<td>{{=r[0]}}</td>
+<td>{{=r[1]}}</td>
+<td>{{=gi_counts[r[0]]}}</td>
+<td><a href="{{=URL('trees', 'newick.txt', args=r[0])}}">Download</a></td>
+</tr>
+{{pass}}
+</table>
+</div>
+{{pass}}

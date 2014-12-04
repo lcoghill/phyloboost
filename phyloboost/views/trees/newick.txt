@@ -1,0 +1,4 @@
+{{
+response.write(response._vars['tree'])
+response.headers['Content-Type']='text/plain'
+}}
