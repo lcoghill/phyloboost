@@ -1,0 +1,55 @@
+{{extend 'layout.html'}}
+
+<table width="100%">
+<tr>
+<td colspan="3" valign="bottom">
+<form>
+   <select name='rec_count'>
+   <option value="10">10 Records</option>
+   <option value="25">25 Records</option>
+   <option value="50">50 Records</option>
+   <option value="100">100 Records</option>
+   </select>
+<input type="submit" value="Update" onsubmit="ajax('{{=URL('sequences')}}', ['rec_count'], 'results')">
+</form>	
+</td>
+<div id="results">
+<td style="text-align: right; vertical-align: bottom;" colspan="6">
+{{if rows[0]['id'] == 1:}}
+<b>Previous</b> | 
+<a href="{{=URL(args=rows[-1]['id'], vars=dict(d='next', c=rec_num))}}"><b>Next</b></a></td>
+{{elif rec_num > rows[0]['id']:}}
+<a href="{{=URL(args=rows[0]['id'], vars=dict(d='back', c=rows[0]['id']))}}"><b>Previous</b></a> | 
+<a href="{{=URL(args=rows[-1]['id'], vars=dict(d='next', c=rec_num))}}"><b>Next</b></a></td>
+{{else:}}
+<a href="{{=URL(args=rows[0]['id'], vars=dict(d='back', c=rec_num))}}"><b>Previous</b></a> | 
+<a href="{{=URL(args=rows[-1]['id'], vars=dict(d='next', c=rec_num))}}"><b>Next</b></a></td>
+</tr>
+</table>
+{{pass}}
+<table style="border-radius:5px;-moz-border-radius:5px;-webkit-border-radius:5px;" width="100%" border="1">
+<tr>
+<td width="10%" bgcolor="#d3d3d3"><b>ID</b></td>
+<td width="10%" bgcolor="#d3d3d3"><b>Phylota CI</b></td>
+<td width="10%" bgcolor="#d3d3d3"><b>Number of Sequences</b></td>
+<td width="10%" bgcolor="#d3d3d3"><b>Longest Sequence (GI)</b></td>
+<td width="10%" bgcolor="#d3d3d3"><b>Gene</b></td>
+<td width="20%" bgcolor="#d3d3d3"><b>Genome</b></td>
+<td width="10%" bgcolor="#d3d3d3"><b>Full Record</b></td>
+</tr>
+{{for r, a in zip(rows, other_atts):}}
+<tr>
+<td width="10%">{{=r['id']}}</td>
+<td width="10%">{{=r['pci']}}</td>
+<td width="10%">{{=r['gi_count']}}</td>
+<td width="10%">{{=r['longest_gi']}}</td>
+<td width="10%">{{=a[0][0]}}</td>
+<td width="20%">{{=a[0][1]}}</td>
+<td width="10%"><a href="{{=URL('clusters', 'view', args=r['id'])}}">View</a></td>
+</tr>
+{{pass}}
+<tr>
+<td style="background: #d3d3d3; text-align: right;" colspan=9>Showing {{=rec_num}} / {{=total_count}} records</td>
+</tr>
+</div>
+</table>

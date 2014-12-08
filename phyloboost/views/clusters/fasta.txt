@@ -1,0 +1,6 @@
+{{for f in fasta:}}
+{{=f}}
+{{pass}}
+{{response.headers['Content-Type']='text/HTML'}}
+{{response.headers['Accept-charset']='ISO 8859-1'}}
+{{response.headers['Content-Disposition']='filename=%s' %f_name}}

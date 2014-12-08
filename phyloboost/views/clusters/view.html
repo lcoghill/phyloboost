@@ -1,0 +1,60 @@
+{{extend 'layout.html'}}
+
+<table width="100%">
+<tr>
+<td style="background: #d3d3d3"><b>Record Identity for Cluster {{=row[0]['id']}}</b></td>
+</tr>
+</table>
+
+<table>
+<tr>
+<td width="20%">Initial Phylota CI: </td>
+<td>{{=row[0]['pci']}}</td>
+</tr>
+<tr>
+<td width="20%">Number of Sequences: </td>
+<td>{{=row[0]['gi_count']}} | <a href="{{=URL('clusters', 'fasta.txt', args=row[0]['id'])}}">FASTA</a> | <a href="{{=URL('clusters', 'gis.txt', args=row[0]['id'])}}">GI List</a></td>
+</tr>
+<tr>
+<td width="20%">Longest Sequence (GI): </td>
+<td><a href="{{=URL('sequences', 'view', args=result[0][0])}}">{{=row[0]['longest_gi']}}</a> | <a href="http://www.ncbi.nlm.nih.gov/nuccore/{{=row[0]['longest_gi']}}">Genbank</a></td>
+</tr>
+<tr>
+<td width="20%">Length of Longest Sequence: </td>
+<td>{{=len(result[0][4])}}</td>
+</tr>
+</table>
+
+<table width="100%">
+<tr>
+<td style="background: #d3d3d3"><b>Meta Data</b></td>
+</tr>
+</table>
+
+<table>
+<tr>
+<td width="20%">Gene: </td>
+<td><a href="https://www.wikigenes.org/search.html?search={{=result[0][6]}}">{{=result[0][6]}}</td>
+</tr>
+<tr>
+<td width="20%">Genome: </td>
+<td>{{=result[0][5]}}</a></td>
+</tr>
+<tr>
+<td width="20%">Genbank Division: </td>
+<td>{{=result[0][11]}}</td>
+</tr>
+<tr>
+<td width="20%">Molecule Type: </td>
+<td>{{=result[0][10]}}</td>
+</tr>
+</table>
+<table width="100%">
+<tr>
+<td style="background: #d3d3d3"><b>Description: </b></td>
+</tr>
+<tr>
+<td>{{=result[0][12]}}</td>
+</tr>
+</table>
+{{end}}
