@@ -71,6 +71,14 @@ db.define_table('trees',
     Field('tree', 'text'),                   
     )
 
+db.define_table('clusters', 
+    Field('id', 'id'),                       
+    Field('pci', 'text'),                  
+    Field('gi_count', 'integer'),                   
+    Field('gi_list', 'text'),                   
+    Field('longest_gi', 'integer'),                   
+    )
+
 db.define_table('versions', 
     Field('id', 'id'),                       
     Field('version', 'integer'),             

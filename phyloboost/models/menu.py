@@ -31,8 +31,8 @@ response.menu = [
         (T('Search Sequences'), False, URL('sequences', 'search'))]),
         
         (SPAN('Clusters'), False, URL('clusters', 'index'), [   
-        (T('Browse All Clusters'), False, URL('admin', 'default', 'site')),
-        (T('Search Clusters'), False, URL('admin', 'default', 'design/%s' % app))]),
+        (T('Browse All Clusters'), False, URL('clusters', 'index')),
+        (T('Search Clusters'), False, URL('clusters', 'search'))]),
         
         (SPAN('Convex Subtrees'), False, URL('convexsubtrees', 'index'), [   
         (T('Browse All Convex Subtrees'), False, URL('convexsubtrees', 'index')),
