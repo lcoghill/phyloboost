@@ -26,7 +26,7 @@ ctr = request.controller
 response.menu = [
     (T('Home'), False, URL('default', 'index'), []),
         
-        (SPAN('Sequences'), URL('sequences', 'index'), False, [   
+        (SPAN('Sequences'), False, URL('sequences', 'index'), [   
         (T('Browse All Sequences'), False, URL('sequences', 'index')),
         (T('Search Sequences'), False, URL('sequences', 'search'))]),
         
@@ -38,13 +38,14 @@ response.menu = [
         (T('Browse All Convex Subtrees'), False, URL('convexsubtrees', 'index')),
         (T('Search Convex Subtrees'), False, URL('convexsubtrees', 'search'))]),
 
-        (SPAN('Trees'), False, URL('convexsubtrees', 'index'), [   
+        (SPAN('Trees'), False, URL('trees', 'index'), [   
         (T('Browse All Unrooted Trees'), False, URL('trees', 'index')),
         (T('Search Unrooted Subtrees'), False, URL('trees', 'search'))]),
         
-        (SPAN('About'), URL('about', 'index'), False, [   
+        (SPAN('About'), False, URL('about', 'index'), [   
         (T('About Phyloboost'), False, URL('about', 'index')),
         (T('Methods'), False, URL('about', 'methods')),
+        (T('Wiki'), False, "https://github.com/lcoghill/phyloboost/wiki"), 
         (T('Bibliography'), False, URL('about', 'bibliography')),
         (T('Credits'), False, URL('about', 'credits'))])]
            
