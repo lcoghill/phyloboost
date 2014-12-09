@@ -5,25 +5,49 @@
 <td colspan="3" valign="bottom">
 <form>
    <select name='rec_count'>
+   {{if rec_num == 10:}}
+   <option selected="selected" value="10">10 Records</option>
+   <option value="25">25 Records</option>
+   <option value="50">50 Records</option>
+   <option value="100">100 Records</option>
+   {{elif rec_num == 25:}}
+   <option value="10">10 Records</option>
+   <option selected="selected" value="25">25 Records</option>
+   <option value="50">50 Records</option>
+   <option value="100">100 Records</option>
+   {{elif rec_num == 50:}}
+   <option value="10">10 Records</option>
+   <option value="25">25 Records</option>
+   <option selected="selected" value="50">50 Records</option>
+   <option value="100">100 Records</option>
+   {{elif rec_num == 100:}}
+   <option value="10">10 Records</option>
+   <option value="25">25 Records</option>
+   <option value="50">50 Records</option>
+   <option selected="selected" value="100">100 Records</option>
+   {{else:}}
    <option value="10">10 Records</option>
    <option value="25">25 Records</option>
    <option value="50">50 Records</option>
    <option value="100">100 Records</option>
+   {{pass}}
    </select>
-<input type="submit" value="Update" onsubmit="ajax('{{=URL('trees')}}', ['rec_count'], 'results')">
+   <input type="hidden" id="cur_records" name="cur_records" value="{{=rec_num}}">
+   <input type="hidden" id="row1" name="row1" value="{{=rows[0]['id']}}">
+<input type="submit" value="Update" onsubmit="ajax('{{=URL('trees')}}', ['rec_count', 'cur_records', 'row1'], 'results')">
 </form>	
 </td>
 <div id="results">
 <td style="text-align: right; vertical-align: bottom;" colspan="6">
 {{if rows[0]['id'] == 1:}}
 <b>Previous</b> | 
-<a href="{{=URL(args=rows[-1]['id'], vars=dict(d='next', c=rec_num))}}"><b>Next</b></a></td>
+<a href="{{=URL(args=rows[-1]['id'], vars=dict(d='next', r=rec_num))}}"><b>Next</b></a></td>
 {{elif rec_num > rows[0]['id']:}}
-<a href="{{=URL(args=rows[0]['id'], vars=dict(d='back', c=rows[0]['id']))}}"><b>Previous</b></a> | 
-<a href="{{=URL(args=rows[-1]['id'], vars=dict(d='next', c=rec_num))}}"><b>Next</b></a></td>
+<a href="{{=URL(args=rows[0]['id'], vars=dict(d='back', r=rec_num))}}"><b>Previous</b></a> | 
+<a href="{{=URL(args=rows[-1]['id'], vars=dict(d='next', r=rec_num))}}"><b>Next</b></a></td>
 {{else:}}
-<a href="{{=URL(args=rows[0]['id'], vars=dict(d='back', c=rec_num))}}"><b>Previous</b></a> | 
-<a href="{{=URL(args=rows[-1]['id'], vars=dict(d='next', c=rec_num))}}"><b>Next</b></a></td>
+<a href="{{=URL(args=rows[0]['id'], vars=dict(d='back', r=rec_num))}}"><b>Previous</b></a> | 
+<a href="{{=URL(args=rows[-1]['id'], vars=dict(d='next', r=rec_num))}}"><b>Next</b></a></td>
 </tr>
 </table>
 {{pass}}

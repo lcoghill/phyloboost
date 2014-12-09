@@ -34,11 +34,19 @@
 <table>
 <tr>
 <td width="20%">Gene: </td>
-<td><a href="https://www.wikigenes.org/search.html?search={{=result[0][6]}}">{{=result[0][6]}}</td>
+{{if result[0][6] and result[0][6] != "Unknown":}}
+<td><a href="http://www.ncbi.nlm.nih.gov/gene/?term={{=result[0][6]}}[sym]">{{=result[0][6]}}</a></td>
+{{else:}}
+<td>unknown</td>
+{{pass}}
 </tr>
 <tr>
 <td width="20%">Genome: </td>
-<td>{{=result[0][5]}}</a></td>
+{{if result[0][5] and result[0][5] != "Unknown":}}
+<td>{{=result[0][5]}}</td>
+{{else:}}
+<td>unknown</td>
+{{pass}}
 </tr>
 <tr>
 <td width="20%">Genbank Division: </td>

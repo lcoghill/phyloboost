@@ -8,40 +8,43 @@ from Bio import Phylo
 def index():
 
   if request.vars.rec_count :
-    rec_num = int("".join(request.vars.rec_count))
+    rec_num = int(request.vars.rec_count)
+    start = int(request.vars.row1) -1
+    end = start + rec_num
 
-  elif request.vars.c :
-    rec_num = int(request.vars.c)
+  else :  
+    if request.vars.r :
+      rec_num = int(request.vars.r)
   
-  else:
-    rec_num = 10
-
-  if request.args(0) :
-    if request.vars.d == 'next' :
-      start = int(request.args(0))
-      end = int(start) + rec_num
-
-    elif request.vars.d == 'back' :
-      if rec_num < int(request.args(0)) :
-        start = 0
-        end = int(request.args(0)) - 1
-      else:
-        start = (int(request.args(0)) - rec_num) - 1
-        end = int(request.args(0)) - 1
-
     else:
-      start = int(request.args(0))
-      end = int(request.args(0)) + rec_num
+      rec_num = 10
 
-  else:
-    start = 0
-    end = rec_num
+    if request.args(0) :
+      if request.vars.d == 'next' :
+        start = int(request.args(0))
+        end = start + rec_num
 
+      elif request.vars.d == 'back' :
+        if int(request.args(0)) < rec_num :
+          start = 0
+          end = rec_num
+        else :
+          end = int(request.args(0)) - 1
+          start = end - rec_num
+      else :
+        start = int(request.args(0))
+        end = start + rec_num
+        
+    else:
+      start = 0
+      end = rec_num
 
   rows = db().select(db.convex_subtrees.ALL, limitby=(start, end))
   total_count = db.executesql('SELECT COUNT(*) FROM convex_subtrees;')[0][0]
 
   return dict(rows=rows, rec_num=rec_num, total_count=total_count)
+
+
 
 def view():
 
