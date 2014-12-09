@@ -1,0 +1,44 @@
+{{extend 'layout.html'}}
+<form>
+   <input type='text' name="search" onsubmit="ajax('{{=URL('clusters', 'search')}}', ['search'], 'results')" />
+   <select name='field'>
+   <option value="id" onsubmit="ajax('{{=URL('clusters', 'search')}}', ['field'], 'results')">ID</option>
+   <option value="pci" onsubmit="ajax('{{=URL('clusters', 'search')}}', ['field'], 'results')">Phylota CI</option>
+   <option value="gi" onsubmit="ajax('{{=URL('clusters', 'search')}}', ['field'], 'results')">Contains GI</option>
+   </select>
+</form>
+<div id="results">
+{{if rows:}}
+<table style="border-radius:5px;-moz-border-radius:5px;-webkit-border-radius:5px;" width="100%" border="1">
+<tr>
+<td width="10%" bgcolor="#d3d3d3"><b>ID</b></td>
+<td width="10%" bgcolor="#d3d3d3"><b>Phylota CI</b></td>
+<td width="10%" bgcolor="#d3d3d3"><b>Number of Sequences</b></td>
+<td width="10%" bgcolor="#d3d3d3"><b>Longest Sequence (GI)</b></td>
+<td width="10%" bgcolor="#d3d3d3"><b>Gene</b></td>
+<td width="20%" bgcolor="#d3d3d3"><b>Genome</b></td>
+<td width="10%" bgcolor="#d3d3d3"><b>Full Record</b></td>
+</tr>
+{{for r, a in zip(rows, other_atts):}}
+<tr>
+<td width="10%">{{=r[0]}}</td>
+<td width="10%">{{=r[1]}}</td>
+<td width="10%">{{=r[2]}}</td>
+<td width="10%"><a href="http://www.ncbi.nlm.nih.gov/nucest/{{=r[4]}}">{{=r[4]}}</a></td>
+{{if a[0][0] and a[0][0] != "Unknown":}}
+<td width="10%"><a href="http://www.ncbi.nlm.nih.gov/gene/?term={{=a[0][0]}}[sym]">{{=a[0][0]}}</a></td>
+{{else:}}
+<td width="10%">unknown</td>
+{{pass}}
+{{if a[0][1] and a[0][1] != "Unknown":}}
+<td width="20%"><b>{{=a[0][1]}}</b></td>
+{{else:}}
+<td width="20%">unknown</td>
+{{pass}}
+<td width="10%"><a href="{{=URL('clusters', 'view', args=r[0])}}">View</a></td>
+{{pass}}
+</tr>
+{{pass}}
+</table>
+</div>
+{{pass}}
