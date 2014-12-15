@@ -1,142 +1,142 @@
-import os
-import re
-import glob
-import itertools
-import multiprocessing
-from StringIO import StringIO
 from multiprocessing import Process
-from Bio import Entrez, SeqIO, SearchIO
-from Bio.Blast import NCBIWWW, NCBIXML
-from Bio.Blast.Applications import NcbiblastnCommandline
-
-
-def parse_blastxml(file_name, results_path, xmlfile, length.filter):
-    # open blast output file    
-    print "Parsing blast results..."
-    blast_list = []
-    gi_list = []
-    seq_list = []
-    # iterate through the file
-    for x in xmlfile:
-        if x.alignments :
-            for align in x.alignments :
-                for hsp in align.hsps :
-                    if align.length <= length.filter: # only return results that are less or equal length.filter bp in length 
-                        id_string = align.hit_id.split("gi|")
-                        id_string = "".join(id_string)
-                        id_string = id_string.encode("ascii")
-                        id_string = id_string.split("|")
-                        gi_list.append(id_string[0])
-
-    return gi_list
+import multiprocessing
+from Bio import SeqIO
+import numpy as np
+import subprocess
+import itertools
+import glob
+import os
 
 
 
-## Perform the local blast searches
-def blast_search(file_names, results_path, input_path, e.value, length.filter):
-    count = 0
-    for f in file_names:
-        print "Starting Blastn Search against %s....." %f
-        fasta_file = "".join([input_path,f,".fasta"])
-        gi_list = []
-        ## Blast using the FASTA set, and parsing the XML string result to result_handle
-        blast_file_id = "".join([results_path, f, ".xml"]) # not currently in use. For future flexibility in keeping data in all formats
-        blastn_cline = NcbiblastnCommandline(query=fasta_file, db=blast_db, evalue=e.value, outfmt=5,)
-        stdout, stderr = blastn_cline()
-        xmlfile = NCBIXML.parse(StringIO(stdout)) # grab output before writing it to file
-        print "Blast search complete."
-        print ("Getting list of gi values from blast results..."),
-        ## parse the blast result xml data to retreive the GI values
-        gi_list = parse_blastxml(blast_file_id, results_path, xmlfile, length.filter)
-        ## Write gi list file for each search
-        gi_file = "".join([results_path,f,".txt"])
-        with open(gi_file, 'w+') as gi_file:
-            for g in gi_list:
-                gi_file.write("%s\n" % g) # write gi list to file for each set of clusters
-        gi_file.close()
-        print "Complete"
-        count = count + 1
+def median_seq_length(f, sequences) :
+	
+	lengths = []
+	sequence_ids = []
+	handle = open(f, "rU")
+	for record in SeqIO.parse(handle, "fasta") :
+		lengths.append(len(record.seq))
+		sequence_ids.append(record.id[3:])
+	handle.close()
+
+	median_seq_len = np.median(lengths)
+	min_len = int(median_seq_len - (median_seq_len * length_filter))
+	max_len = int(median_seq_len + (median_seq_len * length_filter))
+	
+	return min_len, max_len, sequence_ids
+
+def blast_search(fasta_list, e_value, length_filter, blast_db) :
+
+	for f in fasta_list :
+		print "Blasting files %s..." %f
+		file_name = f.split("/")[-1].replace(".fas", "")
+		min_len, max_len, sequence_ids = median_seq_length (f, length_filter)
+		out_file = blast_files + f.split("/")[-1].replace(".fas", ".tsv")
+
+		subprocess.call(["megablast", "-i", str(f), "-d", str(blast_db), "-e", 
+			str(e_value), "-D", "3", "-I", "T", "-f", "T", "-p", "98.0", "-o", str(out_file)])
+		
+		clean_results(sequence_ids, out_file)
+		subprocess.call(["blastdbcmd", "-db", str(blast_db), "-dbtype", "nucl", "-entry_batch", out_file, 
+			"-out", out_file.replace(".tsv", ".fas"), "-outfmt", "%f"])
+		
+		build_fasta(f, out_file, max_len, min_len)
+		
+		
+		
+
+def clean_results(seq_accs, blast_hits_file) :
+	
+	print "Cleaning results for file %s" %blast_hits_file
+	hits = []
+	hit_accs = []
+	handle = open(blast_hits_file, 'r')
+	for line in handle :
+		if not line.startswith("#") :
+			hit_rec = line.split()
+			hit_acc = hit_rec[1]
+			if hit_acc not in hit_accs and hit_acc not in seq_accs :
+				hit_accs.append(hit_acc)
+				hits.append(line.strip())
+	
+	handle.close()
+
+	handle = open(blast_hits_file, 'w')
+	if len(hits) + len(seq_accs) <= 5000 :
+		for hit in hits :
+			rec = hit.split()
+			handle.write(rec[1]+"\n")
+		handle.close()
+	else :
+		num_hits = 5000 - len(seq_accs)
+		short_hits = hits[:num_hits]
+		for hit in short_hits :
+			rec = hit.split()
+			handle.write(rec[1]+"\n")
+		handle.close()
+	
+def build_fasta(orig_f, out_file, max_len, min_len) :
+	blast_log = open("blast.log", "a")
+	print "Building expanded-fasta file %s..." %orig_f.replace(".tsv", ".fas")
+	expanded_fasta = []
+	blast_handle = open(out_file.replace(".tsv", ".fas"), "r")
+	orig_handle = open(orig_f, "r")
+	blast_fasta = list(SeqIO.parse(blast_handle, "fasta"))
+	added_recs = len(blast_fasta)
+	len_filtered_recs = 0
+	for n in blast_fasta :
+		if len(n.seq) <= max_len and len(n.seq) >= min_len :
+			n.id = "gi|" + n.id.split("|")[1]
+			n.name = ""
+			n.description = ""
+			expanded_fasta.append(n)
+		else :
+			len_filtered_recs += 1
+
+	blast_log.write(orig_f + "\t|\t" + str(added_recs) + "\t|\t" + str(len_filtered_recs) + "\t|\t" + str(added_recs - len_filtered_recs) + "\n")
+	blast_log.close()
+	orig_fasta = list(SeqIO.parse(orig_f, "fasta"))
+	for o in orig_fasta :
+		expanded_fasta.append(o)
+
+	output_handle = open(out_file.replace(".tsv", ".fas"), "w")
+	SeqIO.write(expanded_fasta, output_handle, "fasta")
+	output_handle.close()
+
+def div_list(fasta_files, cores) :
+	cores = int(cores)
+	return [ fasta_files[i::cores] for i in xrange(cores) ]
 
 
-
-def mygrouper(n, iterable):
-    args = [iter(iterable)] * n
-    return ([e for e in t if e != None] for t in itertools.izip_longest(*args))
-
-
-
-def parse_config():
-    config_params = [];
-    config = open('private/config', 'r') 
-    for line in (line for line in config if not line.startswith('###')):
-        line = line.rstrip('\n')
-        line = line.split("=")
-        config_params.append (line[1])
-
-    return config_params
-
-
-
-def get_filenames(file_name):
-    with open (file_name, "r") as fasta_file:
-    ## parse input to get a clean file_id
-        file_id = re.search('fasta/(.+?).fasta', file_name).group(1)
-        return file_id
-
-
-### Some important variables                  ###
-
-blast.db = "path/to/blast/db/nt"              # local copy of blast nt database
-fasta.files = "path/to/fasta/cluster/files"   # location where fasta files generated from get-clusters.py are stored. Must have .fasta suffix on each file.
-blast.files = "path/to/save/blast/results"    # location where blast result files will be saved.
-e.value = 10                                  # e-value threshold for blast search
-length.filter = 7500                          # length in bp to filter blast results at. (hits longer than this value will be discarded)
-###
-
-
+blast_db = "phyloboost_1.5_blast/phyloboost_1.5"   # local copy of blast nt database
+cluster_dir = ""   # location where fasta files generated from get-clusters.py are stored. Must have .fasta suffix on each file.
+blast_files = ""    # location where blast result files will be saved.
+e_value = 10                                  # e-value threshold for blast search
+length_filter = .50                           # length in bp to filter blast results at. (hits longer than this value will be discarded)
 
 ## Get a count of the number of fasta files in the appropriate directory
-
 print "\n\nGetting a list of FASTA files..."
-fasta_files = glob.glob("".join([fasta.files,"*.fasta"]))
+fasta_files = glob.glob("".join([cluster_dir,"*.fas"]))
 file_count = float(len(fasta_files))
 print "%s files successfully found.\n" %file_count
-clean_filenames = []
-for f in fasta_files:
-    clean_filenames.append(get_filenames(f))
 
-## Parallel Processing Code
+
 core_count = multiprocessing.cpu_count()
 print "There are %s cores on this system." %core_count
-core_number = raw_input("Number of cores to use(1): ") # Ask the user how many cores to use
+core_number = int(raw_input("Number of cores to use(1): ")) # Ask the user how many cores to use
 
 if not core_number: # set default core count, if no value is entered.
-    core_number = "1"
+    core_number = 1
 
 core_number = float(core_number)
 print "Using %s cores." %core_number
-files_per_core = int(round(file_count / core_number))
 
-fasta_list = list(mygrouper(files_per_core, range(int(file_count)))) #create a matrix equal to the number of fasta_files per core with a total length of the number of fasta_files
-
-
-## asign the file names to the proper elements inside of the fasta_list
-track_fasta = 0
-core_count = 0
-for l in fasta_list:
-    count = 0
-    while count < len(fasta_list[core_count]):
-        fasta_list[core_count][count] = clean_filenames[track_fasta]
-        track_fasta = track_fasta + 1
-        count = count + 1
-    
-    core_count = core_count + 1
-
-
+## create a matrix equal to the number of fasta_files per core with a total length of the number of fasta_files
+fasta_list = div_list(fasta_files, core_number)
 ## Split job into appropriate number of cores
 processes = []
-for c in xrange(len(fasta_list)):
-    p = Process(target=blast_search, args=(fasta_list[c],blast.files,fasta.files, e.value, length.filter))
+for c in fasta_list:
+    p = Process(target=blast_search, args=(c, e_value, length_filter, blast_db))
     p.start()
     processes.append(p)
 
