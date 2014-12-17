@@ -37,7 +37,9 @@ nosetests.xml
 *test
 *.xml
 *.swp
-data/
+pipeline/*/*
+pipeline/*.db
+tools/*/*
 phyloboost/private/config
 phyloboost/sessions/
 phyloboost/progress.log
