@@ -8,7 +8,6 @@ import glob
 import os
 
 
-
 def median_seq_length(f, sequences) :
 	
 	lengths = []
@@ -25,7 +24,7 @@ def median_seq_length(f, sequences) :
 	
 	return min_len, max_len, sequence_ids
 
-def blast_search(fasta_list, e_value, length_filter, blast_db) :
+def blast_search(fasta_list, blast_files, e_value, length_filter, blast_db) :
 
 	for f in fasta_list :
 		print "Blasting files %s..." %f
@@ -43,8 +42,6 @@ def blast_search(fasta_list, e_value, length_filter, blast_db) :
 		build_fasta(f, out_file, max_len, min_len)
 		
 		
-		
-
 def clean_results(seq_accs, blast_hits_file) :
 	
 	print "Cleaning results for file %s" %blast_hits_file
@@ -107,38 +104,65 @@ def div_list(fasta_files, cores) :
 	cores = int(cores)
 	return [ fasta_files[i::cores] for i in xrange(cores) ]
 
+def find_new_files(fasta_files, cluster_dir) :
+
+	print "Searching blast results for already expanded fasta files..."
+        handle = open('blast.log', 'r')
+        done_names = []
+        new_files = []
+        for line in handle :
+            name = line.strip().split()[0].replace(cluster_dir, "")
+            done_names.append(name)
+	for f in fasta_files :
+		name = f.replace(cluster_dir, "")
+		if name not in done_names :
+			new_files.append(name)
+
+        handle.close()
+	return new_files
+
+
+
 
 blast_db = "phyloboost_1.5_blast/phyloboost_1.5"   # local copy of blast nt database
 cluster_dir = ""   # location where fasta files generated from get-clusters.py are stored. Must have .fasta suffix on each file.
-blast_files = ""    # location where blast result files will be saved.
+blast_output_dir = ""    # location where blast result files will be saved.
 e_value = 10                                  # e-value threshold for blast search
 length_filter = .50                           # length in bp to filter blast results at. (hits longer than this value will be discarded)
 
 ## Get a count of the number of fasta files in the appropriate directory
 print "\n\nGetting a list of FASTA files..."
-fasta_files = glob.glob("".join([cluster_dir,"*.fas"]))
-file_count = float(len(fasta_files))
+all_fasta_files = glob.glob("".join([cluster_dir,"*.fas"]))
+file_count = float(len(all_fasta_files))
 print "%s files successfully found.\n" %file_count
 
+if os.path.exists(os.getcwd() + '/blast.log') :
+    print "Found previous blast log file."
+    fasta_files = find_new_files(all_fasta_files, cluster_dir)
+else :
+    fasta_files = all_fasta_files
 
-core_count = multiprocessing.cpu_count()
-print "There are %s cores on this system." %core_count
-core_number = int(raw_input("Number of cores to use(1): ")) # Ask the user how many cores to use
 
-if not core_number: # set default core count, if no value is entered.
-    core_number = 1
+if len(fasta_files) > 0 :
+    print "There appears to be %s fasta files without blast results logged." %len(fasta_files)
+    core_count = multiprocessing.cpu_count()
+    print "There are %s cores on this system." %core_count
+    core_number = int(raw_input("Number of cores to use(1): ")) # Ask the user how many cores to use
 
-core_number = float(core_number)
-print "Using %s cores." %core_number
+    if not core_number: # set default core count, if no value is entered.
+        core_number = 1
 
-## create a matrix equal to the number of fasta_files per core with a total length of the number of fasta_files
-fasta_list = div_list(fasta_files, core_number)
-## Split job into appropriate number of cores
-processes = []
-for c in fasta_list:
-    p = Process(target=blast_search, args=(c, e_value, length_filter, blast_db))
-    p.start()
-    processes.append(p)
+    core_number = float(core_number)
+    print "Using %s cores." %core_number
 
-for p in processes:
-    p.join()
+    ## create a matrix equal to the number of fasta_files per core with a total length of the number of fasta_files
+    fasta_list = div_list(fasta_files, core_number)
+    ## Split job into appropriate number of cores
+    processes = []
+    for c in fasta_list:
+        p = Process(target=blast_search, args=(c, blast_output_dir, e_value, length_filter, blast_db))
+        p.start()
+        processes.append(p)
+
+    for p in processes:
+        p.join()
