@@ -1,4 +1,3 @@
-from Bio.Align.Applications import MuscleCommandline
 from Bio.SeqRecord import SeqRecord
 import matplotlib.pyplot as plt
 import matplotlib.mlab as mlab
@@ -10,9 +9,12 @@ from Bio.Seq import Seq
 from Bio import AlignIO
 from Bio import SeqIO
 import numpy as np
+import subprocess
 import glob
 import csv
 import re
+
+
 
 def pos_index(per_base_density):
     ## build a list of the index positions to delete from each sequence list of characters
@@ -65,7 +67,7 @@ den_removed_bases = []
 
 ## get list of all new fasta files
 print "\n\nGetting a list of FASTA files..."
-fasta_files = glob.glob("".join([fasta_dir, "*.fasta"])) # get a list of all fasta files in fasta_dir
+fasta_files = glob.glob("".join([fasta_dir, "*.fas"])) # get a list of all fasta files in fasta_dir
 file_count = len(fasta_files)
 print "%s files successful found.\n" %file_count
 
@@ -79,7 +81,7 @@ for d in done_files:
 
 
 for f in fasta_files:
-    search_str = fasta_dir + '(.+?).fasta'
+    search_str = fasta_dir + '(.+?).fas'
     fasta_name = re.search(search_str, f).group(1)
     if fasta_name not in done_file_names:
         try:
@@ -91,9 +93,10 @@ for f in fasta_files:
             handle.close()
             
             print "Aligning FASTA file %s" % f
-            muscle_cline = MuscleCommandline(input=f, maxiters=max_iters, maxtrees=max_trees, diags=True, fasta=True) # call muscle to align the fasta file
-            stdout, stderr = muscle_cline()
-            align = AlignIO.read(StringIO(stdout), "fasta")
+            out_file = alignment_dir + f.split("/")[-1]
+            subprocess.call(["muscle", "-in", str(f), "-diags", "-maxiters", str(max_iters),
+                "-maxtrees", str(max_trees), "-out", str(out_file)]) 
+            align = AlignIO.read(out_file, "fasta")
             lengths = []
             for a in align:
                 lengths.append(len(a.seq))
@@ -173,7 +176,7 @@ for f in fasta_files:
             
             all_trim_lengths.append(len(record_list[0].seq))
             ## write the original alignment to file
-            id_search = fasta_dir+"(.+?).fasta"
+            id_search = fasta_dir+"(.+?).fas"
             clean_file_id = re.search(id_search, f).group(1)
             alignment_file = "".join([alignment_dir,clean_file_id,".fas"])
             SeqIO.write(align, alignment_file, "fasta") # write the good seq record list to the same file we started with
