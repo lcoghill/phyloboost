@@ -25,12 +25,13 @@ for fasta in fasta_files :
         ## find id in sqlite to get TI
         cursor.execute('''SELECT ti FROM gi_to_ti WHERE gi=%s''' %rec.id[3:])
         row = cursor.fetchone()
-        ti = row[0]
-        rec.id = "gi"+str(rec.id[3:])+"_ti"+str(ti)
-        rec.name = ""
-        rec.description = ""
-        print rec.id
-        new_records.append(rec)
+        if row :
+            ti = row[0]
+            rec.id = "gi"+str(rec.id[3:])+"_ti"+str(ti)
+            rec.name = ""
+            rec.description = ""
+            print rec.id
+            new_records.append(rec)
 
     handle = open(fasta, "w")
     SeqIO.write(new_records, handle, "fasta")
