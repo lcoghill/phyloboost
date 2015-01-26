@@ -59,9 +59,9 @@ def delete_trees(keep_all_trees, trees_directory):
 
 ### Some important variables ###
 tree_outfile = "trees.out"   # final, combined output file name
-trees_directory = "/home/lcoghill/Dev/phyloboost/pipeline/trees/"         # directory where tree files should be saved
+trees_directory = ""         # directory where tree files should be saved
 keep_all_trees = 1           # keep all tree output files when the process is done. (0 = Delete Everything, 1 = Keep Everything)
-alignment_dir = "/home/lcoghill/Dev/phyloboost/pipeline/alignments/"           # location where all alignment files are stored.
+alignment_dir = ""           # location where all alignment files are stored.
 num_threads = 10             # number of threads to use in RAxML. Don't use more than physical cores in on the computer.
 num_replicates = 100         # number of replicates for RAxML
 evo_model = "GTRCAT"         # model of evolution used for RAxML
