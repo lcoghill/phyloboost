@@ -37,6 +37,7 @@ nosetests.xml
 *test
 *.xml
 *.swp
+*.gz
 pipeline/*/*
 pipeline/*.db
 tools/*/*
