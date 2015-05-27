@@ -18,10 +18,9 @@ def flag_outliers(data, keys, cutoff) :
     ## away from median distance of the rest of the points.
     
     outliers = []
+    ## attempts to adjusts for the MAD=0 problem.
     if len(set(data)) > 1 :
         mad_res = mad(data)
-        ## adjusts for the MAD=0 problem.
-        ## if MAD=0 then all sequences are kept, and the file will be flagged for manual review.
         if mad_res > 0 :
             mad_data = np.abs(data - np.median(data)) / mad_res
         else :
@@ -33,16 +32,22 @@ def flag_outliers(data, keys, cutoff) :
 
     return outliers
 
-def fetch_gis(cluster) :
+def fetch_gis(cluster, bad_tis) :
     gis_with_tis = {}
     sequences = list(SeqIO.parse(open(cluster), 'fasta'))
     for s in sequences :
         rec_id = s.id.split("_")
         gi = int(rec_id[0][2:])
         ti = int(rec_id[1][2:])
-        gis_with_tis[gi] = ti
+        
+        ## checking that all tis are in taxonomy graph, if not, flagging and logging for manual
+        ## review and removal from clusters
+        if not g.taxid_name(ti) :
+            bad_tis.append(ti)
+        else :    
+            gis_with_tis[gi] = ti
 
-    return gis_with_tis
+    return gis_with_tis, bad_tis
 
 def write_seqs(cluster, outliers, out_cluster_dir) :
     sequences = list(SeqIO.parse(open(cluster), 'fasta'))
@@ -63,13 +68,14 @@ def write_seqs(cluster, outliers, out_cluster_dir) :
 
     return count, outlier_seqs
 
-def log_outliers(outlier_seqs, log_file) :
+def log_outliers(c, outlier_seqs, log_file) :
     out_handle = open(log_file, 'a')
+    clust = c.split("/")[-1]
     for s in outlier_seqs :
         rec_id = s.id.split("_")
         gi = rec_id[0][2:]
         ti = rec_id[1][2:]
-        out_handle.write(",".join([gi,ti,str(mcp[0][0]),str(s.seq), "\n"]))
+        out_handle.write(",".join([clust, gi, ti, str(mcp[0][0]), str(s.seq), "\n"]))
 
     out_handle.close()
 
@@ -82,7 +88,7 @@ ncbi_graph_file = 'ncbi.gt.gz'
 log_file = 'outlier_log.csv'
 ## this is the number of standard deviations away from the distribtuion median 
 ## a sequence must be before it will be flagged and removed.
-cutoff = 3.0  
+cutoff = 5.0  
 
 ## set for testing 
 #gis_with_tis = {1: 7994, 2: 178766, 3: 643502, 4: 4362, 5: 270330, 6: 930229}
@@ -97,14 +103,16 @@ total = len(clusters)
 good_seq_count = 0
 bad_seq_count = 0
 out_handle = open(log_file, 'a')
-out_handle.write(",".join(["GI", "TI", "MCP", "Sequence", "\n"]))
+out_handle.write(",".join(["Cluster", "GI", "TI", "MCP", "Sequence", "\n"]))
 out_handle.close()
+
 
 if __name__ == '__main__' :
 
     for c in clusters :
+        bad_tis = []
         print "Processing cluster %s, cluster %i / %i..." %(c, status, total)
-        gis_with_tis = fetch_gis(c)
+        gis_with_tis, bad_tis = fetch_gis(c, bad_tis)
         cas = []
         check = {}
         ## get the root path of each gi in the dict
@@ -114,10 +122,8 @@ if __name__ == '__main__' :
         for key, val in gis_with_tis.items() :
         ## find the parent of each TI in the graph
         ## find the most common parent for the entire cluster
-            if g.taxid_vertex[val] :
-                cas.append(tg.taxid_rootpath(g, val)[1])
+            cas.append(tg.taxid_rootpath(g, val)[1])
                 
-
         ## count occurences to find the most common parent
         count = Counter(cas)
         mcp = count.most_common(1)
@@ -157,6 +163,12 @@ if __name__ == '__main__' :
         log_outliers(outlier_seqs, log_file)
 
         status += 1
+        ## dump missing ti list to file to check / remove from clusters
+        bad_tis_h = open('bad_tis.txt', 'a')
+        for t in bad_tis :
+            bad_tis_h.write(str(t) + "\n")
+        bad_tis_h.close()
+
 
 print "-"*100
 print "Check complete."
