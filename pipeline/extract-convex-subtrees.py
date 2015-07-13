@@ -76,7 +76,7 @@ def color_vertices(taxonomy, treegraph, tid):
     return colored, c
 
 def proc(g, line, merged, probfile, outfile):
-    pbtree, s = line.split()
+    pbtree, tl, ad, s = line.split()
     print 'processing', pbtree
     r = ivy.newick.parse(s) # the root node of the tree of interest
     lvs = r.leaves()

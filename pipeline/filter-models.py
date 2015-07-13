@@ -1,56 +1,53 @@
-from StringIO import StringIO
-import MySQLdb as mdb
-import glob
-import os
-
-### A few important variables
-
-input.files = "/full/path/to/blast/files/here"
-model.file = "/full/path/to/model/file/here"
-out.path = "/full/path/to/output/directory/here"
-out.file = "file-name-here"
-db.host = ""
-db.user = ""
-db.password = ""
-db.database = ""
-
-###
+import sqlite3
+from Bio import SeqIO
 
 
-## get list of all blast result files
-print "\n\nGetting a list of GI list files..."
-files = glob.glob(blast.files) # get a list of all files in input.files folder
-file_count = len(files)
-print "%s files successfully found.\n" %file_count
-print "-"*50+"\n"
 
-## open a connection to the mysql database and set the cursor
-db = mdb.connect(db.host, db.user, db.password, db.database)
-cursor = db.cursor()
+con = sqlite3.connect('gi_taxid_nucl.db')
+def gi2ti(gi):
+    q = 'select ti from gi_to_ti where gi = {}'.format(gi)
+    try:
+        return con.execute(q).fetchone()[0]
+    except:
+        return ''
 
 
-## get list of model organism ti values
-model_list = []
-model_list = [line.strip() for line in open(model.file)]
 
-for f in files:
-    original_list = []
-    filtered_list = []
-    print "Processing file %s..." %f
-    original_list = [line.strip() for line in open(f)]
-    for gi in original_list :
-        sql_query = "".join(['SELECT ti FROM taxid WHERE gi=',gi,';'])
-        cursor.execute(sql_query)
-        ti_of_gi = cursor.fetchone()	
-	if ti_of_gi :
-	    ti_of_gi = str(ti_of_gi[0])
-	    if ti_of_gi not in model_list:
-                filtered_list.append(gi)
-    out = "".join([out.path,out.file])
-    out_file = open(out, 'w+')
-    for item in set(filtered_list):
-        print>>out_file, item
-    print "Original Records: %s" %len(original_list)
-    print "Unique Filtered Records: %s" %len(set(filtered_list))
-    print "-"*100
-db.close()
+## get models
+merg_handle = open('merged.dmp', 'r')
+merged = {}
+print "Getting merged ti values..."
+for line in merg_handle :
+    rec = line.strip().split("\t|\t")
+    merged[int(rec[0])] = int(rec[-1].replace("\t|", ""))
+
+mhandle = open('model_organisms.txt', 'r')
+models = []
+print "Collecting and correcting model organism ti values..."
+count = 0
+for line in mhandle :
+    ti = int(line.strip())
+    if ti in merged :
+        ti = merged[ti]
+        count += 1
+    models.append(int(line.strip()))
+
+print "%i model organisms corrected." %count
+
+print "Filtering model organisms from fasta..."
+handle = open('expanded-fasta-all.fas', 'r')
+
+total = 0
+kept = 0
+for record in SeqIO.parse(handle, 'fasta') :
+    ti = int(record.id.split("_")[-1][2:])
+    total += 1
+    out = open('expanded-fasta-all-no-models.fas', 'a')
+    if ti not in models :
+        SeqIO.write(record, out, 'fasta')
+        kept += 1
+
+
+print "A total of %i / %i records were copied." %(kept, total)
+print "A total of $i records were discarded as being model organisms" %(total - kept)
+out.close()
