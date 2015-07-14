@@ -1,7 +1,7 @@
 Phyloboost
 ==========
 
-Phyloboost is a python pipeline that allows the reconstruction, augmentation and visualizaton of the similarity-cluster-based tree sets constructed from the Phylota pipeline. These trees are unrooted trees built from datasets encompassing all of eukaryota from Genbank with more than 60,000 genera. Phyloboost allows you to augment those trees by adding new sequences to the clusters, rebuilding the alignments and trees, and then attempt to build rooted trees from those trees sets via graph-based methods by aligning them with the NCBI taxonomy.
+Phyloboost is a python pipeline that allows the reconstruction, augmentation and visualizaton of the similarity-cluster-based tree sets constructed from an input dataset of sequences. The end point is a data object that can be explored or used to quantify the phylogenetic signal present in whatever dataset acted as the input. While originally developed as a tool to allow the synthesis and calculation of the phylogenetic signal in Genbank for Eukaryotes, it will work on any large set of DNA or RNA sequence data. 
 
 * <b>Pipeline</b> - Actual software pipeline to generate, augment and visualize the clusters.
 * <b>Tools</b> - Scripts helpful in setting up / configuring some pieces of the pipeline and databases.
