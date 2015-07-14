@@ -35,7 +35,7 @@ for line in mhandle :
 print "%i model organisms corrected." %count
 
 print "Filtering model organisms from fasta..."
-handle = open('expanded-fasta-all.fas', 'r')
+handle = open('eukaryotic_genbank.fas', 'r')
 
 total = 0
 kept = 0
